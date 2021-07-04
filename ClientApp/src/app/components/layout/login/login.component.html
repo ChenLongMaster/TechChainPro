@@ -1,0 +1,26 @@
+<form class="modal-content">
+    <div class="imgcontainer">
+        <img src="assets\Images\user-login-image.png" alt="Avatar" class="avatar">
+        <h1>Sign in</h1>
+    </div>
+
+    <div class="container">
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <label for="uname"><b>Username</b></label>
+            <input type="text" placeholder="Enter Username" [formControlName]="'username'" autocomplete ="username" required>
+    
+            <label for="psw"><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" [formControlName]="'password'" autocomplete ="current-password" required>
+    
+            <button type="submit">Login</button>
+            <button type = "button" class="cancelbtn" (click)="close()">Cancel</button>
+            <label>
+                <input type="checkbox" checked="checked" name="remember"> Remember me
+            </label>
+        </form>
+    </div>
+
+    <div class="container" style="background-color:#f1f1f1">
+        <!-- <span class="psw"> register </span> -->
+    </div>
+</form>

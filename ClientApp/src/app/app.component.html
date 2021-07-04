@@ -1,0 +1,54 @@
+<body>
+  <div class="main-container">
+
+    <div class="left-nav">
+      <div>
+        <img class="avatar-image" src="assets\Images\bitcoin.png" />
+        <div class="blog-name">
+          <h1>BitLog</h1>
+          <h3>Blockchain changes the world</h3>
+        </div>
+        <div id="mySidenav" class="sidenav">
+          <a href="#">Articles</a>
+          <a href="#">About me</a>
+          <a href="#">Feedback</a>
+          <a href="#">Contact</a>
+          <a (click)="showDialog()">Login</a>
+        </div>
+      </div>
+    </div>
+    <div class="cotent-section">
+      <div class="article-section">
+        <app-article></app-article>
+      </div>
+      <div class="info-section">
+        <h5>Connect with me</h5>
+
+        <div class="connect-icons">
+          <a class="youtube-icon" href="https://www.youtube.com/" title="Youtube">
+            <i class="fa fa-youtube-play"></i>
+          </a>
+          <a class="facebook-icon" href="https://www.facebook.com/tranhoang.long.3344/" title="Facebook">
+            <i class="fa fa-facebook-square"></i>
+          </a>
+          <a class="linkedin-icon" href="https://www.youtube.com/" title="Linkedin">
+            <i class="fa fa-linkedin-square" aria-hidden="true"></i>
+          </a>
+          <a class="github-icon" href="https://www.youtube.com/" title="GitHub">
+            <i class="fa fa-github" aria-hidden="true"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="login-modal" *ngIf="displayLogin">
+      <app-login (displayChange)="showDialog()"></app-login>
+    </div>
+  </div>
+
+  <div *ngIf="(customHttpInterceptor.onGoingRequestStatus | async)">
+    <p-blockUI [blocked]="true">
+      <p-progressSpinner [style]="{width: '60px', height: '60px'}" styleClass="custom-spinner" strokeWidth="8" fill="#D7D7D7" animationDuration=".5s"></p-progressSpinner>
+  </p-blockUI>
+  </div>
+</body>
+
