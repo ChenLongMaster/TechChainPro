@@ -15,6 +15,8 @@ export class AppComponent {
   customHttpInterceptor: CustomHttpInterceptor;
   displayLogin: boolean = false;
   isBlock: boolean = false;
+  isOpenArticle: boolean = false;
+
   constructor(@Inject(HTTP_INTERCEPTORS) private interceptor: any[] ){
       this.customHttpInterceptor = interceptor.find(x => x instanceof CustomHttpInterceptor);
       console.log(this.customHttpInterceptor.onGoingRequestStatus);
@@ -23,5 +25,9 @@ export class AppComponent {
   showDialog() {
     this.displayLogin = !this.displayLogin;
     this.isBlock = true;
+  }
+
+  openArticle(){
+    this.isOpenArticle = !this.isOpenArticle;
   }
 }

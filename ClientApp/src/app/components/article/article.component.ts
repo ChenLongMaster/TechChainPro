@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ArticleModel } from 'src/app/model/article.model';
+import { ArticleService } from 'src/app/service/article.service';
 import { UserService } from 'src/app/service/user.service';
 
 @Component({
@@ -10,19 +12,21 @@ import { UserService } from 'src/app/service/user.service';
 
 export class ArticleComponent implements OnInit {
 
-  constructor(private userService : UserService) { }
+  constructor(private articleService : ArticleService) { }
 
-  userName: string = ''; 
+
+  articleName: string = ''; 
   articleContent: string = '';
 
   ngOnInit(): void {
     this.articleContent = '';
-    // this.getUserName('EF9F8097-88F6-4274-83BF-544D47EDE98C');
+    this.GetArticleById('EFD1B83D-C069-4630-A2AA-C47B018662C1');
   }
 
-  getUserName(id: string){
-    this.userService.GetUserById(id).pipe().subscribe((data : any) => {
-      this.userName = data.userName;
+  GetArticleById(id: string){
+    this.articleService.GetArticleById(id).pipe().subscribe((data : any) => {
+      this.articleName = data.name;
+      this.articleContent = data.displayContent;
     })
   }
 }

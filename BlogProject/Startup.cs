@@ -4,17 +4,13 @@ using BlogProject.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Swashbuckle.Swagger;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Builder;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Linq;
-using System;
+using System.Text;
 
 namespace BlogProject
 {
@@ -38,6 +34,7 @@ namespace BlogProject
             services.AddControllers();
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IArticleService, ArticleService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddAuthentication(options =>
             {
@@ -47,11 +44,17 @@ namespace BlogProject
             })
             .AddJwtBearer(options =>
             {
-                options.Audience = "https://localhost:5001";
-                options.Authority = "https://localhost:5001";
-                //options.Validate();
+                byte[] key = Encoding.ASCII.GetBytes(Configuration["AppSettings:Secret"]);
+                options.TokenValidationParameters = new()
+                {
+                    ValidIssuer = "https://localhost:5001",
+                    ValidAudience = "https://localhost:5001",
+                    IssuerSigningKey = new SymmetricSecurityKey(key)
+                };
+                options.Validate();
             });
             services.AddAuthorization();
+            #region Swagger
             services.AddSwaggerGen(c =>
             {
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -64,8 +67,24 @@ namespace BlogProject
                     Type = SecuritySchemeType.ApiKey,
                     Scheme = "Bearer"
                 });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme()
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] { }
+                    }
+                });
             });
+            #endregion
         }
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -92,7 +111,7 @@ namespace BlogProject
             app.UseRouting();
             app.UseAuthorization();
 
-            app.UseMiddleware<JwtMiddleware>();
+            //app.UseMiddleware<JwtMiddleware>();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

@@ -36,14 +36,11 @@ namespace BlogProject.Helpers
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
-            tokenHandler.ValidateToken(token, new TokenValidationParameters
+            tokenHandler.ValidateToken(token, new()
             {
                 ValidIssuer = "https://localhost:5001",
                 ValidAudience = "https://localhost:5001",
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(key),
-                ValidAlgorithms = new[] { SecurityAlgorithms.HmacSha256Signature },
-                ClockSkew = TimeSpan.Zero
+                IssuerSigningKey = new SymmetricSecurityKey(key)
             }, out SecurityToken validatedToken);
 
             var jwtToken = (JwtSecurityToken)validatedToken;

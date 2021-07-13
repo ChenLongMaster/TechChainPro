@@ -9,11 +9,7 @@ import { AuthenticateModel, UserModel } from '../model/user.model';
 
 export class UserService {
     constructor(private httpClient: HttpClient) { }
-
-    httpOptions = {
-        headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-    }
-
+    
     GetUserById(id: string) {
         return this.httpClient.get<UserModel>(`${Constants.UserServiceApiUrl()}/${id}`);
     }

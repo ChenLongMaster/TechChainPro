@@ -1,13 +1,13 @@
 ﻿using BlogBL;
 using BlogDAL.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace BlogProject.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ArticleController : Controller
@@ -22,7 +22,7 @@ namespace BlogProject.Controllers
         [HttpGet]
         public async Task<Article> GetArticleById(Guid id)
         {
-            var result = await _service.GetArticleById(id);
+            Article result = await _service.GetArticleById(id);
             return result;
         }
     }
