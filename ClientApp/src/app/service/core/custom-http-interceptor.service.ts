@@ -1,7 +1,8 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { MessageService } from "primeng/api";
 import { Observable, ReplaySubject } from "rxjs";
-import { finalize } from "rxjs/operators";
+import { finalize, tap } from "rxjs/operators";
 import { StorageQuerySerive } from "./storage.query.service";
 
 @Injectable()
@@ -10,7 +11,9 @@ export class CustomHttpInterceptor implements HttpInterceptor {
     private _onGoingRequests = 0;
     private _onGoingRequestStatus: ReplaySubject<boolean> = new ReplaySubject<boolean>();
 
-    constructor(private storageQuerySerive:StorageQuerySerive){
+    constructor(private storageQuerySerive:StorageQuerySerive,
+                private messageService: MessageService
+                ){
 
     }
 
@@ -41,6 +44,9 @@ export class CustomHttpInterceptor implements HttpInterceptor {
         }
 
         return next.handle(req).pipe(
+            tap(data => {
+
+            }),
             finalize(() => {
                 this._onGoingRequests--;
                 if (this._onGoingRequests == 0) {

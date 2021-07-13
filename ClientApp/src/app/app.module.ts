@@ -6,6 +6,7 @@ import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { BlockUIModule } from 'primeng/blockui';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ToastModule } from 'primeng/toast';
 
 //
 import { AppRoutingModule } from './app-routing.module';
@@ -17,6 +18,7 @@ import { ArticleComponent } from './components/article/article.component';
 import { CustomHttpInterceptor } from './service/core/custom-http-interceptor.service';
 import { LoginComponent } from './components/layout/login/login.component';
 import { LoadingScreenComponent } from './components/layout/loading-screen/loading-screen.component';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -36,12 +38,15 @@ import { LoadingScreenComponent } from './components/layout/loading-screen/loadi
     ButtonModule,
     BlockUIModule,
     ProgressSpinnerModule,
+    ToastModule
   ],
   providers: [
-    { 
-      provide: HTTP_INTERCEPTORS, 
-      useClass: CustomHttpInterceptor, 
-      multi: true }
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CustomHttpInterceptor,
+      multi: true
+    },
+    { provide: MessageService }
   ],
   bootstrap: [AppComponent]
 })
