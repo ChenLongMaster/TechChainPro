@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ArticleModel } from 'src/app/model/article.model';
 import { ArticleService } from 'src/app/service/article.service';
 import { UserService } from 'src/app/service/user.service';
@@ -11,9 +11,7 @@ import { UserService } from 'src/app/service/user.service';
 
 
 export class ArticleComponent implements OnInit {
-
   constructor(private articleService : ArticleService) { }
-
 
   articleName: string = ''; 
   articleContent: string = '';
