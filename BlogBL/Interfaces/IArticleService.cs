@@ -7,5 +7,7 @@ namespace BlogBL
     public interface IArticleService
     {
         Task<Article> GetArticleById(Guid Id);
+        Task<Boolean> CreateArticle(Article model);
+
     }
 }

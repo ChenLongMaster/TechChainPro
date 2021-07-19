@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace BlogProject.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ArticleController : Controller
@@ -23,6 +22,13 @@ namespace BlogProject.Controllers
         public async Task<Article> GetArticleById(Guid id)
         {
             Article result = await _service.GetArticleById(id);
+            return result;
+        }
+
+        [HttpPost]
+        public async Task<Boolean> CreateArticle([FromBody] Article input)
+        {
+            var result = await _service.CreateArticle(input);
             return result;
         }
     }

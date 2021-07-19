@@ -1,0 +1,38 @@
+<h1>{{headerName}}</h1>
+<form [formGroup]='editorFormGroup' (ngSubmit)="saveArticle()">
+    <div class="title-section form-group row">
+        <div class="form-group row col-md-8">
+            <label class="col-md-2 col-form-label required">Title</label>
+            <div class="col-md-10">
+                <input class="" [formControlName]="'title'" />
+            </div>
+        </div>
+        <div class="category-section form-group row col-md-4">
+            <label class="col-md-4 col-form-label required">Category</label>
+            <div class="col-md-8">
+                <input class="" [formControlName]="'title'" />
+            </div>
+        </div>
+    </div>
+
+    <div class="editor-section row">
+        <div class= "editor-title">
+            <h1 class="">Editor</h1>
+            <div class="saveBtn-section">
+                <button type="submit" class="saveButton btn btn-primary">Save</button>
+            </div>
+        </div>
+        <div class="quill">
+            <ckeditor [editor]="Editor" data="<p>Hello, world!</p>" (ready)="onReady($event)"></ckeditor>
+        </div>
+    </div>
+
+    <div class="output-section row">
+        <div class= "output-title row">
+            <h1 class="">Output</h1>
+        </div>
+        <div class="output row">
+            <textarea [value]="outputContentValue" name="Text1" cols="40" rows="5"></textarea>
+        </div>
+    </div>
+</form>

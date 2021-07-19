@@ -7,25 +7,30 @@ import { ButtonModule } from 'primeng/button';
 import { BlockUIModule } from 'primeng/blockui';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ToastModule } from 'primeng/toast';
-
+import { InputTextModule } from 'primeng/inputtext';
 //
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ArticleComponent } from './components/article/article.component';
 import { CustomHttpInterceptor } from './service/core/custom-http-interceptor.service';
 import { LoginComponent } from './components/layout/login/login.component';
 import { LoadingScreenComponent } from './components/layout/loading-screen/loading-screen.component';
 import { MessageService } from 'primeng/api';
+import { ArticleListComponent } from './components/article/article-list/article-list.component';
+import { ArticleDetailComponent } from './components/article/article-detail/article-detail.component';
+import { ArticleEditorComponent } from './components/article/article-editor/article-editor.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ArticleComponent,
     LoginComponent,
-    LoadingScreenComponent
+    LoadingScreenComponent,
+    ArticleListComponent,
+    ArticleDetailComponent,
+    ArticleEditorComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +43,10 @@ import { MessageService } from 'primeng/api';
     ButtonModule,
     BlockUIModule,
     ProgressSpinnerModule,
-    ToastModule
+    ToastModule,
+    InputTextModule,
+    ReactiveFormsModule,
+    CKEditorModule
   ],
   providers: [
     {

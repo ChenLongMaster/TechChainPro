@@ -1,0 +1,46 @@
+input,
+textarea {
+    width: 100%;
+}
+textarea {
+    resize: none;
+}
+
+.title-section,
+.editor-section {
+    margin-bottom: 30px;
+}
+
+.editor-section {
+    display: block;
+}
+
+.editor-title {
+    display: flex;
+}
+
+.saveBtn-section {
+    margin-left: auto;
+    margin-right: 0;
+}
+
+.quill {
+    height: 350px;
+}
+
+.output-section {
+    padding-top: 100px;
+    height: 550px;
+    margin-top: 20px;
+}
+
+.output-title {
+    max-height: 0px;
+}
+
+.output {
+    padding-left: 25px;
+    textarea{
+        min-height: 350px;
+    }
+}

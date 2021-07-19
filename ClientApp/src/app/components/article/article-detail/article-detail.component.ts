@@ -1,16 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ArticleModel } from 'src/app/model/article.model';
+import { Component, OnInit } from '@angular/core';
 import { ArticleService } from 'src/app/service/article.service';
-import { UserService } from 'src/app/service/user.service';
 
 @Component({
-  selector: 'app-article',
-  templateUrl: './article.component.html',
-  styleUrls: ['./article.component.scss']
+  selector: 'app-article-detail',
+  templateUrl: './article-detail.component.html',
+  styleUrls: ['./article-detail.component.scss']
 })
+export class ArticleDetailComponent implements OnInit {
 
 
-export class ArticleComponent implements OnInit {
   constructor(private articleService : ArticleService) { }
 
   articleName: string = ''; 
@@ -18,7 +16,7 @@ export class ArticleComponent implements OnInit {
 
   ngOnInit(): void {
     this.articleContent = '';
-    this.GetArticleById('EFD1B83D-C069-4630-A2AA-C47B018662C1');
+    this.GetArticleById('1A9B79D4-8FF3-4B41-8A59-8F75AB9670FF');
   }
 
   GetArticleById(id: string){

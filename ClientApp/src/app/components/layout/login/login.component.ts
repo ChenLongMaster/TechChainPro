@@ -6,8 +6,6 @@ import { AuthenticateModel, LoginModel } from 'src/app/model/user.model';
 import { StorageQuerySerive } from 'src/app/service/core/storage.query.service';
 import { UserService } from 'src/app/service/user.service';
 
-
-
 @UntilDestroy()
 @Component({
   selector: 'app-login',

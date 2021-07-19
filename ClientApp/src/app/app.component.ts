@@ -17,7 +17,6 @@ export class AppComponent {
   customHttpInterceptor: CustomHttpInterceptor;
   displayLogin: boolean = false;
   isBlock: boolean = false;
-  isOpenArticle: boolean = false;
 
   constructor(private messageService: MessageService,
     private primengConfig: PrimeNGConfig, 
@@ -31,9 +30,5 @@ export class AppComponent {
   showDialog() {
     this.displayLogin = !this.displayLogin;
     this.isBlock = true;
-  }
-
-  openArticle() {
-    this.isOpenArticle = !this.isOpenArticle;
   }
 }

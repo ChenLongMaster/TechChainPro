@@ -9,7 +9,7 @@
           <h3>Blockchain changes the world</h3>
         </div>
         <div id="mySidenav" class="sidenav">
-          <a href="#" (click) = "openArticle()">Articles</a>
+          <a href="/articles">Articles</a>
           <a href="#">About me</a>
           <a href="#">Feedback</a>
           <a href="#">Contact</a>
@@ -19,11 +19,11 @@
     </div>
     <div class="body-section">
       <div class="content-section">
-        <app-article></app-article>
+        <router-outlet></router-outlet>      
+        <!-- <app-article-editor></app-article-editor> -->
       </div>
       <div class="info-section">
         <h5>Connect with me</h5>
-
         <div class="connect-icons">
           <a class="youtube-icon" href="https://www.youtube.com/" title="Youtube">
             <i class="fa fa-youtube-play"></i>
