@@ -33,7 +33,7 @@ namespace BlogBL
         public async Task<Boolean> CreateArticle(Article model)
         {
 
-            model.CreatedOn = new DateTime();
+            model.CreatedOn = DateTime.Now;
 
             await _blogContext.Articles.AddAsync(model);
 

@@ -8,6 +8,9 @@ import { BlockUIModule } from 'primeng/blockui';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ToastModule } from 'primeng/toast';
 import { InputTextModule } from 'primeng/inputtext';
+import { FileUploadModule } from 'primeng/fileupload';
+import { DropdownModule } from 'primeng/dropdown';
+
 //
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,15 +25,18 @@ import { ArticleListComponent } from './components/article/article-list/article-
 import { ArticleDetailComponent } from './components/article/article-detail/article-detail.component';
 import { ArticleEditorComponent } from './components/article/article-editor/article-editor.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { SafeResourceUrlPipe } from './service/core/safeResourceurl.pipe';
+// import SimpleUploadAdapter from '@ckeditor/ckeditor5-upload/src/adapters/simpleuploadadapter';
 
 @NgModule({
   declarations: [
     AppComponent,
+    SafeResourceUrlPipe,
     LoginComponent,
     LoadingScreenComponent,
     ArticleListComponent,
     ArticleDetailComponent,
-    ArticleEditorComponent
+    ArticleEditorComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,9 +50,12 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
     BlockUIModule,
     ProgressSpinnerModule,
     ToastModule,
+    FileUploadModule,
     InputTextModule,
+    DropdownModule,
     ReactiveFormsModule,
-    CKEditorModule
+    CKEditorModule,
+    // SimpleUploadAdapter
   ],
   providers: [
     {
@@ -54,7 +63,7 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
       useClass: CustomHttpInterceptor,
       multi: true
     },
-    { provide: MessageService }
+    { provide: MessageService },
   ],
   bootstrap: [AppComponent]
 })

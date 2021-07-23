@@ -11,9 +11,9 @@ export class CustomHttpInterceptor implements HttpInterceptor {
     private _onGoingRequests = 0;
     private _onGoingRequestStatus: ReplaySubject<boolean> = new ReplaySubject<boolean>();
 
-    constructor(private storageQuerySerive:StorageQuerySerive,
-                private messageService: MessageService
-                ){
+    constructor(private storageQuerySerive: StorageQuerySerive,
+        private messageService: MessageService
+    ) {
 
     }
 
@@ -28,11 +28,11 @@ export class CustomHttpInterceptor implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         this._onGoingRequests++;
         if (this._onGoingRequests == 1) {
-                this._onGoingRequestStatus.next(true);
+            this._onGoingRequestStatus.next(true);
         }
 
         let tokenkey = this.storageQuerySerive.GetToken()
-        if(tokenkey){
+        if (tokenkey) {
             req = req.clone(
                 {
                     setHeaders:
@@ -44,26 +44,26 @@ export class CustomHttpInterceptor implements HttpInterceptor {
         }
 
         return next.handle(req).pipe(
-            map(event =>{
+            map(event => {
                 return event;
             }),
             tap(data => {
                 console.log(data);
             }),
             catchError(error => {
-                if(error.status == 401){
-                    this.messageService.add({severity:'error', summary: 'Access Denied', detail: 'You Are Unauthorized.'});
+                if (error.status == 401) {
+                    this.messageService.add({ severity: 'error', summary: 'Access Denied', detail: 'You Are Unauthorized.', sticky: true });
                 }
-                else{
-                    this.messageService.add({severity:'error', summary: error.statusText , detail: error.message});
+                else {
+                    this.messageService.add({ severity: 'error', summary: error.statusText, detail: error.message, sticky: true });
                 }
                 return throwError(error)
             }),
             finalize(() => {
                 this._onGoingRequests--;
                 if (this._onGoingRequests == 0) {
-                        this._onGoingRequestStatus.next(false);
-                }   
+                    this._onGoingRequestStatus.next(false);
+                }
             })
         );
     }

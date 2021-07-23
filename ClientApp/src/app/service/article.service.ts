@@ -8,10 +8,14 @@ import { ArticleModel } from '../model/article.model';
 @Injectable({ providedIn: 'root' })
 
 export class ArticleService {
-    constructor(private httpClient: HttpClient) {}
+    constructor(private httpClient: HttpClient) { }
 
-    GetArticleById(id: string) : Observable<ArticleModel> {
-        var a =`${Constants.ArticleServiceApiUrl()}/${id}`;
+    GetArticleById(id: string): Observable<ArticleModel> {
+        var a = `${Constants.ArticleServiceApiUrl()}/${id}`;
         return this.httpClient.get<ArticleModel>(`${Constants.ArticleServiceApiUrl()}/${id}`);
+    }
+
+    CreateArticle(model: ArticleModel): Observable<boolean> {
+        return this.httpClient.post<boolean>(`${Constants.ArticleServiceApiUrl()}`, model);
     }
 }

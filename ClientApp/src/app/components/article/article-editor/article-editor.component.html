@@ -1,38 +1,76 @@
-<h1>{{headerName}}</h1>
+<h3>{{headerName}}</h3>
 <form [formGroup]='editorFormGroup' (ngSubmit)="saveArticle()">
     <div class="title-section form-group row">
-        <div class="form-group row col-md-8">
+        <div class="form-group row col-md-7">
             <label class="col-md-2 col-form-label required">Title</label>
             <div class="col-md-10">
-                <input class="" [formControlName]="'title'" />
+                <input class="" [formControlName]="'name'" required />
+                <div class="validation-error"
+                    *ngIf="(formName.invalid && (formName.dirty || formName.touched)) && formName.errors?.required">
+                    Title is required.
+                </div>
             </div>
+
         </div>
-        <div class="category-section form-group row col-md-4">
+        <div class="category-section form-group row col-md-5">
             <label class="col-md-4 col-form-label required">Category</label>
             <div class="col-md-8">
-                <input class="" [formControlName]="'title'" />
+                <p-dropdown [options]="categoryOptions" [formControlName]="'category'" optionLabel="name"></p-dropdown>
+                <div class="validation-error"
+                    *ngIf="(formCategory.invalid && (formCategory.dirty || formCategory.touched)) && formName.errors?.required">
+                    Category is required.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="title-section form-group row">
+        <div class="form-group row col-md-7">
+            <label class="col-md-2 col-form-label">Abstract</label>
+            <div class="col-md-10">
+                <input class="" [formControlName]="'abstract'" required />
+            </div>
+        </div>
+        <div class="category-section form-group row col-md-5">
+            <label class="col-md-4 col-form-label">Image</label>
+            <div class="col-md-8">
+                <p-fileUpload name="demo" (onSelect)="onImageSelect($event)" (onClear)="onClear($event)"
+                    accept="image/*" [maxFileSize]="1000000" [multiple]="false" chooseLabel=" "
+                    cancelLabel=" " [showUploadButton]="false">
+                    <ng-template pTemplate="content">
+                        <div *ngIf="!imageSelected" class="dragdrop-section">
+                            Drag and drop image here
+                        </div>
+                    </ng-template>
+                    <ng-template let-file pTemplate='file'>
+                        <div class="file-section">
+                            <img [src]="imageUrl | safeResourceUrl" alt="Image" />
+                            <div class="image-name">{{file.name}}</div>
+                        </div>
+                    </ng-template>
+                </p-fileUpload>
             </div>
         </div>
     </div>
 
     <div class="editor-section row">
-        <div class= "editor-title">
-            <h1 class="">Editor</h1>
+        <div class="editor-title">
+            <h4 class="">Editor</h4>
             <div class="saveBtn-section">
                 <button type="submit" class="saveButton btn btn-primary">Save</button>
             </div>
         </div>
         <div class="quill">
-            <ckeditor [editor]="Editor" data="<p>Hello, world!</p>" (ready)="onReady($event)"></ckeditor>
+            <ckeditor [editor]="Editor" [formControlName]="'displayContent'" (ready)="onReady($event)"></ckeditor>
         </div>
     </div>
 
     <div class="output-section row">
-        <div class= "output-title row">
-            <h1 class="">Output</h1>
+        <div class="output-title row">
+            <h4 class="">Output</h4>
         </div>
         <div class="output row">
-            <textarea [value]="outputContentValue" name="Text1" cols="40" rows="5"></textarea>
+            <textarea [value]="formDisplayContent.value" name="Text1" cols="40" rows="5"></textarea>
         </div>
     </div>
 </form>

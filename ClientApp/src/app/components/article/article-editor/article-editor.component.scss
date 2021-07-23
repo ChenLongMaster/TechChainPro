@@ -1,6 +1,7 @@
 input,
 textarea {
     width: 100%;
+    border: 1px solid #c4c4c4;
 }
 textarea {
     resize: none;
@@ -13,10 +14,12 @@ textarea {
 
 .editor-section {
     display: block;
+    margin-right: 35px;
 }
 
 .editor-title {
     display: flex;
+    padding-bottom: 10px;
 }
 
 .saveBtn-section {
@@ -30,6 +33,7 @@ textarea {
 
 .output-section {
     padding-top: 100px;
+    width: 100%;
     height: 550px;
     margin-top: 20px;
 }
@@ -40,7 +44,63 @@ textarea {
 
 .output {
     padding-left: 25px;
-    textarea{
+    textarea {
         min-height: 350px;
     }
+}
+
+.dragdrop-section{
+    text-align: center;
+    border: dashed 2px #dee2e6;
+    color: #dee2e6;
+    font-size: 13px;
+    border-radius: 3px;
+    padding: 3px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.image-name{
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-size: 12px;
+    font-style: italic;
+    color: #D5D5D6;
+}
+:host ::ng-deep .ck.ck-editor__editable_inline {
+    height: 350px;
+    border: 1px solid #c4c4c4;
+}
+
+:host ::ng-deep .p-fileupload .p-fileupload-buttonbar {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    padding: 2px 4px 3px 7px;
+    .p-button {
+        width: 20px;
+        color: white;
+        padding: 0.3rem 0.2rem;
+        .p-button-icon-left {
+            font-size: 11px;
+        }
+    }
+}
+
+:host ::ng-deep .p-fileupload .p-fileupload-content {
+    text-align: center;
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    color: black;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    padding: 1rem 0 1rem 0;
+    img{
+        width: 200px;
+        height: 100px;
+    }
+}
+
+:host ::ng-deep .p-progressbar {
+    background-color: #dee2e6;
 }

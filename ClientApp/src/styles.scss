@@ -15,10 +15,18 @@ body {
     color: red;
 }
 
-label{
+label {
     text-align: center;
+    font-size: 14px;
 }
 
 .btn-primary {
-    background-color: #3A7CFF !important;
+    background-color: #007ad9 !important;
+    border-color: #007ad9;
+}
+
+.validation-error {
+    text-align: left;
+    color: #e25856;
+    font-size: 11px;
 }
