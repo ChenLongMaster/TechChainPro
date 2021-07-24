@@ -4,6 +4,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Constants } from '../constants';
 import { ArticleModel } from '../model/article.model';
+import { OptionObject } from '../model/optionObject.model';
+import { CategoryEnum } from './core/category.enum';
 
 @Injectable({ providedIn: 'root' })
 
@@ -17,5 +19,14 @@ export class ArticleService {
 
     CreateArticle(model: ArticleModel): Observable<boolean> {
         return this.httpClient.post<boolean>(`${Constants.ArticleServiceApiUrl()}`, model);
+    }
+
+    InitCategoryItems():OptionObject[]{
+        return [
+            { name: CategoryEnum[CategoryEnum.Blockchain], value: CategoryEnum.Blockchain },
+            { name: CategoryEnum[CategoryEnum.DotNet], value: CategoryEnum.DotNet },
+            { name: CategoryEnum[CategoryEnum.Angular], value: CategoryEnum.Angular },
+            { name: CategoryEnum[CategoryEnum.SQL], value: CategoryEnum.SQL },
+          ];
     }
 }

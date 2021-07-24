@@ -10,6 +10,6 @@ namespace BlogDAL.Models
         public string RepresentImageUrl { get; set; }
         public int Category { get; set; }
         public DateTime CreatedOn { get; set; }
-        public Guid CreatedBy { get; set; }
+        public Guid? CreatedBy { get; set; }
     }
 }

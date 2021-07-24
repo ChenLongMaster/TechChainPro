@@ -66,10 +66,16 @@ textarea {
     font-style: italic;
     color: #D5D5D6;
 }
+
+:host ::ng-deep .p-dropdown {
+    width: 100%;
+}
+
 :host ::ng-deep .ck.ck-editor__editable_inline {
     height: 350px;
     border: 1px solid #c4c4c4;
 }
+
 
 :host ::ng-deep .p-fileupload .p-fileupload-buttonbar {
     background-color: #f8f9fa;

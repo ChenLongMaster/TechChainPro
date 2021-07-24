@@ -1,2 +1,18 @@
-<h3>Articles</h3>
-<router-outlet></router-outlet> 
+<div class= "introduct-section">
+    <h5>All Articles</h5>
+    <p> With a variety of topics to discuss, feel free to contribute your articles to our website.</p>
+</div>
+<div class = "filter-section">
+    <div class = "category-dropdown">
+        <p-dropdown [options]="categoryOptions" [(ngModel)] = "selectedCategory" optionLabel="name"
+        placeholder="All"></p-dropdown>
+    </div>
+    <div class = "new-button">
+        <button type="submit" class="saveButton btn btn-primary"><i class="pi pi-plus p-button-icon p-button-icon-left"></i>New</button>
+    </div>
+</div>
+
+<div class = "article-item">
+    <div class="item-image-section" style="background-image: url({})"><img /></div>
+    <div class="item-content-section">Hello</div>
+</div>

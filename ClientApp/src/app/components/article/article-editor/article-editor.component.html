@@ -15,7 +15,8 @@
         <div class="category-section form-group row col-md-5">
             <label class="col-md-4 col-form-label required">Category</label>
             <div class="col-md-8">
-                <p-dropdown [options]="categoryOptions" [formControlName]="'category'" optionLabel="name"></p-dropdown>
+                <p-dropdown [options]="categoryOptions" [formControlName]="'category'" optionLabel="name"
+                placeholder="Select Category"></p-dropdown>
                 <div class="validation-error"
                     *ngIf="(formCategory.invalid && (formCategory.dirty || formCategory.touched)) && formName.errors?.required">
                     Category is required.
@@ -28,7 +29,7 @@
         <div class="form-group row col-md-7">
             <label class="col-md-2 col-form-label">Abstract</label>
             <div class="col-md-10">
-                <input class="" [formControlName]="'abstract'" required />
+                <textarea class="" [formControlName]="'abstract'"></textarea>
             </div>
         </div>
         <div class="category-section form-group row col-md-5">

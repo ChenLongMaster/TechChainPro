@@ -9,4 +9,6 @@ export class ArticleModel extends Base {
     displayContent: string;
     category: number;
     createdOn?: Date;
+    createdBy: string;
+    representImage: FileList;
 }

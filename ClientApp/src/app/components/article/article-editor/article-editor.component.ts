@@ -21,9 +21,10 @@ export class ArticleEditorComponent implements OnInit {
   editorFormGroup: FormGroup;
   headerName: String;
   outputContent: string;
-  representImage: any[] = [];
+  
   imageSelected: boolean;
   imageUrl: string;
+  imageFile: FileList;
   categoryOptions: OptionObject[];
 
   get formName() {
@@ -43,13 +44,8 @@ export class ArticleEditorComponent implements OnInit {
     private messageService: MessageService) { }
 
   public onReady(editor: any) {
-    this.categoryOptions = [
-      { name: CategoryEnum[CategoryEnum.Blockchain], code: CategoryEnum.Blockchain },
-      { name: CategoryEnum[CategoryEnum.DotNet], code: CategoryEnum.DotNet },
-      { name: CategoryEnum[CategoryEnum.Blockchain], code: CategoryEnum.Blockchain },
-      { name: CategoryEnum[CategoryEnum.Blockchain], code: CategoryEnum.Blockchain },
-    ];
-    console.log(this.categoryOptions);
+    this.categoryOptions = this.articleService.InitCategoryItems();
+    
     editor.ui.getEditableElement().parentElement.insertBefore(
       editor.ui.view.toolbar.element,
       editor.ui.getEditableElement()
@@ -60,16 +56,19 @@ export class ArticleEditorComponent implements OnInit {
     this.headerName = 'New Article'
     this.editorFormGroup = new FormGroup({
       'name': new FormControl('', Validators.required),
-      'abstract': new FormControl('', Validators.required),
+      'category': new FormControl('', Validators.required),
+      'abstract': new FormControl(),
       'displayContent': new FormControl(),
-      'category': new FormControl('', Validators.required)
     });
   }
 
   saveArticle() {
-    this.viewModel = Object.assign(this.viewModel, this.editorFormGroup.getRawValue());
     this.editorFormGroup.markAllAsTouched();
     if (this.editorFormGroup.status == "VALID") {
+    this.viewModel = Object.assign(this.viewModel, this.editorFormGroup.getRawValue());
+    this.viewModel.representImage = this.imageFile;
+    this.viewModel.category = this.formCategory.value.value;
+
       this.articleService.CreateArticle(this.viewModel).pipe().subscribe((result: boolean) => {
         if (result) {
           this.messageService.add({ severity: 'success', summary: 'Create Sucessfull', detail: `Article "${this.viewModel.name}" has been created sucessfully.`, sticky: true });
@@ -81,15 +80,9 @@ export class ArticleEditorComponent implements OnInit {
     }
   }
 
-  onUpload(event: any) {
-    for (let file of event.files) {
-      this.representImage.push(file);
-    }
-
-    this.messageService.add({ severity: 'info', summary: 'File Uploaded', detail: '' });
-  }
   onImageSelect(event: any) {
     this.imageSelected = true;
+    this.imageFile = event.currentFiles[0];
     for (let i = 0; i < event.currentFiles.length; i++) {
       var item = event.currentFiles[i];
       this.imageUrl = item.objectURL.changingThisBreaksApplicationSecurity;
@@ -98,9 +91,11 @@ export class ArticleEditorComponent implements OnInit {
     //   this.imageSelected = true;
     // }
   }
+
   onClear(event: any) {
     if (!event.file === undefined) {
       this.imageSelected = false;
+      // this.imageFile = this.imageFile.item(0);
     }
   }
 }

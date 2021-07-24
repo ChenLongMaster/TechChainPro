@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 //Primeng
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
@@ -47,6 +47,7 @@ import { SafeResourceUrlPipe } from './service/core/safeResourceurl.pipe';
     HttpClientModule,
     DialogModule,
     ButtonModule,
+    FormsModule,
     BlockUIModule,
     ProgressSpinnerModule,
     ToastModule,
