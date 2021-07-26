@@ -2,6 +2,7 @@
 using BlogDAL.Models;
 using BlogDAL.Models.DTO;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -27,10 +28,12 @@ namespace BlogProject.Controllers
         }
 
         [HttpPost]
-        public async Task<Boolean> CreateArticle([FromBody] ArticleDTO input)
+        public async Task<bool> CreateArticle([FromBody] ArticleDTO input)
         {
-            var result = await _service.CreateArticle(input);
-            return result;
+            //var result = await _service.CreateArticle(input);
+            return true;
         }
+
+       
     }
 }

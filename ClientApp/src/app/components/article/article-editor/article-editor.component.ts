@@ -1,12 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ChangeEvent } from '@ckeditor/ckeditor5-angular/ckeditor.component';
 import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
-import { ArticleModel } from 'src/app/model/article.model';
-import { ArticleService } from 'src/app/service/article.service';
-import { untilDestroyed } from '@ngneat/until-destroy';
 import { MessageService } from 'primeng/api';
+import { ArticleModel } from 'src/app/model/article.model';
 import { OptionObject } from 'src/app/model/optionObject.model';
-import { CategoryEnum } from 'src/app/service/core/category.enum';
+import { ArticleService } from 'src/app/service/article.service';
+import { UploadService } from 'src/app/service/upload.service';
+import UploadAdapterService from 'src/app/service/upload-adapter.service';
 
 @Component({
   selector: 'app-article-editor',
@@ -21,12 +22,13 @@ export class ArticleEditorComponent implements OnInit {
   editorFormGroup: FormGroup;
   headerName: String;
   outputContent: string;
-  
-  imageSelected: boolean;
-  imageUrl: string;
-  imageFile: FileList;
+  representImageSelected: boolean;
+  representImageUrl: string;
+  imageFile: File;
   categoryOptions: OptionObject[];
 
+  isShowOutput:boolean = false;
+  
   get formName() {
     return this.editorFormGroup.controls['name'];
 
@@ -40,16 +42,27 @@ export class ArticleEditorComponent implements OnInit {
     return this.editorFormGroup.controls['displayContent'];
   }
 
-  constructor(private articleService: ArticleService,
+  public onChange({ editor }: ChangeEvent) {
+    console.info(editor.getData());
+    this.editorFormGroup.controls['displayContent'].patchValue(editor.getData());
+  }
+
+  constructor(
+    private articleService: ArticleService,
+    private uploadService: UploadService,
     private messageService: MessageService) { }
 
   public onReady(editor: any) {
     this.categoryOptions = this.articleService.InitCategoryItems();
-    
+
     editor.ui.getEditableElement().parentElement.insertBefore(
       editor.ui.view.toolbar.element,
       editor.ui.getEditableElement()
     );
+
+    editor.plugins.get('FileRepository').createUploadAdapter = (loader: any) => {
+      return new UploadAdapterService(loader);
+    };
   }
 
   ngOnInit(): void {
@@ -65,37 +78,45 @@ export class ArticleEditorComponent implements OnInit {
   saveArticle() {
     this.editorFormGroup.markAllAsTouched();
     if (this.editorFormGroup.status == "VALID") {
-    this.viewModel = Object.assign(this.viewModel, this.editorFormGroup.getRawValue());
-    this.viewModel.representImage = this.imageFile;
-    this.viewModel.category = this.formCategory.value.value;
+      this.viewModel = Object.assign(this.viewModel, this.editorFormGroup.getRawValue());
+      this.viewModel.representImage = this.imageFile;
+      this.viewModel.category = this.formCategory.value.value;
 
       this.articleService.CreateArticle(this.viewModel).pipe().subscribe((result: boolean) => {
         if (result) {
           this.messageService.add({ severity: 'success', summary: 'Create Sucessfull', detail: `Article "${this.viewModel.name}" has been created sucessfully.`, sticky: true });
         }
         else {
-          this.messageService.add({ severity: 'error', summary: 'Access Denied', detail: 'You Are Unauthorized.', sticky: true });
+          this.messageService.add({ severity: 'error', summary: 'Create Failed', detail: 'Cannot Save The Article.', sticky: true });
         }
       })
     }
   }
 
   onImageSelect(event: any) {
-    this.imageSelected = true;
-    this.imageFile = event.currentFiles[0];
-    for (let i = 0; i < event.currentFiles.length; i++) {
-      var item = event.currentFiles[i];
-      this.imageUrl = item.objectURL.changingThisBreaksApplicationSecurity;
+    this.representImageSelected = true;
+    this.imageFile = event.files[0];
+
+    if (event.files.length != 0) {
+      this.representImageSelected = true;
     }
-    // if (event.files.length != 0) {
-    //   this.imageSelected = true;
-    // }
+
+    this.uploadService.UploadImage(event.files[0]).pipe().subscribe((resonse: any) => {
+      this.representImageUrl = resonse.uploadedUrl;
+      this.messageService.add({ severity: 'success', summary: 'Sucess', detail: "Image Uploaded Sucessfully." });
+    },
+      (error) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: "Image failed to upload.", sticky: true });
+      });
   }
 
   onClear(event: any) {
-    if (!event.file === undefined) {
-      this.imageSelected = false;
-      // this.imageFile = this.imageFile.item(0);
+    if (event?.file === undefined) {
+      this.representImageSelected = false;
     }
+  }
+
+  ToogleOutput(){
+    this.isShowOutput = !this.isShowOutput;
   }
 }

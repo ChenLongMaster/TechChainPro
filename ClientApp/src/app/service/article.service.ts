@@ -21,12 +21,14 @@ export class ArticleService {
         return this.httpClient.post<boolean>(`${Constants.ArticleServiceApiUrl()}`, model);
     }
 
-    InitCategoryItems():OptionObject[]{
+ 
+
+    InitCategoryItems(): OptionObject[] {
         return [
             { name: CategoryEnum[CategoryEnum.Blockchain], value: CategoryEnum.Blockchain },
             { name: CategoryEnum[CategoryEnum.DotNet], value: CategoryEnum.DotNet },
             { name: CategoryEnum[CategoryEnum.Angular], value: CategoryEnum.Angular },
             { name: CategoryEnum[CategoryEnum.SQL], value: CategoryEnum.SQL },
-          ];
+        ];
     }
 }

@@ -1,22 +1,22 @@
 <h3>{{headerName}}</h3>
+<hr />
 <form [formGroup]='editorFormGroup' (ngSubmit)="saveArticle()">
     <div class="title-section form-group row">
         <div class="form-group row col-md-7">
             <label class="col-md-2 col-form-label required">Title</label>
             <div class="col-md-10">
-                <input class="" [formControlName]="'name'" required />
+                <input class="" [formControlName]="'name'" [placeholder]="'Enter your title'" required />
                 <div class="validation-error"
                     *ngIf="(formName.invalid && (formName.dirty || formName.touched)) && formName.errors?.required">
                     Title is required.
                 </div>
             </div>
-
         </div>
         <div class="category-section form-group row col-md-5">
             <label class="col-md-4 col-form-label required">Category</label>
             <div class="col-md-8">
                 <p-dropdown [options]="categoryOptions" [formControlName]="'category'" optionLabel="name"
-                placeholder="Select Category"></p-dropdown>
+                    placeholder="Select a Category"></p-dropdown>
                 <div class="validation-error"
                     *ngIf="(formCategory.invalid && (formCategory.dirty || formCategory.touched)) && formName.errors?.required">
                     Category is required.
@@ -29,23 +29,24 @@
         <div class="form-group row col-md-7">
             <label class="col-md-2 col-form-label">Abstract</label>
             <div class="col-md-10">
-                <textarea class="" [formControlName]="'abstract'"></textarea>
+                <textarea class="" [formControlName]="'abstract'"
+                    [placeholder]="'Write an abstract for your article'"></textarea>
             </div>
         </div>
         <div class="category-section form-group row col-md-5">
             <label class="col-md-4 col-form-label">Image</label>
             <div class="col-md-8">
                 <p-fileUpload name="demo" (onSelect)="onImageSelect($event)" (onClear)="onClear($event)"
-                    accept="image/*" [maxFileSize]="1000000" [multiple]="false" chooseLabel=" "
-                    cancelLabel=" " [showUploadButton]="false">
+                    accept="image/*" [maxFileSize]="1000000" [multiple]="false" chooseLabel=" " cancelLabel=" "
+                    [customUpload]="true" [showUploadButton]="false">
                     <ng-template pTemplate="content">
-                        <div *ngIf="!imageSelected" class="dragdrop-section">
+                        <div *ngIf="!representImageSelected" class="dragdrop-section">
                             Drag and drop image here
                         </div>
                     </ng-template>
                     <ng-template let-file pTemplate='file'>
                         <div class="file-section">
-                            <img [src]="imageUrl | safeResourceUrl" alt="Image" />
+                            <img [src]="representImageUrl" alt="Image" />
                             <div class="image-name">{{file.name}}</div>
                         </div>
                     </ng-template>
@@ -62,16 +63,25 @@
             </div>
         </div>
         <div class="quill">
-            <ckeditor [editor]="Editor" [formControlName]="'displayContent'" (ready)="onReady($event)"></ckeditor>
+            <ckeditor [editor]="Editor" (ready)="onReady($event)" (change)="onChange($event)"></ckeditor>
         </div>
     </div>
+    <div *ngIf="!isShowOutput; else hide" class="hide-show-output"> 
+        <a (click)="ToogleOutput()">Show developer output</a>
+    </div>
+    <ng-template #hide>
+        <div class="hide-show-output">
+           <a (click)="ToogleOutput()">Hide developer output</a>
+        </div>
 
-    <div class="output-section row">
-        <div class="output-title row">
-            <h4 class="">Output</h4>
+        <div class="output-section row">
+            <div class="output-title row">
+                <h4 class="">Output</h4>
+            </div>
+            <div class="output row">
+                <textarea [value]="formDisplayContent.value" name="Text1" cols="40" rows="5" disabled></textarea>
+            </div>
         </div>
-        <div class="output row">
-            <textarea [value]="formDisplayContent.value" name="Text1" cols="40" rows="5"></textarea>
-        </div>
-    </div>
+    </ng-template>
+    
 </form>

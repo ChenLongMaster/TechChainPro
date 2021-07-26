@@ -32,7 +32,7 @@ namespace BlogProject
             services.AddCors();
 
             services.AddControllersWithViews();
-            services.AddDbContext<BlogContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<BlogContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LocalConnection")));
             services.AddControllers();
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.AddScoped<IUserService, UserService>();
@@ -110,8 +110,8 @@ namespace BlogProject
             app.UseStaticFiles();
             app.UseStaticFiles(new StaticFileOptions()
             {
-                FileProvider = new PhysicalFileProvider(Configuration["ImgFolder"]),
-                RequestPath = new PathString("/img")
+                FileProvider = new PhysicalFileProvider(Configuration["ImgFolderPath"]),
+                RequestPath = new PathString(Configuration["ImgFolderPathString"])
             });
 
             app.UseAuthentication();

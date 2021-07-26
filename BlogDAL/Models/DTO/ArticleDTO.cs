@@ -12,9 +12,8 @@ namespace BlogDAL.Models.DTO
         public string Name { get; set; }
         public string Abstract { get; set; }
         public string DisplayContent { get; set; }
-        public IFormFile? representImage { get; set; }
+        public IFormFile representImage { get; set; }
         public int Category { get; set; }
         public Guid? CreatedBy { get; set; }
-
     }
 }

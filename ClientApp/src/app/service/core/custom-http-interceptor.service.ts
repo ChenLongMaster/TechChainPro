@@ -48,7 +48,6 @@ export class CustomHttpInterceptor implements HttpInterceptor {
                 return event;
             }),
             tap(data => {
-                console.log(data);
             }),
             catchError(error => {
                 if (error.status == 401) {

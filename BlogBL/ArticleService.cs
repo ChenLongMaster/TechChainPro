@@ -15,12 +15,10 @@ namespace BlogBL
 {
     public class ArticleService : IArticleService
     {
-        public IConfiguration _configuration;
         private BlogContext _blogContext;
-        public ArticleService(BlogContext blogContext, IConfiguration configuration)
+        public ArticleService(BlogContext blogContext)
         {
             _blogContext = blogContext;
-            _configuration = configuration;
         }
         public async Task<Article> GetArticles(ArticleFilter filter)
         {
@@ -37,7 +35,6 @@ namespace BlogBL
 
         public async Task<Boolean> CreateArticle(ArticleDTO model)
         {
-            var imageUrl = UploadImage(model.representImage);
 
             var entity = new Article()
             {
@@ -46,7 +43,6 @@ namespace BlogBL
                 Category = model.Category,
                 Abstract = model.Abstract,
                 DisplayContent = model.DisplayContent,
-                RepresentImageUrl = imageUrl,
                 CreatedBy = model.CreatedBy,
                 CreatedOn = DateTime.Now,
             };
@@ -55,23 +51,6 @@ namespace BlogBL
 
             var result = await _blogContext.SaveChangesAsync();
             return result > 0;
-        }
-
-        public string UploadImage(IFormFile image)
-        {
-            string uniqueName = null;
-            if (image is not null)
-            {
-                string uploadFolder = Path.Combine(_configuration["ImgFolder"]);
-                uniqueName = $"{image.Name}_{Guid.NewGuid().ToString()}";
-                string filePath = Path.Combine(uploadFolder, uniqueName);
-                using (var fileStram = new FileStream(filePath, FileMode.Create))
-                {
-                    image.CopyTo(fileStram);
-                }
-            }
-
-            return uniqueName;
         }
     }
 }

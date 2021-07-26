@@ -10,5 +10,5 @@ export class ArticleModel extends Base {
     category: number;
     createdOn?: Date;
     createdBy: string;
-    representImage: FileList;
+    representImage: File;
 }
