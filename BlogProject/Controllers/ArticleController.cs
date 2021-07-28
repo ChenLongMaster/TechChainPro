@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BlogProject.Controllers
@@ -19,6 +20,13 @@ namespace BlogProject.Controllers
             _service = service;
         }
 
+        [HttpPost]
+        public async Task<bool> CreateArticle([FromBody] ArticleDTO input)
+        {
+            var result = await _service.CreateArticle(input);
+            return true;
+        }
+
         [Route("{id}")]
         [HttpGet]
         public async Task<Article> GetArticleById(Guid id)
@@ -27,13 +35,13 @@ namespace BlogProject.Controllers
             return result;
         }
 
-        [HttpPost]
-        public async Task<bool> CreateArticle([FromBody] ArticleDTO input)
+        [HttpGet]
+        public async Task<IEnumerable<ArticleDTO>> GetArticle([FromQuery] ArticleFilter filter)
         {
-            //var result = await _service.CreateArticle(input);
-            return true;
+            var result = await _service.GetArticles(filter);
+            return result;
         }
 
-       
+
     }
 }

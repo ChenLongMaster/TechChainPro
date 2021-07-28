@@ -1,7 +1,9 @@
-﻿using BlogDAL.Models;
+﻿using BlogBL.Helpers;
+using BlogDAL.Models;
 using BlogDAL.Models.DTO;
 using BlogDAL.UnitOfWork;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -20,9 +22,57 @@ namespace BlogBL
         {
             _blogContext = blogContext;
         }
-        public async Task<Article> GetArticles(ArticleFilter filter)
+        public async Task<IEnumerable<ArticleDTO>> GetArticles(ArticleFilter filter)
         {
-            var entity = await _blogContext.Articles.SingleAsync(x => x.Name == filter.Name);
+            var entity = new List<ArticleDTO>();
+            var query = from a in _blogContext.Articles
+                        join u in _blogContext.Users on a.CreatedBy equals u.Id into x
+                        from subUser in x.DefaultIfEmpty()
+                        select new ArticleDTO
+                        {
+                            Id = a.Id,
+                            Name = a.Name,
+                            Abstract = a.Abstract,
+                            DisplayContent = a.DisplayContent,
+                            CategoryId = a.CategoryId,
+                            RepresentImageUrl = a.RepresentImageUrl,
+                            AuthorName = subUser.Username,
+                            CreatedOn = a.CreatedOn
+                        };
+
+            if (filter.CategoryId != 0)
+            {
+                query = from a in _blogContext.Articles
+                        join u in _blogContext.Users on a.CreatedBy equals u.Id into x
+                        from subUser in x.DefaultIfEmpty()
+                        where a.CategoryId == filter.CategoryId
+                        select new ArticleDTO
+                        {
+                            Id = a.Id,
+                            Name = a.Name,
+                            Abstract = a.Abstract,
+                            DisplayContent = a.DisplayContent,
+                            CategoryId = a.CategoryId,
+                            RepresentImageUrl = a.RepresentImageUrl,
+                            AuthorName = subUser.Username,
+                            CreatedOn = a.CreatedOn
+                        };
+            }
+
+            if (filter.SortDateDirection == (int)SortDirection.ASC)
+            {
+                entity = await query.OrderBy(x => x.CreatedOn).ToListAsync();
+            }
+            else
+            {
+                entity = await query.OrderByDescending(x => x.CreatedOn).ToListAsync();
+            }
+
+            #region use store procedure
+            //var param = new SqlParameter("@CategoryId", filter.CategoryId);
+            //var entity2 = _blogContext.Articles.FromSqlRaw("Exec GetAllArticles @CategoryId", param);
+            //return entity;
+            #endregion
 
             return entity;
         }
@@ -35,15 +85,16 @@ namespace BlogBL
 
         public async Task<Boolean> CreateArticle(ArticleDTO model)
         {
-
+            var emptyId = Guid.Empty;
             var entity = new Article()
             {
                 Id = Guid.NewGuid(),
                 Name = model.Name,
-                Category = model.Category,
+                CategoryId = model.CategoryId,
                 Abstract = model.Abstract,
                 DisplayContent = model.DisplayContent,
-                CreatedBy = model.CreatedBy,
+                RepresentImageUrl = model.RepresentImageUrl,
+                CreatedBy = emptyId,
                 CreatedOn = DateTime.Now,
             };
 

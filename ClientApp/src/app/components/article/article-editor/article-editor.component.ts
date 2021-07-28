@@ -8,7 +8,9 @@ import { OptionObject } from 'src/app/model/optionObject.model';
 import { ArticleService } from 'src/app/service/article.service';
 import { UploadService } from 'src/app/service/upload.service';
 import UploadAdapterService from 'src/app/service/upload-adapter.service';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-article-editor',
   templateUrl: './article-editor.component.html',
@@ -23,7 +25,6 @@ export class ArticleEditorComponent implements OnInit {
   headerName: String;
   outputContent: string;
   representImageSelected: boolean;
-  representImageUrl: string;
   imageFile: File;
   categoryOptions: OptionObject[];
 
@@ -31,7 +32,10 @@ export class ArticleEditorComponent implements OnInit {
   
   get formName() {
     return this.editorFormGroup.controls['name'];
+  }
 
+  get formAbstract() {
+    return this.editorFormGroup.controls['abstract'];
   }
 
   get formCategory() {
@@ -78,13 +82,14 @@ export class ArticleEditorComponent implements OnInit {
   saveArticle() {
     this.editorFormGroup.markAllAsTouched();
     if (this.editorFormGroup.status == "VALID") {
-      this.viewModel = Object.assign(this.viewModel, this.editorFormGroup.getRawValue());
-      this.viewModel.representImage = this.imageFile;
-      this.viewModel.category = this.formCategory.value.value;
+      this.viewModel.name = this.formName.value;
+      this.viewModel.categoryId = this.formCategory.value.value;
+      this.viewModel.abstract = this.formAbstract.value;
+      this.viewModel.displayContent = this.formDisplayContent.value;
 
-      this.articleService.CreateArticle(this.viewModel).pipe().subscribe((result: boolean) => {
+      this.articleService.CreateArticle(this.viewModel).pipe(untilDestroyed(this)).subscribe((result: boolean) => {
         if (result) {
-          this.messageService.add({ severity: 'success', summary: 'Create Sucessfull', detail: `Article "${this.viewModel.name}" has been created sucessfully.`, sticky: true });
+          this.messageService.add({ severity: 'success', summary: 'Create Sucessfull', detail: `Article has been created sucessfully.`, sticky: true });
         }
         else {
           this.messageService.add({ severity: 'error', summary: 'Create Failed', detail: 'Cannot Save The Article.', sticky: true });
@@ -102,7 +107,7 @@ export class ArticleEditorComponent implements OnInit {
     }
 
     this.uploadService.UploadImage(event.files[0]).pipe().subscribe((resonse: any) => {
-      this.representImageUrl = resonse.uploadedUrl;
+      this.viewModel.representImageUrl = resonse.uploadedUrl;
       this.messageService.add({ severity: 'success', summary: 'Sucess', detail: "Image Uploaded Sucessfully." });
     },
       (error) => {

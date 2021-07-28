@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace BlogBL.Helpers
 {
-    public enum CategoryEnums
+    public enum SortDirection
     {
-        All = 0,
-        DotNet = 1,
-        Angular = 2,
-        SQL = 3,
-        Blockchain = 4,
+        DESC = -1,
+        NONE = 0,
+        ASC = 1
     }
 }

@@ -6,9 +6,15 @@ export class ArticleModel extends Base {
     }
 
     name: string;
+    abstract: string;
     displayContent: string;
-    category: number;
+    categoryId: number;
     createdOn?: Date;
-    createdBy: string;
-    representImage: File;
+    authorName: string;
+    representImageUrl: string;
+}
+
+export class ArticleFilter{
+    categoryId: number;
+    sortDateDirection : number;
 }

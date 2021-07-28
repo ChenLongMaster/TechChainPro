@@ -1,8 +1,15 @@
-<h3 class = 'title'>{{articleName}}</h3>
+<div class="page-container">
+    <div class="introduct-section">
+        <h3 class = 'title'>{{viewModel.name}}</h3>
+        <hr />
+    </div>
+    <div class="content-section" [innerHTML] = "viewModel.displayContent">
 
-<div [innerHTML] = "articleContent">
+    </div>
 </div>
 
-<img src="file://C:/TechDream/Images/Image1" alt="" />
+
+
+
 
 

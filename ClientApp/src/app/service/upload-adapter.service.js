@@ -24,7 +24,7 @@ export default class UploadAdapterService {
   _initListeners(resolve, reject, file) {
     const xhr = this.xhr;
     const loader = this.loader;
-    const genericErrorText = 'Couldn\'t upload file:' + ` ${file.name}.`;
+    const genericErrorText = 'Cannot upload file:' + ` ${file.name}.`;
 
     xhr.addEventListener('error', () => reject(genericErrorText));
     xhr.addEventListener('abort', () => reject());
@@ -54,7 +54,7 @@ export default class UploadAdapterService {
 
   _sendRequest(file) {
     const data = new FormData();
-    data.append('image', file);
+    data.append('imageData', file);
     this.xhr.send(data);
   }
 

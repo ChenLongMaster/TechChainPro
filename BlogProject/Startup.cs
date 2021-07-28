@@ -56,6 +56,8 @@ namespace BlogProject
                 options.Validate();
             });
             services.AddAuthorization();
+            services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
+
             #region Swagger
             services.AddSwaggerGen(c =>
             {
@@ -108,6 +110,7 @@ namespace BlogProject
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
             app.UseStaticFiles(new StaticFileOptions()
             {
                 FileProvider = new PhysicalFileProvider(Configuration["ImgFolderPath"]),

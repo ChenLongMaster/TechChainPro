@@ -1,18 +1,74 @@
-<div class= "introduct-section">
-    <h5>All Articles</h5>
-    <p> With a variety of topics to discuss, feel free to contribute your articles to our website.</p>
-</div>
-<div class = "filter-section">
-    <div class = "category-dropdown">
-        <p-dropdown [options]="categoryOptions" [(ngModel)] = "selectedCategory" optionLabel="name"
-        placeholder="All"></p-dropdown>
-    </div>
-    <div class = "new-button">
-        <button type="submit" class="saveButton btn btn-primary"><i class="pi pi-plus p-button-icon p-button-icon-left"></i>New</button>
-    </div>
-</div>
+<div class="page-container">
 
-<div class = "article-item">
-    <div class="item-image-section" style="background-image: url({})"><img /></div>
-    <div class="item-content-section">Hello</div>
+    <div class="introduct-section">
+        <h5>All Articles</h5>
+        <p> With a variety of topics to discuss, feel free to contribute your articles to my website.</p>
+        <hr />
+
+    </div>
+    <div class="filter-section">
+        <div class="dropdown-section">
+            <div class="dropdown-category">
+                <p-dropdown [options]="categoryOptions" [(ngModel)]="selectedCategory" optionLabel="name">
+                </p-dropdown>
+            </div>
+            <div class="dropdown-sort">
+                <p-dropdown [options]="dateSortOptions" [(ngModel)]="selectedDateSort" optionLabel="name">
+                </p-dropdown>
+            </div>
+        </div>
+        <div class="new-button">
+            <button type="submit" class="saveButton btn btn-primary" (click) = "routeToCreateArticle()"><i
+                    class="pi pi-plus p-button-icon p-button-icon-left"></i>New</button>
+        </div>
+    </div>
+    <div class="article-item">
+        <div class="item-image-section"><img /></div>
+        <div class="item-content-section">
+            <div class="title">
+                <h4>wqedwqdwqdwq wqdwq dwqd wqd qwd wqd qwd qwdqw dwqd qwd qwd qwd qwd qwd qwdqw dqw dw dwdwdwd wddwdwdw
+                </h4>
+            </div>
+            <div class="category">
+                <i class="fas fa-tags"></i> blockchain
+            </div>
+            <div class="abstract">wqedwqdwqdwq wqdwq dwqd wqd qwd wqd qwd qwdqw dwqd qwd qwd qwd qwd qwd qwdqw dqw dqwd
+                qwd wqd qwd qwd qwd qwd qwd qwd qwd qwd qwd qwd qwdqwd qw qwd qw wdwd wdwdw ddw dwdwdwd wdwd wdwdwd
+                wdwdwdwd wdwdw</div>
+            <div class="info-section row">
+                <div class="author col-md-9"><i class="fas fa-user-edit"></i> Author </div>
+                <div class="date col-md-3"><i class="fas fa-calendar-alt"></i> Date </div>
+            </div>
+        </div>
+    </div>
+    <div *ngFor="let item of listModel" class="article-item">
+        <div class="item-image-section"><img [src] = "item.representImageUrl"/></div>
+        <div class="item-content-section" (click) = "routeToDetailArticle(item.id)">
+            <div class="title">
+                <h4> {{item.name}} </h4>
+            </div>
+            <div class="category">
+                <i class="fas fa-tags"></i> {{CategoryEnum[item.categoryId]}}
+            </div>
+            <div class="abstract">
+                {{item.abstract}}
+                <div *ngIf="!item.abstract || item.abstract == ''" class = "annotate">
+                    No abstract
+                </div>
+            </div>
+            <div class="info-section row">
+                <div class="author col-md-9"><i class="fas fa-user-edit"></i>
+                    <p>
+                        {{item.authorName}} 
+                    </p>
+                     <p *ngIf="!item.authorName || item.authorName == ''" class = "annotate">
+                        Anonymous
+                     </p>
+                </div>
+                <div class="date col-md-3"><i class="fas fa-calendar-alt"></i> 
+                    {{item.createdOn | date: 'dd/MM/yyyy'}}  
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

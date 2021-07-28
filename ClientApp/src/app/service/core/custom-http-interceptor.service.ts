@@ -54,7 +54,7 @@ export class CustomHttpInterceptor implements HttpInterceptor {
                     this.messageService.add({ severity: 'error', summary: 'Access Denied', detail: 'You Are Unauthorized.', sticky: true });
                 }
                 else {
-                    this.messageService.add({ severity: 'error', summary: error.statusText, detail: error.message, sticky: true });
+                    this.messageService.add({ severity: 'error', summary: 'Error While Sending Request.', detail: error.message, sticky: true });
                 }
                 return throwError(error)
             }),

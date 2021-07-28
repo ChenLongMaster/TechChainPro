@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { ArticleModel } from 'src/app/model/article.model';
 import { ArticleService } from 'src/app/service/article.service';
 
 @Component({
@@ -7,22 +9,24 @@ import { ArticleService } from 'src/app/service/article.service';
   styleUrls: ['./article-detail.component.scss']
 })
 export class ArticleDetailComponent implements OnInit {
+  id: string | null;
+  articleName: string = '';
+  viewModel: ArticleModel = new ArticleModel();
 
-
-  constructor(private articleService : ArticleService) { }
-
-  articleName: string = ''; 
-  articleContent: string = '';
+  constructor(private articleService: ArticleService,
+    private activeRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.articleContent = '';
-    this.GetArticleById('1A9B79D4-8FF3-4B41-8A59-8F75AB9670FF');
+    this.id = this.activeRoute.snapshot.paramMap.get('id');
+    if (this.id) {
+      this.GetArticleById();
+    }
   }
 
-  GetArticleById(id: string){
-    this.articleService.GetArticleById(id).pipe().subscribe((data : any) => {
-      this.articleName = data.name;
-      this.articleContent = data.displayContent;
+  GetArticleById() {
+    this.articleService.GetArticleById(this.id).pipe().subscribe((returneData: ArticleModel) => {
+      this.viewModel = returneData;
+      console.log(this.viewModel);
     })
   }
 }

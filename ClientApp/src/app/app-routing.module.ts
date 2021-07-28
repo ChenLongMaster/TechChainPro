@@ -5,14 +5,16 @@ import { ArticleEditorComponent } from './components/article/article-editor/arti
 import { ArticleListComponent } from './components/article/article-list/article-list.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/articles/editor', pathMatch: 'full' },
+  { path: '', redirectTo: '/articles', pathMatch: 'full' },
   {
     path: 'articles',
     pathMatch: 'full',
     component: ArticleListComponent,
   },
-  { path: 'articles/detail', component: ArticleDetailComponent, canActivate: [] },
-  { path: 'articles/editor', component: ArticleEditorComponent, canActivate: [] }
+  { path: 'articles/detail/:id', component: ArticleDetailComponent },
+  { path: 'articles/editor', component: ArticleEditorComponent},
+  { path: 'articles/editor/:id', component: ArticleEditorComponent }
+
 ];
 
 @NgModule({
