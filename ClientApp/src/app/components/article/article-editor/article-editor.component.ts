@@ -1,14 +1,16 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ChangeEvent } from '@ckeditor/ckeditor5-angular/ckeditor.component';
 import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { MessageService } from 'primeng/api';
 import { ArticleModel } from 'src/app/model/article.model';
+import { CategoryModel } from 'src/app/model/category.model';
 import { OptionObject } from 'src/app/model/optionObject.model';
 import { ArticleService } from 'src/app/service/article.service';
-import { UploadService } from 'src/app/service/upload.service';
+import { CommonService } from 'src/app/service/common.service';
 import UploadAdapterService from 'src/app/service/upload-adapter.service';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy()
 @Component({
@@ -19,17 +21,16 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 export class ArticleEditorComponent implements OnInit {
   public Editor = DecoupledEditor;
   @Input() ArticleId: string;
-
+  id: string | null;
   viewModel: ArticleModel = new ArticleModel();
   editorFormGroup: FormGroup;
-  headerName: String;
   outputContent: string;
   representImageSelected: boolean;
   imageFile: File;
   categoryOptions: OptionObject[];
 
-  isShowOutput:boolean = false;
-  
+  isShowOutput: boolean = false;
+
   get formName() {
     return this.editorFormGroup.controls['name'];
   }
@@ -53,12 +54,12 @@ export class ArticleEditorComponent implements OnInit {
 
   constructor(
     private articleService: ArticleService,
-    private uploadService: UploadService,
-    private messageService: MessageService) { }
+    private commonService: CommonService,
+    private messageService: MessageService,
+    private activeRoute: ActivatedRoute,
+    private router: Router) { }
 
   public onReady(editor: any) {
-    this.categoryOptions = this.articleService.InitCategoryItems();
-
     editor.ui.getEditableElement().parentElement.insertBefore(
       editor.ui.view.toolbar.element,
       editor.ui.getEditableElement()
@@ -70,7 +71,8 @@ export class ArticleEditorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.headerName = 'New Article'
+    this.id = this.activeRoute.snapshot.paramMap.get('id');
+    this.InitCategoryItems();
     this.editorFormGroup = new FormGroup({
       'name': new FormControl('', Validators.required),
       'category': new FormControl('', Validators.required),
@@ -89,7 +91,8 @@ export class ArticleEditorComponent implements OnInit {
 
       this.articleService.CreateArticle(this.viewModel).pipe(untilDestroyed(this)).subscribe((result: boolean) => {
         if (result) {
-          this.messageService.add({ severity: 'success', summary: 'Create Sucessfull', detail: `Article has been created sucessfully.`, sticky: true });
+          this.messageService.add({ severity: 'success', summary: 'Create Sucessfull', detail: `Article has been created sucessfully.`});
+          this.routeListArticle();
         }
         else {
           this.messageService.add({ severity: 'error', summary: 'Create Failed', detail: 'Cannot Save The Article.', sticky: true });
@@ -98,6 +101,11 @@ export class ArticleEditorComponent implements OnInit {
     }
   }
 
+  InitCategoryItems() {
+    this.articleService.GetCategoryItem().pipe(untilDestroyed(this)).subscribe((returnData: CategoryModel[]) => {
+      this.categoryOptions = returnData.filter(x => x.id != 1).map(x => new OptionObject(x.name, x.id));
+    });
+  }
   onImageSelect(event: any) {
     this.representImageSelected = true;
     this.imageFile = event.files[0];
@@ -106,7 +114,7 @@ export class ArticleEditorComponent implements OnInit {
       this.representImageSelected = true;
     }
 
-    this.uploadService.UploadImage(event.files[0]).pipe().subscribe((resonse: any) => {
+    this.commonService.UploadImage(event.files[0]).pipe().subscribe((resonse: any) => {
       this.viewModel.representImageUrl = resonse.uploadedUrl;
       this.messageService.add({ severity: 'success', summary: 'Sucess', detail: "Image Uploaded Sucessfully." });
     },
@@ -121,7 +129,11 @@ export class ArticleEditorComponent implements OnInit {
     }
   }
 
-  ToogleOutput(){
+  ToogleOutput() {
     this.isShowOutput = !this.isShowOutput;
+  }
+
+  routeListArticle() {
+    this.router.navigateByUrl(`/articles`);
   }
 }

@@ -6,12 +6,12 @@ import { Constants } from "../constants";
 
 @Injectable({ providedIn: 'root' })
 
-export class UploadService {
+export class CommonService {
     constructor(private httpClient: HttpClient) { }
 
     UploadImage(image: File): Observable<string> {
         const formData = new FormData();
         formData.append('imageData',image);
-        return this.httpClient.post<string>(`${Constants.UploadServiceApiUrl()}`, formData,{responseType: 'json'});
+        return this.httpClient.post<string>(`${Constants.CommonServiceApiUrl()}`, formData,{responseType: 'json'});
     }
 }

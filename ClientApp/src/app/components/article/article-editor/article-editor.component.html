@@ -1,11 +1,11 @@
-<h3>{{headerName}}</h3>
+<h3>New Article</h3>
 <hr />
 <form [formGroup]='editorFormGroup' (ngSubmit)="saveArticle()">
     <div class="title-section form-group row">
         <div class="form-group row col-md-7">
             <label class="col-md-2 col-form-label required">Title</label>
             <div class="col-md-10">
-                <input class="" [formControlName]="'name'" [placeholder]="'Enter your title'" required />
+                <input class="" [formControlName]="'name'" [placeholder]="'Enter your title'"  maxlength="100" required />
                 <div class="validation-error"
                     *ngIf="(formName.invalid && (formName.dirty || formName.touched)) && formName.errors?.required">
                     Title is required.
@@ -29,7 +29,7 @@
         <div class="form-group row col-md-7">
             <label class="col-md-2 col-form-label">Abstract</label>
             <div class="col-md-10">
-                <textarea class="" [formControlName]="'abstract'"
+                <textarea class="" [formControlName]="'abstract'" maxlength="150"
                     [placeholder]="'Write an abstract for your article'"></textarea>
             </div>
         </div>
@@ -63,7 +63,7 @@
             </div>
         </div>
         <div class="quill">
-            <ckeditor [editor]="Editor" (ready)="onReady($event)" (change)="onChange($event)"></ckeditor>
+            <ckeditor  [editor]="Editor" (ready)="onReady($event)" (change)="onChange($event)"></ckeditor>
         </div>
     </div>
     <div *ngIf="!isShowOutput; else hide" class="hide-show-output"> 
@@ -79,7 +79,7 @@
                 <h4 class="">Output</h4>
             </div>
             <div class="output row">
-                <textarea [value]="formDisplayContent.value" name="Text1" cols="40" rows="5" disabled></textarea>
+                <textarea [value]="this.editorFormGroup.controls['displayContent'].value" name="Text1" cols="40" rows="5" disabled></textarea>
             </div>
         </div>
     </ng-template>

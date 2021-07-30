@@ -12,33 +12,46 @@
           <a href="/articles">Articles</a>
           <a href="#">About me</a>
           <a href="#">Feedback</a>
-          <a href="#">Contact</a>
           <a (click)="showDialog()">Login</a>
         </div>
       </div>
     </div>
     <div class="body-section">
       <div class="content-section">
-        <router-outlet></router-outlet>      
+        <router-outlet></router-outlet>
         <!-- <app-article-editor></app-article-editor> -->
       </div>
       <div class="info-section">
         <h4>Connect with me</h4>
         <div class="connect-icons">
-          <a class="youtube-icon" href="https://www.youtube.com/" title="Youtube">
+          <a class="youtube-icon" href="https://www.youtube.com/" target="_blank" title="Youtube">
             <i class="fab fa-youtube"></i>
           </a>
-          <a class="facebook-icon" href="https://www.facebook.com/tranhoang.long.3344/" title="Facebook">
+          <a class="facebook-icon" href="https://www.facebook.com/tranhoang.long.3344/" target="_blank"
+            title="Facebook">
             <i class="fab fa-facebook"></i>
           </a>
-          <a class="linkedin-icon" href="https://www.linkedin.com/in/tran-hoang-long-28629b134/" title="Linkedin">
+          <a class="linkedin-icon" href="https://www.linkedin.com/in/tran-hoang-long-28629b134/" target="_blank"
+            title="Linkedin">
             <i class="fab fa-linkedin"></i>
           </a>
-          <a class="github-icon" href="https://github.com/ChenLongMaster/TechDreamBlog/tree/developer" title="GitHub">
+          <a class="github-icon" href="https://github.com/ChenLongMaster/TechDreamBlog/tree/developer" target="_blank"
+            title="GitHub">
             <i class="fab fa-github"></i>
           </a>
         </div>
+        <div class="recommed-section">
+          <div class="recommend-header">
+            <h5>*Recommended</h5>
+          </div>
+          <div class="recommend-items" *ngFor="let item of recommededItems">
+              <a>
+                {{item.name}}
+              </a>
+          </div>
+        </div>
       </div>
+
     </div>
     <div class="login-modal" *ngIf="displayLogin">
       <app-login (displayChange)="showDialog()"></app-login>
@@ -47,10 +60,10 @@
 
   <div *ngIf="(customHttpInterceptor.onGoingRequestStatus | async)">
     <p-blockUI [blocked]="true">
-      <p-progressSpinner [style]="{width: '60px', height: '60px'}" styleClass="custom-spinner" strokeWidth="8" fill="#D7D7D7" animationDuration=".5s"></p-progressSpinner>
-  </p-blockUI>
+      <p-progressSpinner [style]="{width: '60px', height: '60px'}" styleClass="custom-spinner" strokeWidth="8"
+        fill="#D7D7D7" animationDuration=".5s"></p-progressSpinner>
+    </p-blockUI>
   </div>
 
-<p-toast [preventDuplicates] = true></p-toast>
+  <p-toast [preventDuplicates]=true></p-toast>
 </body>
-

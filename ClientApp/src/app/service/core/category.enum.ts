@@ -1,7 +1,7 @@
 export enum CategoryEnum {
-    All,
-    DotNet,
-    Angular,
-    SQL,
-    Blockchain,
+    All = 1,
+    DotNet = 2,
+    Angular = 3,
+    SQL = 4,
+    Blockchain = 5,
 }

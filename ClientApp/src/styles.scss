@@ -3,8 +3,11 @@
 html,
 body {
     height: 100%;
+    
 }
-
+::-webkit-scrollbar {
+    display: none;
+}
 body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
@@ -39,7 +42,7 @@ label {
 }
 
 .page-container{
-    min-width: 1000px;
+    min-width: 100%;
     padding-right: 60px;
 }
 

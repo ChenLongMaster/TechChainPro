@@ -66,6 +66,7 @@ textarea {
     font-family: Roboto, "Helvetica Neue", sans-serif;
     font-size: 12px;
     font-style: italic;
+    padding-top: 5px;
     color: #d5d5d6;
 }
 
@@ -98,7 +99,9 @@ textarea {
     height: 350px;
     border: 1px solid #c4c4c4;
 }
-
+hr{
+    width: 95%;
+}
 :host ::ng-deep .p-fileupload .p-fileupload-buttonbar {
     background-color: #f8f9fa;
     text-align: end;
@@ -126,7 +129,7 @@ textarea {
     border-bottom-left-radius: 3px;
     padding: 1rem 0 1rem 0;
     img {
-        width: 200px;
+        width: 100px;
         height: 100px;
     }
 }

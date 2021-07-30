@@ -1,6 +1,6 @@
 using BlogBL;
+using BlogBL.Helpers;
 using BlogDAL.UnitOfWork;
-using BlogProject.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -38,6 +38,7 @@ namespace BlogProject
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IArticleService, ArticleService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<ICommonService, CommonService>();
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;

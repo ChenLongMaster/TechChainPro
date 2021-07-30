@@ -70,19 +70,47 @@
     padding: 20px 20px 20px 320px;
     width: 83%;
     max-width: 1400px;
+   
 }
 
 .info-section {
     position: fixed;
     height: 100%;
     right: 0;
+    padding: 0 15px 10px 10px;
     h4 {
         font-family: Arial, Helvetica, sans-serif;
         font-weight: 800;
-        padding: 20px 20px 0px 20px;    
+        padding: 20px 20px 0px 15px;
+    }
+    h5 {
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: 800;
+        padding: 20px 20px 0px 20px;
     }
     text-align: center;
     float: left;
+}
+.recommed-section {
+    padding: 70px 0 0 20px;
+    width: 130px;
+    .recommend-header{
+
+    }
+    .recommend-items {
+        width: 230px;
+        color:#007ad9;
+        padding: 10px 5px 5px 25px; 
+        text-align: left;
+        &:hover{
+            color:#82ABEC;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        a{
+            padding: 0px;
+        }
+    }
 }
 
 .menu {
@@ -113,7 +141,7 @@ p {
     display: block;
     position: fixed;
     z-index: 1;
-    padding-top: 100px;
+    padding-top: 50px;
     left: 0;
     top: 0;
     width: 100%;
@@ -123,61 +151,60 @@ p {
     background-color: rgba(0, 0, 0, 0.4);
 }
 
-
-
 //Connect Icons
-.connect-icons{
-    font-size:30px;
+.connect-icons {
+    font-size: 30px;
     text-align: left;
     padding-left: 36px;
 }
 
 :host .fa {
-    padding:10px;
+    padding: 10px;
 }
 
 a {
-    color:black;
+    color: black;
     padding: 6px;
-    &.youtube-icon{
-        color: #FF0000;
+    &.youtube-icon {
+        color: #ff0000;
     }
-    
-    &.facebook-icon{
-        color:#4267B2;
+
+    &.facebook-icon {
+        color: #4267b2;
     }
-    &.linkedin-icon{
-        color:#0072b1 ;
+    &.linkedin-icon {
+        color: #0072b1;
     }
 }
 
-:host ::ng-deep .p-blockui.p-component-overlay{
+:host ::ng-deep .p-blockui.p-component-overlay {
     z-index: 1;
     background: rgba(0, 0, 0, 0.4);
 }
 
 :host ::ng-deep .custom-spinner .p-progress-spinner-circle {
-    animation: custom-progress-spinner-dash 1.5s ease-in-out infinite, custom-progress-spinner-color 6s ease-in-out infinite;
+    animation: custom-progress-spinner-dash 1.5s ease-in-out infinite,
+        custom-progress-spinner-color 6s ease-in-out infinite;
 }
 
-:host ::ng-deep .p-toast .p-toast-message .p-toast-message-content .p-toast-detail{
+:host ::ng-deep .p-toast .p-toast-message .p-toast-message-content .p-toast-detail {
     font-weight: 500;
 }
 
 @keyframes custom-progress-spinner-color {
     100%,
     0% {
-        stroke: #16697A;
+        stroke: #16697a;
     }
     40% {
-        stroke: #489FB5;
+        stroke: #489fb5;
     }
     66% {
-        stroke: #82C0CC;
+        stroke: #82c0cc;
     }
     80%,
     90% {
-        stroke: #FFA62B;
+        stroke: #ffa62b;
     }
 }
 
@@ -195,6 +222,3 @@ a {
         stroke-dashoffset: -124px;
     }
 }
-
-
-

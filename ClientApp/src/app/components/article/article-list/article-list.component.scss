@@ -19,6 +19,14 @@
     padding-right: 10px;
 }
 
+:host ::ng-deep .dropdown-category .p-dropdown{
+    width: 135px ;
+}
+
+:host ::ng-deep .dropdown-sort .p-dropdown{
+    width: 95px;
+}
+
 .abstract {
     font-size:15px;
     height:75px;
@@ -69,9 +77,7 @@
 
 .category {
     font-size: 12px;
-    i {
-        opacity: 0.4;
-    }
+    opacity: 0.5;
 }
 
 .item-image-section {
@@ -96,4 +102,7 @@
     position: absolute;
     display: flex;
     padding: 5px;
+    .date{
+        display: flex;
+    }
 }

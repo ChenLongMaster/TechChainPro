@@ -8,8 +8,11 @@ namespace BlogBL
 {
     public interface IArticleService
     {
-        Task<Article> GetArticleById(Guid Id);
-        Task<IEnumerable<ArticleDTO>> GetArticles(ArticleFilter filter);
         Task<Boolean> CreateArticle(ArticleDTO model);
+        Task<IEnumerable<ArticleDTO>> GetArticles(ArticleFilter filter);
+        Task<IEnumerable<ArticleDTO>> GetRecommendedArticles();
+        Task<Article> GetArticleById(Guid Id);
+        
+
     }
 }

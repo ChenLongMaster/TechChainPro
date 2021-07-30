@@ -42,6 +42,13 @@ namespace BlogProject.Controllers
             return result;
         }
 
+        [Route("recommended")]
+        [HttpGet]
+        public async Task<IEnumerable<ArticleDTO>> GetRecommendedArticle([FromQuery] ArticleFilter filter)
+        {
+            var result = await _service.GetRecommendedArticles();
+            return result;
+        }
 
     }
 }

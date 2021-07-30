@@ -4,14 +4,16 @@ using BlogDAL.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BlogDAL.Migrations
 {
     [DbContext(typeof(BlogContext))]
-    partial class BlogContextModelSnapshot : ModelSnapshot
+    [Migration("20210728225657_Init_Category_Table")]
+    partial class Init_Category_Table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,9 +44,6 @@ namespace BlogDAL.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Rating")
-                        .HasColumnType("int");
 
                     b.Property<string>("RepresentImageUrl")
                         .HasColumnType("nvarchar(max)");
@@ -78,35 +77,35 @@ namespace BlogDAL.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedOn = new DateTime(2021, 7, 30, 10, 37, 30, 181, DateTimeKind.Local).AddTicks(1782),
+                            CreatedOn = new DateTime(2021, 7, 29, 5, 56, 57, 392, DateTimeKind.Local).AddTicks(5290),
                             Introduction = "<p>With a variety of topics to discuss,<i><strong> feel free to contribute your articles to my website.</strong></i></span></p>",
                             Name = "All Categories"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedOn = new DateTime(2021, 7, 30, 10, 37, 30, 184, DateTimeKind.Local).AddTicks(3850),
+                            CreatedOn = new DateTime(2021, 7, 29, 5, 56, 57, 393, DateTimeKind.Local).AddTicks(7784),
                             Introduction = "<p><strong>ASP.NET Core</strong> is the open-source version of ASP.NET, that runs on macOS, Linux, and Windows. ASP.NET Core was first released in 2016 and is a re-design of earlier Windows-only versions of ASP.NET.</p>",
                             Name = "ASP.NET Core"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedOn = new DateTime(2021, 7, 30, 10, 37, 30, 184, DateTimeKind.Local).AddTicks(3919),
+                            CreatedOn = new DateTime(2021, 7, 29, 5, 56, 57, 393, DateTimeKind.Local).AddTicks(7804),
                             Introduction = "<p><strong>Angular </strong>is a platform and framework for building single-page client applications using HTML and TypeScript.</p>",
                             Name = "Angular"
                         },
                         new
                         {
                             Id = 4,
-                            CreatedOn = new DateTime(2021, 7, 30, 10, 37, 30, 184, DateTimeKind.Local).AddTicks(3924),
+                            CreatedOn = new DateTime(2021, 7, 29, 5, 56, 57, 393, DateTimeKind.Local).AddTicks(7806),
                             Introduction = "<p><strong>SQL </strong>stands for Structured Query Language. SQL is a standard language designed for managing data in a relational database management system.&nbsp;</p>",
                             Name = "SQL"
                         },
                         new
                         {
                             Id = 5,
-                            CreatedOn = new DateTime(2021, 7, 30, 10, 37, 30, 184, DateTimeKind.Local).AddTicks(3926),
+                            CreatedOn = new DateTime(2021, 7, 29, 5, 56, 57, 393, DateTimeKind.Local).AddTicks(7808),
                             Introduction = "Blockchain is a system of recording information in a way that makes it difficult or impossible to change, hack, or cheat the system.",
                             Name = "Blockchain"
                         });

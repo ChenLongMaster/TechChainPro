@@ -1,19 +1,31 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using BlogBL;
+using BlogDAL.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace BlogProject.Controllers
 {
     [Route("api/[controller]")]
-    public class UploadController : Controller
+    public class CommonController : Controller
     {
         public IConfiguration _configuration;
-
-        public UploadController(IConfiguration configuration)
+        public ICommonService _commonService;
+        public CommonController(IConfiguration configuration, ICommonService commonService)
         {
             _configuration = configuration;
+            _commonService = commonService;
+        }
+
+        [HttpGet]
+        public async Task<IEnumerable<Category>> GetCategories()
+        {
+            var result = await _commonService.GetCategories();
+            return result;
         }
 
         [HttpPost]

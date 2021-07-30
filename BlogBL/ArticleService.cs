@@ -1,4 +1,5 @@
-﻿using BlogBL.Helpers;
+﻿using AutoMapper;
+using BlogBL.Helpers;
 using BlogDAL.Models;
 using BlogDAL.Models.DTO;
 using BlogDAL.UnitOfWork;
@@ -18,14 +19,17 @@ namespace BlogBL
     public class ArticleService : IArticleService
     {
         private BlogContext _blogContext;
-        public ArticleService(BlogContext blogContext)
+        private readonly IMapper _mapper;
+        public ArticleService(BlogContext blogContext, IMapper mapper)
         {
             _blogContext = blogContext;
+            _mapper = mapper;
         }
         public async Task<IEnumerable<ArticleDTO>> GetArticles(ArticleFilter filter)
         {
             var entity = new List<ArticleDTO>();
             var query = from a in _blogContext.Articles
+                        join c in _blogContext.Categories on a.CategoryId equals c.Id
                         join u in _blogContext.Users on a.CreatedBy equals u.Id into x
                         from subUser in x.DefaultIfEmpty()
                         select new ArticleDTO
@@ -35,14 +39,16 @@ namespace BlogBL
                             Abstract = a.Abstract,
                             DisplayContent = a.DisplayContent,
                             CategoryId = a.CategoryId,
+                            CategoryName = c.Name,
                             RepresentImageUrl = a.RepresentImageUrl,
                             AuthorName = subUser.Username,
                             CreatedOn = a.CreatedOn
                         };
 
-            if (filter.CategoryId != 0)
+            if (filter.CategoryId != 1)
             {
                 query = from a in _blogContext.Articles
+                        join c in _blogContext.Categories on a.CategoryId equals c.Id
                         join u in _blogContext.Users on a.CreatedBy equals u.Id into x
                         from subUser in x.DefaultIfEmpty()
                         where a.CategoryId == filter.CategoryId
@@ -53,6 +59,7 @@ namespace BlogBL
                             Abstract = a.Abstract,
                             DisplayContent = a.DisplayContent,
                             CategoryId = a.CategoryId,
+                            CategoryName = c.Name,
                             RepresentImageUrl = a.RepresentImageUrl,
                             AuthorName = subUser.Username,
                             CreatedOn = a.CreatedOn
@@ -81,6 +88,13 @@ namespace BlogBL
             var entity = await _blogContext.Articles.SingleAsync(x => x.Id == Id);
 
             return entity;
+        }
+
+        public async Task<IEnumerable<ArticleDTO>> GetRecommendedArticles()
+        {
+            var entity = await _blogContext.Articles.Take(5).OrderByDescending(x => x.Rating).ToListAsync();
+            var result = _mapper.Map<IEnumerable<ArticleDTO>>(entity);
+            return result;
         }
 
         public async Task<Boolean> CreateArticle(ArticleDTO model)

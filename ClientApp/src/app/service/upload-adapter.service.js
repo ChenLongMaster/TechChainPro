@@ -2,7 +2,7 @@ export default class UploadAdapterService {
   loader;
   constructor(loader) {
     this.loader = loader;
-    this.url = "https://localhost:5001/api/Upload"
+    this.url = "https://localhost:5001/api/common"
   }
 
   upload() {
