@@ -42,12 +42,12 @@
         </div>
         <div class="recommed-section">
           <div class="recommend-header">
-            <h5>*Recommended</h5>
+            <h4>Recommended</h4>
           </div>
           <div class="recommend-items" *ngFor="let item of recommededItems">
-              <a>
-                {{item.name}}
-              </a>
+            <span [routerLink] = "['/articles/detail/',item.id]">
+              {{item.name}}
+            </span>
           </div>
         </div>
       </div>
@@ -64,6 +64,6 @@
         fill="#D7D7D7" animationDuration=".5s"></p-progressSpinner>
     </p-blockUI>
   </div>
+  <p-toast [preventOpenDuplicates]="true" [preventDuplicates]="true"></p-toast>
 
-  <p-toast [preventDuplicates]=true></p-toast>
 </body>

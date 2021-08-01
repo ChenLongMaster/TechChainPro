@@ -38,6 +38,10 @@ export class ArticleService {
         return this.httpClient.post<boolean>(`${Constants.ArticleServiceApiUrl()}`, model);
     }
 
+    UpdateArticle(model: ArticleModel) : Observable<boolean> {
+        return this.httpClient.put<boolean>(`${Constants.ArticleServiceApiUrl()}`, model);
+    }
+
     GetCategoryItem(): Observable<CategoryModel[]> {
         return this.httpClient.get<CategoryModel[]>(`${Constants.CommonServiceApiUrl()}`);
     }

@@ -1,5 +1,6 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ArticleModel } from 'src/app/model/article.model';
 import { ArticleService } from 'src/app/service/article.service';
 
@@ -14,19 +15,25 @@ export class ArticleDetailComponent implements OnInit {
   viewModel: ArticleModel = new ArticleModel();
 
   constructor(private articleService: ArticleService,
-    private activeRoute: ActivatedRoute) { }
-
+              private activeRoute: ActivatedRoute,
+              private location: Location) { }
   ngOnInit(): void {
-    this.id = this.activeRoute.snapshot.paramMap.get('id');
-    if (this.id) {
-      this.GetArticleById();
-    }
+    this.activeRoute.params.subscribe(params => {
+        this.id = params['id'];
+        this.GetArticleById();
+      }
+    );
+
   }
 
   GetArticleById() {
     this.articleService.GetArticleById(this.id).pipe().subscribe((returneData: ArticleModel) => {
       this.viewModel = returneData;
-      console.log(this.viewModel);
-    })
+      console.log(this.viewModel.displayContent);
+    });
+  }
+
+  goToPreviousPage(){
+    this.location.back();
   }
 }

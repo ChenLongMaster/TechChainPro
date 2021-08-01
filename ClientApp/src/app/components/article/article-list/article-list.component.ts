@@ -36,7 +36,7 @@ export class ArticleListComponent implements OnInit {
   ) {
 
   }
-
+  
   ngOnInit(): void {
     this.InitCategoryItems();
     this.dateSortOptions = this.articleService.InitSortItems();
@@ -63,14 +63,6 @@ export class ArticleListComponent implements OnInit {
   UpdateIntroductionString(){
     var currentCategory = this.categoryOptions.filter(x => x.value == this.selectedCategory.value);
     this.introduction = currentCategory[0].data;
-  }
-
-  routeToCreateArticle() {
-    this.router.navigateByUrl(`/articles/editor`);
-  }
-
-  routeToDetailArticle(id: string) {
-    this.router.navigateByUrl(`/articles/editor/${id}`);
   }
 
   onDropdownChange() {

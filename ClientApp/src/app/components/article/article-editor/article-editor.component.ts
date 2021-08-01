@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, NgZone, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChangeEvent } from '@ckeditor/ckeditor5-angular/ckeditor.component';
@@ -21,16 +21,21 @@ import UploadAdapterService from 'src/app/service/upload-adapter.service';
 export class ArticleEditorComponent implements OnInit {
   public Editor = DecoupledEditor;
   @Input() ArticleId: string;
+
+
+  isNew: boolean;
   id: string | null;
   viewModel: ArticleModel = new ArticleModel();
   editorFormGroup: FormGroup;
   outputContent: string;
   representImageSelected: boolean;
+  initRepresentImage: boolean;
   imageFile: File;
   categoryOptions: OptionObject[];
 
   isShowOutput: boolean = false;
-
+  testcontent: string = "<p>test</p>";
+  outputValue: string = "";
   get formName() {
     return this.editorFormGroup.controls['name'];
   }
@@ -43,21 +48,21 @@ export class ArticleEditorComponent implements OnInit {
     return this.editorFormGroup.controls['category'];
 
   }
-  get formDisplayContent() {
-    return this.editorFormGroup.controls['displayContent'];
-  }
 
-  public onChange({ editor }: ChangeEvent) {
-    console.info(editor.getData());
-    this.editorFormGroup.controls['displayContent'].patchValue(editor.getData());
-  }
+  // public onChange({ editor }: ChangeEvent) {
+  //   console.info(editor.getData());
+  //   this.editorFormGroup.controls['displayContent'].patchValue(editor.getData());
+  // }
 
   constructor(
     private articleService: ArticleService,
     private commonService: CommonService,
     private messageService: MessageService,
     private activeRoute: ActivatedRoute,
+    private detector: ChangeDetectorRef,
+    private ngZone: NgZone,
     private router: Router) { }
+
 
   public onReady(editor: any) {
     editor.ui.getEditableElement().parentElement.insertBefore(
@@ -71,14 +76,22 @@ export class ArticleEditorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.id = this.activeRoute.snapshot.paramMap.get('id');
-    this.InitCategoryItems();
+    this.viewModel.displayContent = "<p>Test Content</p>";
+
+    this.activeRoute.params.subscribe(params => {
+      this.id = params['id'];
+    });
+
+    this.initCategoryItems();
     this.editorFormGroup = new FormGroup({
       'name': new FormControl('', Validators.required),
       'category': new FormControl('', Validators.required),
       'abstract': new FormControl(),
-      'displayContent': new FormControl(),
     });
+    if (this.id) {
+      this.GetArticleById();
+      this.viewModel.displayContent = this.viewModel.displayContent;
+    }
   }
 
   saveArticle() {
@@ -87,21 +100,49 @@ export class ArticleEditorComponent implements OnInit {
       this.viewModel.name = this.formName.value;
       this.viewModel.categoryId = this.formCategory.value.value;
       this.viewModel.abstract = this.formAbstract.value;
-      this.viewModel.displayContent = this.formDisplayContent.value;
 
-      this.articleService.CreateArticle(this.viewModel).pipe(untilDestroyed(this)).subscribe((result: boolean) => {
-        if (result) {
-          this.messageService.add({ severity: 'success', summary: 'Create Sucessfull', detail: `Article has been created sucessfully.`});
-          this.routeListArticle();
-        }
-        else {
-          this.messageService.add({ severity: 'error', summary: 'Create Failed', detail: 'Cannot Save The Article.', sticky: true });
-        }
-      })
+      if(this.id){
+        this.articleService.UpdateArticle(this.viewModel).pipe(untilDestroyed(this)).subscribe((result) => {
+          if (result) {
+            this.messageService.add({ severity: 'success', summary: 'Update Sucessfull', detail: `Article has been updated sucessfully.` });
+            this.router.navigateByUrl(`/articles/detail/${this.viewModel.id}`);
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Create Failed', detail: 'Cannot Save The Article.', sticky: true, closable: true });
+          }
+        });
+      }
+      else{
+        this.articleService.CreateArticle(this.viewModel).pipe(untilDestroyed(this)).subscribe((result: boolean) => {
+          if (result) {
+            this.messageService.add({ severity: 'success', summary: 'Create Sucessfull', detail: `Article has been created sucessfully.` });
+            this.router.navigateByUrl(`/articles`);
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Create Failed', detail: 'Cannot Save The Article.', sticky: true, closable: true });
+          }
+        })
+      }
     }
   }
 
-  InitCategoryItems() {
+  GetArticleById() {
+    this.articleService.GetArticleById(this.id).pipe().subscribe((returneData: ArticleModel) => {
+      this.initRepresentImage = true;
+      this.viewModel = returneData;
+      this.editorFormGroup.patchValue(this.viewModel);
+      this.editorFormGroup.controls['category'].setValue(new OptionObject(this.viewModel.categoryName, this.viewModel.categoryId,));
+      this.detector.detectChanges();
+    },
+      () => {
+        this.ngZone.run(() => {
+          this.viewModel = this.viewModel;
+        });
+      }
+    );
+  }
+
+  initCategoryItems() {
     this.articleService.GetCategoryItem().pipe(untilDestroyed(this)).subscribe((returnData: CategoryModel[]) => {
       this.categoryOptions = returnData.filter(x => x.id != 1).map(x => new OptionObject(x.name, x.id));
     });
@@ -116,6 +157,7 @@ export class ArticleEditorComponent implements OnInit {
 
     this.commonService.UploadImage(event.files[0]).pipe().subscribe((resonse: any) => {
       this.viewModel.representImageUrl = resonse.uploadedUrl;
+      this.initRepresentImage = false;
       this.messageService.add({ severity: 'success', summary: 'Sucess', detail: "Image Uploaded Sucessfully." });
     },
       (error) => {
@@ -129,11 +171,9 @@ export class ArticleEditorComponent implements OnInit {
     }
   }
 
-  ToogleOutput() {
+  toogleOutput() {
     this.isShowOutput = !this.isShowOutput;
   }
 
-  routeListArticle() {
-    this.router.navigateByUrl(`/articles`);
-  }
+
 }

@@ -1,15 +1,32 @@
 <div class="page-container">
     <div class="introduct-section">
-        <h3 class = 'title'>{{viewModel.name}}</h3>
+        <div class="article-header">
+            <div class="header">
+                <h1 class='title'>{{viewModel.name}}</h1>
+            </div>
+            <div class="info">
+                <div class="author"><i class="fas fa-user-edit"></i>
+                    {{viewModel.authorName}} wdwdwd
+                </div>
+                <div class="date"><i class="fas fa-calendar-alt"></i>
+                    {{viewModel.createdOn | date: 'dd/MM/yyyy'}}
+                </div>
+            </div>
+        </div>
         <hr />
+        <div class="action-container">
+            <div class="action-section">
+                <button type="button" class="saveButton small-btn btn btn-outline-info" [routerLink]="['/articles/editor',id ]">
+                    <i class="fas fa-edit"></i>Edit
+                </button>
+                <button type="button" class="saveButton small-btn btn btn-outline-info" (click)="goToPreviousPage()">
+                    <i class="fas fa-long-arrow-alt-left"></i>Back
+                </button>
+            </div>
+        </div>
     </div>
-    <div class="content-section" [innerHTML] = "viewModel.displayContent">
+
+    <div class="content-display" [innerHTML]="viewModel.displayContent | safeHtml">
 
     </div>
 </div>
-
-
-
-
-
-

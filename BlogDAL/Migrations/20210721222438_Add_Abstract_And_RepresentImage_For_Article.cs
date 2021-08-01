@@ -15,7 +15,7 @@ namespace BlogDAL.Migrations
             migrationBuilder.AddColumn<string>(
                 name: "Abstract",
                 table: "Article",
-                type: "nvarchar(150)",
+                type: "nvarchar(300)",
                 nullable: true);
 
             migrationBuilder.AddColumn<Guid>(

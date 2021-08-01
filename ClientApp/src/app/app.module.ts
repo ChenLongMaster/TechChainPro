@@ -26,11 +26,13 @@ import { ArticleDetailComponent } from './components/article/article-detail/arti
 import { ArticleEditorComponent } from './components/article/article-editor/article-editor.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { SafeResourceUrlPipe } from './service/core/safeResourceurl.pipe';
+import { SafeHtml } from './service/core/safe-home.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     SafeResourceUrlPipe,
+    SafeHtml,
     LoginComponent,
     LoadingScreenComponent,
     ArticleListComponent,

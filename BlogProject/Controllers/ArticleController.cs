@@ -50,5 +50,11 @@ namespace BlogProject.Controllers
             return result;
         }
 
+        [HttpPut]
+        public async Task<bool> UpdateArticleById([FromBody] ArticleDTO model)
+        {
+            var result = await _service.UpdateArticle(model);
+            return result;
+        }
     }
 }

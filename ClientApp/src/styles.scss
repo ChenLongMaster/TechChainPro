@@ -8,6 +8,7 @@ body {
 ::-webkit-scrollbar {
     display: none;
 }
+
 body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
@@ -28,6 +29,11 @@ label {
     border-color: #007ad9;
 }
 
+.btn-outline-info:hover{
+    background-color: #17a2b8;
+    color: white;
+}
+
 .validation-error {
     font-family: Roboto, "Helvetica Neue", sans-serif;
     text-align: left;
@@ -42,8 +48,10 @@ label {
 }
 
 .page-container{
+    overflow: hidden;
     min-width: 100%;
-    padding-right: 60px;
+    padding-right: 40px;
+    padding-left: 20px;
 }
 
 .annotate{
@@ -51,4 +59,16 @@ label {
     font-size:14px;
     font-style: italic;
     opacity:0.6;
+}
+
+button.small-btn{
+        font-size: 12px;
+        display: flex;
+        padding-top: 2px;
+        padding-bottom: 2px;
+        margin-right: 5px;
+        i {
+            margin-top: 2px;
+            padding-right: 5px;
+        }
 }

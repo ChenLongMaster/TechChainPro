@@ -51,10 +51,10 @@ export class CustomHttpInterceptor implements HttpInterceptor {
             }),
             catchError(error => {
                 if (error.status == 401) {
-                    this.messageService.add({ severity: 'error', summary: 'Access Denied', detail: 'You Are Unauthorized.', sticky: true });
+                    this.messageService.add({ severity: 'error', summary: 'Access Denied', detail: 'You Are Unauthorized.', sticky: true ,closable:true});
                 }
                 else {
-                    this.messageService.add({ severity: 'error', summary: 'Error While Sending Request.', detail: error.message, sticky: true });
+                    this.messageService.add({ severity: 'error', summary: 'Error While Sending Request.', detail: error.message, sticky: true,closable:true });
                 }
                 return throwError(error)
             }),

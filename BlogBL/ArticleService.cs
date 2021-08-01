@@ -97,7 +97,7 @@ namespace BlogBL
             return result;
         }
 
-        public async Task<Boolean> CreateArticle(ArticleDTO model)
+        public async Task<bool> CreateArticle(ArticleDTO model)
         {
             var emptyId = Guid.Empty;
             var entity = new Article()
@@ -115,6 +115,24 @@ namespace BlogBL
             await _blogContext.Articles.AddAsync(entity);
 
             var result = await _blogContext.SaveChangesAsync();
+            return result > 0;
+        }
+
+        public async Task<bool> UpdateArticle(ArticleDTO model)
+        {
+            var entity = await _blogContext.Articles.SingleOrDefaultAsync(x => x.Id == model.Id);
+            if (entity is not null)
+            {
+                entity.Abstract = model.Abstract;
+                entity.Name = model.Name;
+                entity.CategoryId = model.CategoryId;
+                entity.DisplayContent = model.DisplayContent;
+                entity.RepresentImageUrl = model.RepresentImageUrl;
+            }
+
+            _blogContext.Update(entity);
+            var result = await _blogContext.SaveChangesAsync();
+
             return result > 0;
         }
     }
