@@ -32,7 +32,7 @@ namespace BlogProject
             services.AddCors();
 
             services.AddControllersWithViews();
-            services.AddDbContext<BlogContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LocalConnection")));
+            services.AddDbContext<BlogContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DBConnection")));
             services.AddControllers();
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.AddScoped<IUserService, UserService>();
