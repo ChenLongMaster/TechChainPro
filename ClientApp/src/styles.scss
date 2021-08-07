@@ -62,13 +62,17 @@ label {
 }
 
 button.small-btn{
-        font-size: 12px;
+        font-size: 14px;
         display: flex;
-        padding-top: 2px;
-        padding-bottom: 2px;
+        padding: 4px 6px 4px 6px;
         margin-right: 5px;
         i {
-            margin-top: 2px;
-            padding-right: 5px;
+            margin-top: 3px;
+            padding-right: 4px;
         }
+}
+
+button :disabled{
+    opacity: 0.3;
+    cursor: not-allowed;
 }

@@ -1,8 +1,8 @@
 ﻿using BlogBL;
 using BlogDAL.Models;
 using BlogDAL.Models.DTO;
+using BlogDAL.Policies;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -21,14 +21,16 @@ namespace BlogProject.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = PolicyConstants.CreateArticle)]
         public async Task<bool> CreateArticle([FromBody] ArticleDTO input)
         {
-            var result = await _service.CreateArticle(input);
+            bool result = await _service.CreateArticle(input);
             return true;
         }
 
         [Route("{id}")]
         [HttpGet]
+        [Authorize(Policy = PolicyConstants.ViewArticle)]
         public async Task<Article> GetArticleById(Guid id)
         {
             Article result = await _service.GetArticleById(id);
@@ -38,7 +40,7 @@ namespace BlogProject.Controllers
         [HttpGet]
         public async Task<IEnumerable<ArticleDTO>> GetArticle([FromQuery] ArticleFilter filter)
         {
-            var result = await _service.GetArticles(filter);
+            IEnumerable<ArticleDTO> result = await _service.GetArticles(filter);
             return result;
         }
 
@@ -46,14 +48,15 @@ namespace BlogProject.Controllers
         [HttpGet]
         public async Task<IEnumerable<ArticleDTO>> GetRecommendedArticle([FromQuery] ArticleFilter filter)
         {
-            var result = await _service.GetRecommendedArticles();
+            IEnumerable<ArticleDTO> result = await _service.GetRecommendedArticles();
             return result;
         }
 
         [HttpPut]
+        [Authorize(Policy = PolicyConstants.EditArticle)]
         public async Task<bool> UpdateArticleById([FromBody] ArticleDTO model)
         {
-            var result = await _service.UpdateArticle(model);
+            bool result = await _service.UpdateArticle(model);
             return result;
         }
     }

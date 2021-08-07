@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace BlogDAL.Models
 {
@@ -13,6 +9,9 @@ namespace BlogDAL.Models
         [JsonIgnore]
         public string Password { get; set; }
         public string Salt { get; set; }
-        public List<Role> Roles { get; set; }
+        public string Email { get; set; }
+        public string Avatar { get; set; }
+        public string Provider { get; set; }
+        public IEnumerable<Role> Roles { get; set; }
     }
 }

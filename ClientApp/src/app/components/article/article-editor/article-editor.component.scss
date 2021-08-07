@@ -91,6 +91,16 @@ textarea {
     }
 }
 
+.action-container{
+    display: flow-root;
+    padding: 0px 40px 20px 0px;
+}
+
+.action-section {
+    float: right;
+    display: flex;
+}
+
 :host ::ng-deep .p-dropdown {
     width: 100%;
 }

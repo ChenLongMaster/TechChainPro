@@ -1,7 +1,7 @@
 <body>
   <div class="main-container">
 
-    <div class="left-nav">
+    <div #nav class="left-nav">
       <div>
         <img class="avatar-image" src="assets\Images\bitcoin.png" />
         <div class="blog-name">
@@ -9,17 +9,28 @@
           <h3>Blockchain changes the world</h3>
         </div>
         <div id="mySidenav" class="sidenav">
-          <a href="/articles">Articles</a>
-          <a href="#">About me</a>
-          <a href="#">Feedback</a>
-          <a (click)="showDialog()">Login</a>
+          <a [routerLink]="'/articles'">Articles</a>
+          <a [routerLink]="'/about'">About</a>
+          <a click = "this.messageService.add({ severity: 'warn', summary: 'Feature not yet implemented.', detail: 'Please stay tune for the upcoming release.', sticky: true ,closable: true })">Feedback</a>
+          <a *ngIf="!currentUserData.isLoggedIn" (click)="showDialog()">Sign In</a>
         </div>
+
+        <div *ngIf="currentUserData.isLoggedIn" (click)="menu.toggle($event)" class="user-info-section dropdown">
+          <img src="assets\Images\user.png">
+          <div class="user-info"></div>
+          <div class="user-name">
+            <p>Welcome, {{currentUserData.username}} </p>
+          </div>
+          <div class="caret-icon">
+            <i class="fas fa-caret-up"></i>
+          </div>
+        </div>
+        <p-tieredMenu #menu [model]="items" [appendTo] = "nav" [popup]="true"></p-tieredMenu>
       </div>
     </div>
     <div class="body-section">
       <div class="content-section">
         <router-outlet></router-outlet>
-        <!-- <app-article-editor></app-article-editor> -->
       </div>
       <div class="info-section">
         <h4>Connect with me</h4>
@@ -45,7 +56,7 @@
             <h4>Recommended</h4>
           </div>
           <div class="recommend-items" *ngFor="let item of recommededItems">
-            <span [routerLink] = "['/articles/detail/',item.id]">
+            <span [routerLink]="['/articles/detail/',item.id]">
               {{item.name}}
             </span>
           </div>
@@ -60,10 +71,9 @@
 
   <div *ngIf="(customHttpInterceptor.onGoingRequestStatus | async)">
     <p-blockUI [blocked]="true">
-      <p-progressSpinner [style]="{width: '60px', height: '60px'}" styleClass="custom-spinner" strokeWidth="8"
-        fill="#D7D7D7" animationDuration=".5s"></p-progressSpinner>
+        <p-progressSpinner strokeWidth="4" animationDuration="1s"></p-progressSpinner>
     </p-blockUI>
   </div>
-  <p-toast [preventOpenDuplicates]="true" [preventDuplicates]="true"></p-toast>
+  <p-toast></p-toast>
 
 </body>

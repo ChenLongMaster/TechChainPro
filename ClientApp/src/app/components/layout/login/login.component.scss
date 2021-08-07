@@ -1,65 +1,149 @@
+/* Modal Content */
+.modal-content {
+  background-color: #f8f9fa;
+  margin: auto;
+  padding: 45px;
+  width: 35%;
+  background: #eff1f5;
+  border: 0 transparent;
+  border-radius: 5px;
+}
 
-  
-  /* Modal Content */
-  .modal-content {
-    background-color: #fefefe;
-    margin: auto;
-    padding: 20px;
-    width: 30%;
-    height: 80%;
-    background: #eff1f5;
-    border: 0 transparent;
-    border-radius: 5px;
-  }
-  
-  input[type=text], input[type=password] {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-    border-radius: 5px;
-  }
-  
-  /* Set a style for all buttons */
-  button {
-    background-color: #04AA6D;
-    color: white;
-    padding: 14px 20px;
-    margin: 5px 0;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    border-radius: 5px;
-  }
-  
-  button:hover {
-    opacity: 0.8;
-  }
-  
-  /* Extra styles for the cancel button */
-  .cancelbtn {
-    background-color: #f44336;
-  }
-  
-  /* Center the image and position the close button */
-  .imgcontainer {
-    text-align: center;
-    margin: 24px 0 12px 0;
+.divider-text {
+  position: relative;
+  text-align: center;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  span {
+    font-style: italic;
+    background-color: #eff1f5 !important;
+    padding: 7px;
+    font-size: 12px;
     position: relative;
+    z-index: 2;
   }
-  
-  img.avatar {
-    width: 40%;
-    border-radius: 50%;
+
+  &:after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    border-bottom: 1px solid #ddd;
+    top: 55%;
+    left: 0;
+    z-index: 1;
   }
-  
-  .container {
-    padding: 16px;
+}
+
+// input[type=text], input[type=password] {
+//   width: 100%;
+//   padding: 12px 20px;
+//   margin: 8px 0;
+//   display: inline-block;
+//   border: 1px solid #ccc;
+//   box-sizing: border-box;
+//   border-radius: 5px;
+// }
+
+.input-group {
+  padding-bottom: 15px;
+}
+
+.input-group-prepend {
+  span {
+    height: 100%;
   }
-  
-  span.psw {
-    float: right;
-    padding-top: 16px;
+}
+
+.social-section {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  a {
+    padding-left: 50px;
+    width: 100%;
   }
+
+  .btn-block {
+    text-align: left;
+  }
+
+  span {
+    position: absolute;
+    width: 40px;
+    top: 0;
+    left: 0;
+    line-height: 36px;
+    text-align: center;
+    border-right: 1px solid rgba(0, 0, 0, 0.3);
+  }
+  .btn-facebook {
+    &:hover {
+      color: #fff;
+      background-color: #2d4373;
+      border-color: rgba(0, 0, 0, 0.2);
+    }
+  }
+  .btn-google {
+    background-color: #cb2027;
+    color: white;
+    &:hover {
+      color: #fff;
+      background-color: #9f191f;
+      border-color: rgba(0, 0, 0, 0.2);
+    }
+  }
+}
+.signin-header {
+  text-align: center;
+  p {
+    font-style: italic;
+  }
+}
+/* Set a style for all buttons */
+
+.btn-facebook {
+  background-color: #405d9d;
+  color: #fff;
+}
+.btn-twitter {
+  background-color: #42aeec;
+  color: #fff;
+}
+
+button {
+  background-color: #04aa6d;
+  color: white;
+  padding: 14px 20px;
+  margin: 5px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  border-radius: 5px;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+.cancelbtn {
+  background-color: #f44336;
+}
+
+.imgcontainer {
+  text-align: center;
+  margin: 24px 0 12px 0;
+  position: relative;
+}
+
+img.avatar {
+  width: 40%;
+  border-radius: 50%;
+}
+
+.container {
+  padding: 16px;
+}
+
+span.psw {
+  float: right;
+  padding-top: 16px;
+}

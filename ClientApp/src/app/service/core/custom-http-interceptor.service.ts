@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { MessageService } from "primeng/api";
 import { Observable, ReplaySubject, throwError } from "rxjs";
 import { catchError, finalize, map, tap } from "rxjs/operators";
-import { StorageQuerySerive } from "./storage.query.service";
+import { StorageQueryService } from "./storage.query.service";
 
 @Injectable()
 export class CustomHttpInterceptor implements HttpInterceptor {
@@ -11,7 +11,7 @@ export class CustomHttpInterceptor implements HttpInterceptor {
     private _onGoingRequests = 0;
     private _onGoingRequestStatus: ReplaySubject<boolean> = new ReplaySubject<boolean>();
 
-    constructor(private storageQuerySerive: StorageQuerySerive,
+    constructor(private storageQuerySerive: StorageQueryService,
         private messageService: MessageService
     ) {
 
@@ -30,7 +30,6 @@ export class CustomHttpInterceptor implements HttpInterceptor {
         if (this._onGoingRequests == 1) {
             this._onGoingRequestStatus.next(true);
         }
-
         let tokenkey = this.storageQuerySerive.GetToken()
         if (tokenkey) {
             req = req.clone(
@@ -54,7 +53,7 @@ export class CustomHttpInterceptor implements HttpInterceptor {
                     this.messageService.add({ severity: 'error', summary: 'Access Denied', detail: 'You Are Unauthorized.', sticky: true ,closable:true});
                 }
                 else {
-                    this.messageService.add({ severity: 'error', summary: 'Error While Sending Request.', detail: error.message, sticky: true,closable:true });
+                    this.messageService.add({ severity: 'error', summary: 'Error While Sending Request.', detail: error.message, closable:true });
                 }
                 return throwError(error)
             }),

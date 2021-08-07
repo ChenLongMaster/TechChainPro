@@ -9,5 +9,7 @@ namespace BlogDAL.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public Guid Id { get; set; }
+        public DateTime CreatedOn {get;set;}
+        public bool IsDeleted { get; set; }
     }
 }

@@ -1,5 +1,7 @@
 using BlogBL;
 using BlogBL.Helpers;
+using BlogDAL.Models;
+using BlogDAL.Policies;
 using BlogDAL.UnitOfWork;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -47,16 +49,25 @@ namespace BlogProject
             })
             .AddJwtBearer(options =>
             {
-                byte[] key = Encoding.ASCII.GetBytes(Configuration["AppSettings:Secret"]);
+                byte[] key = Encoding.ASCII.GetBytes(Configuration["Jwt:Secret"]);
                 options.TokenValidationParameters = new()
                 {
-                    ValidIssuer = "https://localhost:5001",
-                    ValidAudience = "https://localhost:5001",
-                    IssuerSigningKey = new SymmetricSecurityKey(key)
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = Configuration["Jwt:Issuer"],
+                    ValidAudience = Configuration["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
                 };
                 options.Validate();
             });
-            services.AddAuthorization();
+            services.AddAuthorization(config => {
+                config.AddPolicy(PolicyConstants.ViewArticle, Policies.ViewArticlePolicy());
+                config.AddPolicy(PolicyConstants.CreateArticle, Policies.CreateArticlePolicy());
+                config.AddPolicy(PolicyConstants.EditArticle, Policies.EditArticlePolicy());
+                config.AddPolicy(PolicyConstants.DeleteArticle, Policies.DeleteArticlePolicy());
+            });
             services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
 
             #region Swagger

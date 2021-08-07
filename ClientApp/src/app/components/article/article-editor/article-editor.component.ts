@@ -1,7 +1,6 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input, NgZone, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ChangeEvent } from '@ckeditor/ckeditor5-angular/ckeditor.component';
 import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { MessageService } from 'primeng/api';
@@ -10,6 +9,7 @@ import { CategoryModel } from 'src/app/model/category.model';
 import { OptionObject } from 'src/app/model/optionObject.model';
 import { ArticleService } from 'src/app/service/article.service';
 import { CommonService } from 'src/app/service/common.service';
+import { Location } from '@angular/common';
 import UploadAdapterService from 'src/app/service/upload-adapter.service';
 
 @UntilDestroy()
@@ -49,19 +49,13 @@ export class ArticleEditorComponent implements OnInit {
 
   }
 
-  // public onChange({ editor }: ChangeEvent) {
-  //   console.info(editor.getData());
-  //   this.editorFormGroup.controls['displayContent'].patchValue(editor.getData());
-  // }
-
   constructor(
     private articleService: ArticleService,
     private commonService: CommonService,
     private messageService: MessageService,
     private activeRoute: ActivatedRoute,
-    private detector: ChangeDetectorRef,
-    private ngZone: NgZone,
-    private router: Router) { }
+    private router: Router,
+    private location: Location) { }
 
 
   public onReady(editor: any) {
@@ -132,14 +126,7 @@ export class ArticleEditorComponent implements OnInit {
       this.viewModel = returneData;
       this.editorFormGroup.patchValue(this.viewModel);
       this.editorFormGroup.controls['category'].setValue(new OptionObject(this.viewModel.categoryName, this.viewModel.categoryId,));
-      this.detector.detectChanges();
-    },
-      () => {
-        this.ngZone.run(() => {
-          this.viewModel = this.viewModel;
-        });
-      }
-    );
+    });
   }
 
   initCategoryItems() {
@@ -175,5 +162,7 @@ export class ArticleEditorComponent implements OnInit {
     this.isShowOutput = !this.isShowOutput;
   }
 
-
+  goToPreviousPage(){
+    this.location.back();
+  }
 }

@@ -15,8 +15,9 @@
         margin: 4px;
     }
 }
+
 .article-header {
-    display: flow-root;
+    display: flex;
     .header{
         float: left;
     }
@@ -24,6 +25,7 @@
         float:right
     }
 }
+
 .action-section {
     float: right;
     display: flex;

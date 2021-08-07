@@ -40,17 +40,6 @@ namespace BlogProject.Controllers
             return result;
         }
 
-        [HttpPost("authenticate")]
-        public async Task<IActionResult> AuthenticateUser([FromBody] AuthenticationRequest model)
-        {
-            AuthenticationResponse response = await _authenticationService.AuthenticateUser(model);
-
-            if (response is null)
-            {
-                return BadRequest(new { message = "Username or password is incorrect." });
-            }
-
-            return Ok(response);
-        }
+        
     }
 }

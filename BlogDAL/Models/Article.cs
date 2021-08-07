@@ -11,7 +11,6 @@ namespace BlogDAL.Models
         public int Rating { get; set; }
         public int CategoryId { get; set; }
         public Category Category { get; set; }
-        public DateTime CreatedOn { get; set; }
         public Guid? CreatedBy { get; set; }
         public User CreatedByName { get; set; }
     }

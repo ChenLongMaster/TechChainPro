@@ -70,7 +70,40 @@
     padding: 20px 20px 20px 320px;
     width: 83%;
     max-width: 1400px;
-   
+}
+
+.user-info-section {
+    font-family: "Lucida Sans";
+    position: absolute;
+    display: flex;
+    bottom: 0;
+    font-size: 12px;
+    padding: 10px;
+    margin: 0px 0px 10px 10px;
+    color: white;
+    width: 93%;
+    &:hover {
+        color: cadetblue;
+        cursor: pointer;
+        box-shadow: 0 0.125rem 0.7rem rgb(27 27 27 / 100%) !important;
+    }
+    img {
+        margin-right: 5px;
+        width: 30px;
+    }
+
+    .user-name {
+        max-width: 200px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        padding: 6px;
+    }
+
+    .caret-icon {
+        padding: 6px;
+    }
+    
 }
 
 .info-section {
@@ -94,20 +127,19 @@
 .recommed-section {
     padding: 70px 0 0 20px;
     width: 130px;
-    .recommend-header{
-
+    .recommend-header {
     }
     .recommend-items {
         width: 230px;
-        color:#007ad9;
-        padding: 10px 5px 5px 25px; 
+        color: #007ad9;
+        padding: 10px 5px 5px 25px;
         text-align: left;
-        & span:hover{
-            color:#82ABEC;
+        & span:hover {
+            color: #82abec;
             text-decoration: underline;
             cursor: pointer;
         }
-        a{
+        a {
             padding: 0px;
         }
     }
@@ -162,7 +194,7 @@ p {
         &.youtube-icon {
             color: #ff0000;
         }
-    
+
         &.facebook-icon {
             color: #4267b2;
         }
@@ -175,8 +207,6 @@ p {
 :host .fa {
     padding: 10px;
 }
-
-
 
 :host ::ng-deep .p-blockui.p-component-overlay {
     z-index: 1;
@@ -192,34 +222,40 @@ p {
     font-weight: 500;
 }
 
-@keyframes custom-progress-spinner-color {
-    100%,
-    0% {
-        stroke: #16697a;
-    }
-    40% {
-        stroke: #489fb5;
-    }
-    66% {
-        stroke: #82c0cc;
-    }
-    80%,
-    90% {
-        stroke: #ffa62b;
-    }
-}
+// @keyframes custom-progress-spinner-color {
+//     100%,
+//     0% {
+//         stroke: #16697a;
+//     }
+//     40% {
+//         stroke: #489fb5;
+//     }
+//     66% {
+//         stroke: #82c0cc;
+//     }
+//     80%,
+//     90% {
+//         stroke: #ffa62b;
+//     }
+// }
 
-@keyframes custom-progress-spinner-dash {
-    0% {
-        stroke-dasharray: 1, 200;
-        stroke-dashoffset: 0;
-    }
-    50% {
-        stroke-dasharray: 89, 200;
-        stroke-dashoffset: -35px;
-    }
-    100% {
-        stroke-dasharray: 89, 200;
-        stroke-dashoffset: -124px;
-    }
+// @keyframes custom-progress-spinner-dash {
+//     0% {
+//         stroke-dasharray: 1, 200;
+//         stroke-dashoffset: 0;
+//     }
+//     50% {
+//         stroke-dasharray: 89, 200;
+//         stroke-dashoffset: -35px;
+//     }
+//     100% {
+//         stroke-dasharray: 89, 200;
+//         stroke-dashoffset: -124px;
+//     }
+// }
+
+:host ::ng-deep .p-tieredmenu.p-tieredmenu-overlay{
+    left:0 !important;
+    width: 100%;
+    border-radius: 0;
 }

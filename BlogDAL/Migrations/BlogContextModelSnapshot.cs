@@ -43,6 +43,9 @@ namespace BlogDAL.Migrations
                     b.Property<string>("DisplayContent")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -85,35 +88,35 @@ namespace BlogDAL.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedOn = new DateTime(2021, 7, 31, 10, 39, 5, 54, DateTimeKind.Local).AddTicks(919),
+                            CreatedOn = new DateTime(2021, 8, 7, 18, 59, 28, 847, DateTimeKind.Local).AddTicks(6489),
                             Introduction = "<p>With a variety of topics to discuss,<i><strong> feel free to contribute your articles to my website.</strong></i></span></p>",
                             Name = "All Categories"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedOn = new DateTime(2021, 7, 31, 10, 39, 5, 55, DateTimeKind.Local).AddTicks(3815),
+                            CreatedOn = new DateTime(2021, 8, 7, 18, 59, 28, 852, DateTimeKind.Local).AddTicks(5601),
                             Introduction = "<p><strong>ASP.NET Core</strong> is the open-source version of ASP.NET, that runs on macOS, Linux, and Windows. ASP.NET Core was first released in 2016 and is a re-design of earlier Windows-only versions of ASP.NET.</p>",
                             Name = "ASP.NET Core"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedOn = new DateTime(2021, 7, 31, 10, 39, 5, 55, DateTimeKind.Local).AddTicks(3834),
+                            CreatedOn = new DateTime(2021, 8, 7, 18, 59, 28, 852, DateTimeKind.Local).AddTicks(5652),
                             Introduction = "<p><strong>Angular </strong>is a platform and framework for building single-page client applications using HTML and TypeScript.</p>",
                             Name = "Angular"
                         },
                         new
                         {
                             Id = 4,
-                            CreatedOn = new DateTime(2021, 7, 31, 10, 39, 5, 55, DateTimeKind.Local).AddTicks(3836),
+                            CreatedOn = new DateTime(2021, 8, 7, 18, 59, 28, 852, DateTimeKind.Local).AddTicks(5657),
                             Introduction = "<p><strong>SQL </strong>stands for Structured Query Language. SQL is a standard language designed for managing data in a relational database management system.&nbsp;</p>",
                             Name = "SQL"
                         },
                         new
                         {
                             Id = 5,
-                            CreatedOn = new DateTime(2021, 7, 31, 10, 39, 5, 55, DateTimeKind.Local).AddTicks(3838),
+                            CreatedOn = new DateTime(2021, 8, 7, 18, 59, 28, 852, DateTimeKind.Local).AddTicks(5659),
                             Introduction = "Blockchain is a system of recording information in a way that makes it difficult or impossible to change, hack, or cheat the system.",
                             Name = "Blockchain"
                         });
@@ -125,12 +128,41 @@ namespace BlogDAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Role");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("d1823e23-02e3-443c-b0dc-85e46c97b10e"),
+                            CreatedOn = new DateTime(2021, 8, 7, 18, 59, 28, 857, DateTimeKind.Local).AddTicks(70),
+                            IsDeleted = false,
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = new Guid("d4314259-9d36-4af7-b75a-77f24e15600a"),
+                            CreatedOn = new DateTime(2021, 8, 7, 18, 59, 28, 857, DateTimeKind.Local).AddTicks(1515),
+                            IsDeleted = false,
+                            Name = "Moderator"
+                        },
+                        new
+                        {
+                            Id = new Guid("924fecba-2c1b-451c-92cd-83b92d8af6c3"),
+                            CreatedOn = new DateTime(2021, 8, 7, 18, 59, 28, 857, DateTimeKind.Local).AddTicks(1541),
+                            IsDeleted = false,
+                            Name = "Member"
+                        });
                 });
 
             modelBuilder.Entity("BlogDAL.Models.User", b =>
@@ -139,7 +171,22 @@ namespace BlogDAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Avatar")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Provider")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Salt")
@@ -158,12 +205,12 @@ namespace BlogDAL.Migrations
                     b.Property<Guid>("RolesId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("UsersId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("RolesId", "UsersId");
+                    b.HasKey("RolesId", "UserId");
 
-                    b.HasIndex("UsersId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("RoleUser");
                 });
@@ -195,7 +242,7 @@ namespace BlogDAL.Migrations
 
                     b.HasOne("BlogDAL.Models.User", null)
                         .WithMany()
-                        .HasForeignKey("UsersId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
