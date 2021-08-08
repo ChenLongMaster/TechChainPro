@@ -1,0 +1,13 @@
+
+:host ::ng-deep .p-dropdown .p-dropdown-label {
+    font-size: 12px;
+    &.p-placeholder {
+        opacity: 0.7;
+        font-style: italic;
+    }
+}
+
+:host ::ng-deep .p-dropdown .p-dropdown-clear-icon {
+    font-size: 10px;
+    margin-top: -4px;
+}

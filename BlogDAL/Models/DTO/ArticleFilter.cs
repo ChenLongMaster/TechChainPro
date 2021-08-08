@@ -8,7 +8,7 @@ namespace BlogDAL.Models.DTO
 {
     public class ArticleFilter
     {
-        public Guid CategoryId { get; set; }
-        public string Name { get; set; }
+        public int CategoryId { get; set; }
+        public int SortDateDirection { get; set; }
     }
 }

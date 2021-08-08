@@ -5,16 +5,14 @@ export class UserModel extends Base {
         super(id);
     }
 
-    username:string = '';
+    username:string;
+    email: string; 
+    avatar: string;
+    role: string[];
+    isLoggedIn: boolean;
 }
 
 export class LoginModel extends UserModel {
-    password: string = '';
+    password: string;
 }
 
-export class AuthenticateModel extends UserModel{
-    token: string = '';                              
-    constructor(id?:string){
-        super(id);
-    }           
-}

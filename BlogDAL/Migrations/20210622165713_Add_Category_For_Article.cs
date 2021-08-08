@@ -7,7 +7,7 @@ namespace BlogDAL.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<int>(
-                name: "Category",
+                name: "CategoryId",
                 table: "Article",
                 type: "int",
                 nullable: true,
@@ -17,7 +17,7 @@ namespace BlogDAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Category",
+                name: "CategoryId",
                 table: "Article");
         }
     }

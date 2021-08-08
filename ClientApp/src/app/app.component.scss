@@ -13,11 +13,12 @@
 
     h1 {
         font-family: "LP Bambus W00", cursive;
-        font-size: 50px;
+        font-size: 35px;
         color: white;
         padding-bottom: 10px;
     }
     h3 {
+        font-size: 14px;
         font-family: "Museo Sans W01", cursive;
         text-transform: uppercase;
         color: #9da1b3;
@@ -28,14 +29,15 @@
     display: block;
     margin-left: auto;
     margin-right: auto;
-    padding-top: 50px;
     padding-bottom: 10px;
     width: 150px;
     height: 150px;
 }
 
 .left-nav {
-    width: 500px;
+    position: fixed;
+    width: 300px;
+    height: 100%;
     background-color: #273747;
 }
 
@@ -44,10 +46,10 @@
         color: cadetblue;
     }
     font-family: "Lucida Sans";
-    padding: 8px 0px 20px 0px;
+    padding: 8px 0px 5px 0px;
     text-align: center;
     text-decoration: none;
-    font-size: 25px;
+    font-size: 18px;
     color: whitesmoke;
     display: block;
     transition: 0.3s;
@@ -57,27 +59,90 @@
     color: cadetblue !important;
 }
 
-.cotent-section {
+.body-section {
     display: contents;
     padding: 0 15px 0 15px;
     background-color: rgb(252, 252, 252);
 }
 
-.article-section {
+.content-section {
     float: left;
-    padding: 20px;
-    width: 80%;
+    padding: 20px 20px 20px 320px;
+    width: 83%;
+    max-width: 1400px;
+}
+
+.user-info-section {
+    font-family: "Lucida Sans";
+    position: absolute;
+    display: flex;
+    bottom: 0;
+    font-size: 12px;
+    padding: 10px;
+    margin: 0px 0px 10px 10px;
+    color: white;
+    width: 93%;
+    &:hover {
+        color: cadetblue;
+        cursor: pointer;
+        box-shadow: 0 0.125rem 0.7rem rgb(27 27 27 / 100%) !important;
+    }
+    img {
+        margin-right: 5px;
+        width: 30px;
+    }
+
+    .user-name {
+        max-width: 200px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        padding: 6px;
+    }
+
+    .caret-icon {
+        padding: 6px;
+    }
+    
 }
 
 .info-section {
+    position: fixed;
+    height: 100%;
+    right: 0;
+    padding: 0 15px 10px 10px;
+    h4 {
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: 800;
+        padding: 20px 20px 0px 15px;
+    }
     h5 {
         font-family: Arial, Helvetica, sans-serif;
         font-weight: 800;
-        font-size: 30px;
-        padding: 20px;
+        padding: 20px 20px 0px 20px;
     }
+    text-align: center;
     float: left;
-    width: 30%;
+}
+.recommed-section {
+    padding: 70px 0 0 20px;
+    width: 130px;
+    .recommend-header {
+    }
+    .recommend-items {
+        width: 230px;
+        color: #007ad9;
+        padding: 10px 5px 5px 25px;
+        text-align: left;
+        & span:hover {
+            color: #82abec;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        a {
+            padding: 0px;
+        }
+    }
 }
 
 .menu {
@@ -88,7 +153,6 @@
 
 :host ::ng-deep .p-button {
     margin: 0 0.5rem 0 0;
-    min-width: 10rem;
 }
 
 p {
@@ -109,7 +173,7 @@ p {
     display: block;
     position: fixed;
     z-index: 1;
-    padding-top: 100px;
+    padding-top: 50px;
     left: 0;
     top: 0;
     width: 100%;
@@ -119,72 +183,79 @@ p {
     background-color: rgba(0, 0, 0, 0.4);
 }
 
-
-
 //Connect Icons
-.connect-icons{
-    display: flex;
-    font-size:40px;
-    padding-left: 30px;
+.connect-icons {
+    font-size: 30px;
+    text-align: left;
+    padding-left: 36px;
+    a {
+        color: black;
+        padding: 6px;
+        &.youtube-icon {
+            color: #ff0000;
+        }
+
+        &.facebook-icon {
+            color: #4267b2;
+        }
+        &.linkedin-icon {
+            color: #0072b1;
+        }
+    }
 }
 
 :host .fa {
-    padding:10px;
+    padding: 10px;
 }
 
-a {
-    &.youtube-icon{
-        color: #FF0000;
-    }
-    
-    &.facebook-icon{
-        color:#4267B2;
-    }
-    &.linkedin-icon{
-        color:#0072b1 ;
-    }
-}
-
-:host ::ng-deep .p-blockui.p-component-overlay{
+:host ::ng-deep .p-blockui.p-component-overlay {
     z-index: 1;
     background: rgba(0, 0, 0, 0.4);
 }
 
 :host ::ng-deep .custom-spinner .p-progress-spinner-circle {
-    animation: custom-progress-spinner-dash 1.5s ease-in-out infinite, custom-progress-spinner-color 6s ease-in-out infinite;
+    animation: custom-progress-spinner-dash 1.5s ease-in-out infinite,
+        custom-progress-spinner-color 6s ease-in-out infinite;
 }
 
-@keyframes custom-progress-spinner-color {
-    100%,
-    0% {
-        stroke: #16697A;
-    }
-    40% {
-        stroke: #489FB5;
-    }
-    66% {
-        stroke: #82C0CC;
-    }
-    80%,
-    90% {
-        stroke: #FFA62B;
-    }
+:host ::ng-deep .p-toast .p-toast-message .p-toast-message-content .p-toast-detail {
+    font-weight: 500;
 }
 
-@keyframes custom-progress-spinner-dash {
-    0% {
-        stroke-dasharray: 1, 200;
-        stroke-dashoffset: 0;
-    }
-    50% {
-        stroke-dasharray: 89, 200;
-        stroke-dashoffset: -35px;
-    }
-    100% {
-        stroke-dasharray: 89, 200;
-        stroke-dashoffset: -124px;
-    }
+// @keyframes custom-progress-spinner-color {
+//     100%,
+//     0% {
+//         stroke: #16697a;
+//     }
+//     40% {
+//         stroke: #489fb5;
+//     }
+//     66% {
+//         stroke: #82c0cc;
+//     }
+//     80%,
+//     90% {
+//         stroke: #ffa62b;
+//     }
+// }
+
+// @keyframes custom-progress-spinner-dash {
+//     0% {
+//         stroke-dasharray: 1, 200;
+//         stroke-dashoffset: 0;
+//     }
+//     50% {
+//         stroke-dasharray: 89, 200;
+//         stroke-dashoffset: -35px;
+//     }
+//     100% {
+//         stroke-dasharray: 89, 200;
+//         stroke-dashoffset: -124px;
+//     }
+// }
+
+:host ::ng-deep .p-tieredmenu.p-tieredmenu-overlay{
+    left:0 !important;
+    width: 100%;
+    border-radius: 0;
 }
-
-
-

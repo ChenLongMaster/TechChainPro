@@ -9,6 +9,6 @@ namespace BlogDAL.Models
     public class Role : ModelBase
     {
         public string Name { get; set; }
-        public List<User> Users { get; set; }
+        public IEnumerable<User> User { get; set; }
     }
 }

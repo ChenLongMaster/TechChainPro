@@ -1,0 +1,97 @@
+<h3>New Article</h3>
+<hr />
+<form [formGroup]='editorFormGroup' (ngSubmit)="saveArticle()">
+    <div class="action-container">
+        <div class="action-section">
+            <button type="submit" class="small-btn btn btn-primary"><i class="far fa-save"></i>Save</button>
+            <button type="submit" class="small-btn btn btn-outline-danger" title="You are not the owner of the article." disabled><i class="fas fa-trash-alt"></i>Delete</button>
+            <button type="button" class="saveButton small-btn btn btn-outline-info" (click)="goToPreviousPage()">
+                <i class="fas fa-long-arrow-alt-left"></i>Back
+            </button>
+        </div>
+    </div>
+    <div class="title-section form-group row">
+        <div class="form-group row col-md-7">
+            <label class="col-md-2 col-form-label required">Title</label>
+            <div class="col-md-10">
+                <input class="" [formControlName]="'name'" [placeholder]="'Enter your title'" maxlength="100"
+                    required />
+                <div class="validation-error"
+                    *ngIf="(formName.invalid && (formName.dirty || formName.touched)) && formName.errors?.required">
+                    Title is required.
+                </div>
+            </div>
+        </div>
+        <div class="category-section form-group row col-md-5">
+            <label class="col-md-4 col-form-label required">Category</label>
+            <div class="col-md-8">
+                <p-dropdown [options]="categoryOptions" [formControlName]="'category'" optionLabel="name"
+                    dataKey="value" placeholder="Select a Category"></p-dropdown>
+                <div class="validation-error"
+                    *ngIf="(formCategory.invalid && (formCategory.dirty || formCategory.touched)) && formName.errors?.required">
+                    Category is required.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="title-section form-group row">
+        <div class="form-group row col-md-7">
+            <label class="col-md-2 col-form-label">Abstract</label>
+            <div class="col-md-10">
+                <textarea class="" [formControlName]="'abstract'" maxlength="150"
+                    [placeholder]="'Write an abstract for your article'"></textarea>
+            </div>
+        </div>
+        <div class="category-section form-group row col-md-5">
+            <label class="col-md-4 col-form-label">Image</label>
+            <div class="col-md-8">
+                <p-fileUpload name="demo" (onSelect)="onImageSelect($event)" (onClear)="onClear($event)"
+                    accept="image/*" [maxFileSize]="1000000" [multiple]="false" chooseLabel=" " cancelLabel=" "
+                    [customUpload]="true" [showUploadButton]="false">
+                    <ng-template pTemplate="content">
+                        <div *ngIf="!representImageSelected && !initRepresentImage" class="dragdrop-section">
+                            Drag and drop image here
+                        </div>
+                        <div *ngIf="initRepresentImage" class="file-section">
+                            <img [src]="viewModel.representImageUrl" alt="Image" />
+                        </div>
+                    </ng-template>
+                    <ng-template let-file pTemplate='file'>
+                        <div class="file-section">
+                            <img [src]="viewModel.representImageUrl" alt="Image" />
+                            <div class="image-name">{{file.name}}</div>
+                        </div>
+                    </ng-template>
+                </p-fileUpload>
+            </div>
+        </div>
+    </div>
+    <div class="editor-section row">
+        <div class="editor-title">
+            <h4 class="">Content</h4>
+        </div>
+        <div class="quill">
+            <ckeditor [(ngModel)]="viewModel.displayContent" [ngModelOptions]="{standalone: true}" [editor]="Editor"
+                (ready)="onReady($event)"></ckeditor>
+        </div>
+    </div>
+    <div *ngIf="!isShowOutput; else hide" class="hide-show-output">
+        <a (click)="toogleOutput()">Show HTML editor</a>
+    </div>
+    <ng-template #hide>
+        <div class="hide-show-output">
+            <a (click)="toogleOutput()">Hide HTML editor</a>
+        </div>
+
+        <div class="output-section row">
+            <div class="output-title row">
+                <h4 class="">HTML</h4>
+            </div>
+            <div class="output row">
+                <textarea [(ngModel)]="viewModel.displayContent" [ngModelOptions]="{standalone: true}" name="Text1"
+                    cols="40" rows="5"></textarea>
+            </div>
+        </div>
+    </ng-template>
+</form>

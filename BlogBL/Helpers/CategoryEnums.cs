@@ -8,9 +8,10 @@ namespace BlogBL.Helpers
 {
     public enum CategoryEnums
     {
-        Blockchain = 0,
+        All = 0,
         DotNet = 1,
-        Angular =2,
+        Angular = 2,
         SQL = 3,
+        Blockchain = 4,
     }
 }

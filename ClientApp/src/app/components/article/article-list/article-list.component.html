@@ -1,0 +1,56 @@
+<div class="page-container">
+
+    <div class="introduct-section row">
+        <h5>{{selectedCategory.name}}</h5>
+        <div class="introduction" [innerHtml] = "introduction"></div>
+        <hr />
+
+    </div>
+    <div class="filter-section">
+        <div class="dropdown-section">
+            <div class="dropdown-category">
+                <p-dropdown [options]="categoryOptions" [(ngModel)]="selectedCategory" (onChange) = "onDropdownChange()" optionLabel="name">
+                </p-dropdown>
+            </div>
+            <div class="dropdown-sort">
+                <p-dropdown [options]="dateSortOptions" [(ngModel)]="selectedDateSort"  (onChange) = "onDropdownChange()"optionLabel="name">
+                </p-dropdown>
+            </div>
+        </div>
+        <div class="new-button">
+            <button type="submit" class="saveButton btn btn-primary"[routerLink]="['/articles/editor']"><i
+                    class="pi pi-plus p-button-icon p-button-icon-left"></i>New</button>
+        </div>
+    </div>
+    
+    <div *ngFor="let item of listModel" class="article-item">
+        <div class="item-image-section"><img [src] = "item.representImageUrl"/></div>
+        <div class="item-content-section" [routerLink]="['/articles/detail/',item.id]">
+            <div class="title">
+                <h4> {{item.name}} </h4>
+            </div>
+            <div class="category">
+                <i class="fas fa-tags"></i> {{item.categoryName}}
+            </div>
+            <div class="abstract">
+                {{item.abstract}}
+                <div *ngIf="!item.abstract || item.abstract == ''" class = "annotate">
+                    No abstract
+                </div>
+            </div>
+            <div class="info-section row">
+                <div class="author col-md-9"><i class="fas fa-user-edit"></i>
+                    <p>
+                        {{item.authorName}} 
+                    </p>
+                     <p *ngIf="!item.authorName || item.authorName == ''" class = "annotate">
+                        Anonymous
+                     </p>
+                </div>
+                <div class="date col-md-3"><i class="fas fa-calendar-alt"></i> 
+                    {{item.createdOn | date: 'dd/MM/yyyy'}}  
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

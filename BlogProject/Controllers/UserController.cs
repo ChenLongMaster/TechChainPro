@@ -1,11 +1,9 @@
 ﻿using BlogBL;
 using BlogDAL.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+using BlogProject.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace BlogProject.Controllers
@@ -27,31 +25,21 @@ namespace BlogProject.Controllers
         [HttpGet]
         public async Task<List<User>> GetAllUsers()
         {
-            var result = await _userService.GetAllUserAsync();
+            List<User> result = await _userService.GetAllUserAsync();
 
             return result;
         }
 
+        [Authorize]
         [Route("{id}")]
         [HttpGet]
         public async Task<User> GetUsersById(Guid id)
         {
-            var result = await _userService.GetUserByIdAsync(id);
+            User result = await _userService.GetUserByIdAsync(id);
 
             return result;
         }
 
-        [HttpPost("authenticate")]
-        public async Task<IActionResult> AuthenticateUser([FromBody]AuthenticationRequest model)
-        {
-            var response = await _authenticationService.AuthenticateUser(model);
-
-            if (response is null)
-            {
-                return BadRequest(new { message = "Username or password is incorrect." });
-            }
-
-            return Ok(response);
-        }
+        
     }
 }

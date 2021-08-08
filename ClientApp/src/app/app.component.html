@@ -1,7 +1,7 @@
 <body>
   <div class="main-container">
 
-    <div class="left-nav">
+    <div #nav class="left-nav">
       <div>
         <img class="avatar-image" src="assets\Images\bitcoin.png" />
         <div class="blog-name">
@@ -9,36 +9,60 @@
           <h3>Blockchain changes the world</h3>
         </div>
         <div id="mySidenav" class="sidenav">
-          <a href="#">Articles</a>
-          <a href="#">About me</a>
-          <a href="#">Feedback</a>
-          <a href="#">Contact</a>
-          <a (click)="showDialog()">Login</a>
+          <a [routerLink]="'/articles'">Articles</a>
+          <a [routerLink]="'/about'">About</a>
+          <a click = "this.messageService.add({ severity: 'warn', summary: 'Feature not yet implemented.', detail: 'Please stay tune for the upcoming release.', sticky: true ,closable: true })">Feedback</a>
+          <a *ngIf="!currentUserData.isLoggedIn" (click)="showDialog()">Sign In</a>
         </div>
+
+        <div *ngIf="currentUserData.isLoggedIn" (click)="menu.toggle($event)" class="user-info-section dropdown">
+          <img src="assets\Images\user.png">
+          <div class="user-info"></div>
+          <div class="user-name">
+            <p>Welcome, {{currentUserData.username}} </p>
+          </div>
+          <div class="caret-icon">
+            <i class="fas fa-caret-up"></i>
+          </div>
+        </div>
+        <p-tieredMenu #menu [model]="items" [appendTo] = "nav" [popup]="true"></p-tieredMenu>
       </div>
     </div>
-    <div class="cotent-section">
-      <div class="article-section">
-        <app-article></app-article>
+    <div class="body-section">
+      <div class="content-section">
+        <router-outlet></router-outlet>
       </div>
       <div class="info-section">
-        <h5>Connect with me</h5>
-
+        <h4>Connect with me</h4>
         <div class="connect-icons">
-          <a class="youtube-icon" href="https://www.youtube.com/" title="Youtube">
-            <i class="fa fa-youtube-play"></i>
+          <a class="youtube-icon" href="https://www.youtube.com/" target="_blank" title="Youtube">
+            <i class="fab fa-youtube"></i>
           </a>
-          <a class="facebook-icon" href="https://www.facebook.com/tranhoang.long.3344/" title="Facebook">
-            <i class="fa fa-facebook-square"></i>
+          <a class="facebook-icon" href="https://www.facebook.com/tranhoang.long.3344/" target="_blank"
+            title="Facebook">
+            <i class="fab fa-facebook"></i>
           </a>
-          <a class="linkedin-icon" href="https://www.youtube.com/" title="Linkedin">
-            <i class="fa fa-linkedin-square" aria-hidden="true"></i>
+          <a class="linkedin-icon" href="https://www.linkedin.com/in/tran-hoang-long-28629b134/" target="_blank"
+            title="Linkedin">
+            <i class="fab fa-linkedin"></i>
           </a>
-          <a class="github-icon" href="https://www.youtube.com/" title="GitHub">
-            <i class="fa fa-github" aria-hidden="true"></i>
+          <a class="github-icon" href="https://github.com/ChenLongMaster/TechDreamBlog/tree/developer" target="_blank"
+            title="GitHub">
+            <i class="fab fa-github"></i>
           </a>
         </div>
+        <div class="recommed-section">
+          <div class="recommend-header">
+            <h4>Recommended</h4>
+          </div>
+          <div class="recommend-items" *ngFor="let item of recommededItems">
+            <span [routerLink]="['/articles/detail/',item.id]">
+              {{item.name}}
+            </span>
+          </div>
+        </div>
       </div>
+
     </div>
     <div class="login-modal" *ngIf="displayLogin">
       <app-login (displayChange)="showDialog()"></app-login>
@@ -47,8 +71,9 @@
 
   <div *ngIf="(customHttpInterceptor.onGoingRequestStatus | async)">
     <p-blockUI [blocked]="true">
-      <p-progressSpinner [style]="{width: '60px', height: '60px'}" styleClass="custom-spinner" strokeWidth="8" fill="#D7D7D7" animationDuration=".5s"></p-progressSpinner>
-  </p-blockUI>
+        <p-progressSpinner strokeWidth="4" animationDuration="1s"></p-progressSpinner>
+    </p-blockUI>
   </div>
-</body>
+  <p-toast></p-toast>
 
+</body>
