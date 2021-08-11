@@ -1,5 +1,16 @@
-.page-container{
 
+a {
+    font-weight: bold;
+    text-decoration: none;
+    color: #007ad9;
+    &:hover {
+        text-decoration: underline;
+        font-style: italic;
+    }
+}
+h2 {
+    text-align: center;
+    margin-bottom: 10px;
 }
 .my-image {
     width: 250px;
@@ -10,9 +21,14 @@
     float: left;
 }
 
-.me-introduction-section{
+.me-introduction-section {
     padding: 20px;
+    margin-bottom: 50px;
+    p{
+        text-indent: 40px;
+    }
 }
 
-.about-container {
+.about-article{
+    margin-bottom:30px;
 }

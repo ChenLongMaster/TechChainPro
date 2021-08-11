@@ -24,7 +24,7 @@ export class ArticleService {
         let parameter = new HttpParams();
         parameter = parameter.append('categoryId', JSON.stringify(filter.categoryId))
         parameter = parameter.append('sortDateDirection', JSON.stringify(filter.sortDateDirection))
-        return this.httpClient.get<ArticleModel[]>(`${Constants.ArticleServiceApiUrl()}/`, { params: parameter });
+        return this.httpClient.get<ArticleModel[]>(`${Constants.ArticleServiceApiUrl()}/`,{ params: parameter }) as unknown as Observable<ArticleModel[]>;
     }
 
     GetRecommendedArticles(): Observable<ArticleModel[]> {
