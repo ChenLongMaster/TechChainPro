@@ -111,16 +111,9 @@ namespace BlogProject
             else
             {
                 app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                //app.UseHsts();
             }
 
-            app.UseCors(x => x
-                  .AllowAnyOrigin()
-                  .AllowAnyMethod()
-                  .AllowAnyHeader());
-
-            app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseStaticFiles(new StaticFileOptions()
@@ -129,11 +122,18 @@ namespace BlogProject
                 RequestPath = new PathString(Configuration["ImgFolderPathString"])
             });
 
+            app.UseCors(x => x
+                  .AllowAnyOrigin()
+                  .AllowAnyMethod()
+                  .WithHeaders("authorization", "accept", "content-type", "origin"));
+
+            app.UseHttpsRedirection();
+           
+
             app.UseAuthentication();
             app.UseRouting();
             app.UseAuthorization();
 
-            //app.UseMiddleware<JwtMiddleware>();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

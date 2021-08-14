@@ -15,7 +15,7 @@
         </div>
 
         <div *ngIf="currentUserData.isLoggedIn" (click)="menu.toggle($event)" class="user-info-section dropdown">
-          <img src="assets\Images\user.png">
+          <img [src]="userImage">
           <div class="user-info"></div>
           <div class="user-name">
             <p>Welcome, {{currentUserData.username}} </p>
@@ -74,5 +74,5 @@
     </p-blockUI>
   </div>
   <p-toast></p-toast>
-
+  <p-confirmDialog header="Sign Out" icon="pi pi-exclamation-triangle"></p-confirmDialog>
 </body>

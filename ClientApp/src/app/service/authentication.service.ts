@@ -2,14 +2,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService, SocialUser } from 'angularx-social-login';
+import { MessageService } from 'primeng/api';
 import { BehaviorSubject } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
+import { StorageQueryService } from 'src/app/service/core/storage.query.service';
 import { Constants } from '../constants';
 import { AuthenticationResponseModel } from '../model/authentication-response.model';
 import { ExternalAuthModel } from '../model/externalAuth.model';
 import { UserModel } from '../model/user.model';
-import { StorageQueryService } from 'src/app/service/core/storage.query.service';
-import { MessageService } from 'primeng/api';
 
 @Injectable({ providedIn: 'root' })
 
@@ -35,19 +35,17 @@ export class AutheticationService {
     }
 
     externalLogin(model: ExternalAuthModel) {
-        var provider = model.provider.toLocaleLowerCase();//google or facebook
-        return this.httpClient.post<AuthenticationResponseModel>(`${Constants.AuthenticationServiceApiUrl()}/${provider}`, model);
+        return this.httpClient.post<AuthenticationResponseModel>(`${Constants.AuthenticationServiceApiUrl()}/external`, model);
     }
 
     updateUserData(user: UserModel) {
         this.userData.next(user);
-        console.log(this.userData);
     }
 
     signOut() {
         this.storageQueryService.RemoveToken();
         this.userData.next(new UserModel());
         this.externalAuthService.signOut();
-        this.messageService.add({ severity: 'success', summary: 'Sucess', detail: 'Sign Out! Sucessfully' });
+        this.messageService.add({ severity: 'info', summary: 'Sign out', detail: 'You has been singed out!' });
     }
 }

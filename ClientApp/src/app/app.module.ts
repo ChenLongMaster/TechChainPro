@@ -6,15 +6,17 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from 'angularx-social-login';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { BlockUIModule } from 'primeng/blockui';
 import { ButtonModule } from 'primeng/button';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 //Primeng
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { FileUploadModule } from 'primeng/fileupload';
 import { InputTextModule } from 'primeng/inputtext';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { TieredMenuModule } from 'primeng/tieredmenu';
 import { ToastModule } from 'primeng/toast';
 //
 import { AppRoutingModule } from './app-routing.module';
@@ -30,7 +32,6 @@ import { Constants } from './constants';
 import { CustomHttpInterceptor } from './service/core/custom-http-interceptor.service';
 import { SafeHtml } from './service/core/safe-home.pipe';
 import { SafeResourceUrlPipe } from './service/core/safeResourceurl.pipe';
-import {TieredMenuModule} from 'primeng/tieredmenu';
 
 @NgModule({
   declarations: [
@@ -61,10 +62,12 @@ import {TieredMenuModule} from 'primeng/tieredmenu';
     FileUploadModule,
     InputTextModule,
     DropdownModule,
+    ConfirmDialogModule,
     TieredMenuModule,
     ReactiveFormsModule,
     CKEditorModule,
     SocialLoginModule,
+    
     // SimpleUploadAdapter
   ],
   providers: [
@@ -93,7 +96,8 @@ import {TieredMenuModule} from 'primeng/tieredmenu';
         ]
       } as SocialAuthServiceConfig
     },
-    { provide: MessageService },
+    { provide: MessageService, },
+    { provide: ConfirmationService, },
   ],
   bootstrap: [AppComponent]
 })

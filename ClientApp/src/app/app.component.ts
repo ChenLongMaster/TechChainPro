@@ -1,7 +1,7 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Component, Inject } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { MenuItem, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { ArticleModel } from './model/article.model';
 import { UserModel } from './model/user.model';
 import { ArticleService } from './service/article.service';
@@ -25,10 +25,13 @@ export class AppComponent {
   recommededItems: ArticleModel[] = [];
   currentUserData = new UserModel();
   items: MenuItem[];
+
+  userImage: string;
   constructor(
     private articleService: ArticleService,
     private autheticationService: AutheticationService,
     private messageService:MessageService,
+    private confirmationService: ConfirmationService,
     @Inject(HTTP_INTERCEPTORS) private interceptor: any[]) {
     this.autheticationService.userData.subscribe((user) => {
       this.currentUserData = user;
@@ -41,7 +44,7 @@ export class AppComponent {
         label: "Setting",
         icon: "fas fa-cog",
         command: () => {
-          this.messageService.add({ severity: 'warn', summary: 'Feature not yet implemented.', detail: "Please stay tune for the upcoming release.", sticky: true ,closable: true });
+          this.messageService.add({ severity: 'warn', summary: 'Feature not yet implemented.', detail: "Please stay tuned for the upcoming release.", sticky: true ,closable: true });
         } 
       },
       {
@@ -50,7 +53,7 @@ export class AppComponent {
       {
         label: 'Quit',
         icon: 'fas fa-sign-out-alt fa-rotate-180',
-        command: () => this.autheticationService.signOut()
+        command: () => this.signOut()
       }
     ];
     this.getRecommendedArticles();
@@ -65,5 +68,19 @@ export class AppComponent {
       this.recommededItems = response;
       console.log(this.recommededItems);
     })
+  }
+
+  signOut(){
+    this.confirmationService.confirm({
+      message: 'You are about to sign out. Are you sure to continue?',
+      header: 'Sign Out',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+          this.messageService.add({severity:'info', summary:'Sign Out', detail:'You has been signed out!'});
+      },
+      reject: () => {
+          
+      }
+  });
   }
 }

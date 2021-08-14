@@ -48,6 +48,33 @@ namespace BlogBL
 
             return null;
         }
+
+        public async Task<AuthenticationResponse> ExternalAuthenticateUser(ExternalAuthDTO model)
+        {
+            var userSocial = new User();
+
+            if (model.Provider == "GOOGLE")
+                userSocial = await VerifyGoogleToken(model);
+            if (model.Provider == "FACEBOOK")
+                userSocial = await VerifyFacebookToken(model);
+
+            if (userSocial is null)
+                return null;
+
+            var userLocal = await _userService.GetUserByNameOrEmail(userSocial);
+            if (userLocal is null)
+            {
+                await _userService.CreateUser(userSocial);
+                userLocal = await _userService.GetUserByNameOrEmail(userSocial);
+                if (userLocal is null)
+                {
+                    return null;
+                }
+            }
+
+            string token = GenerateJwtToken(userLocal);
+            return new AuthenticationResponse(token.ToString());
+        }
         public async Task<User> VerifyGoogleToken(ExternalAuthDTO model)
         {
             GoogleJsonWebSignature.ValidationSettings setting = new GoogleJsonWebSignature.ValidationSettings()
@@ -67,60 +94,6 @@ namespace BlogBL
 
             return user;
         }
-
-        public async Task<AuthenticationResponse> GoogleAuthenticateUser(ExternalAuthDTO model)
-        {
-            var userSocial = await VerifyGoogleToken(model);
-
-            if (userSocial is null)
-            {
-                return null;
-            }
-            User userLocal = await _userService.GetUserByNameOrEmail(userSocial);
-            if (userLocal is null)
-            {
-                bool createSucess = await _userService.CreateUser(userSocial);
-                if (createSucess)
-                {
-                    string token = GenerateJwtToken(userLocal);
-                    return new AuthenticationResponse(token.ToString());
-                }
-            }
-            else
-            {
-                string token = GenerateJwtToken(userLocal);
-                return new AuthenticationResponse(token.ToString());
-            }
-            return null;
-        }
-
-        public async Task<AuthenticationResponse> FacebookAuthenticateUser(ExternalAuthDTO model)
-        {
-            var userSocial = await VerifyFacebookToken(model);
-
-            if (userSocial is null)
-            {
-                return null;
-            }
-            var userLocal = await _userService.GetUserByNameOrEmail(userSocial);
-            if (userLocal is null)
-            {
-                await _userService.CreateUser(userSocial);
-                var createdUser = await _userService.GetUserByNameOrEmail(userSocial);
-                if (createdUser is not null)
-                {
-                    var token = GenerateJwtToken(createdUser);
-                    return new AuthenticationResponse(token);
-                }
-            }
-            else
-            {
-                var token = GenerateJwtToken(userLocal);
-                return new AuthenticationResponse(token);
-            }
-            return null;
-        }
-
         public async Task<User> VerifyFacebookToken(ExternalAuthDTO model)
         {
             User user = new User();
@@ -140,7 +113,7 @@ namespace BlogBL
                 content = await response.Content.ReadAsStringAsync();
                 dynamic appObj = JsonConvert.DeserializeObject(content);
 
-                string getPicEndPoint = string.Format("https://graph.facebook.com/v5.0/me/picture?redirect=false&type=large&access_token={0}", model.Token);
+                string getPicEndPoint = string.Format("https://graph.facebook.com/v5.0/me/picture?type=normal_token={0}", model.Token);
                 HttpResponseMessage userPictureRes = client.GetAsync(new Uri(getPicEndPoint)).Result;
                 string userPictureContent = await userPictureRes.Content.ReadAsStringAsync();
                 dynamic userPicture = JsonConvert.DeserializeObject<dynamic>(userPictureContent);
@@ -194,7 +167,6 @@ namespace BlogBL
                 new ("id",user.Id.ToString()),
                 new ("username",user.Username),
                 new ("email",user.Email == null ? "" : user.Email),
-                new ("avatar",user.Avatar == null ? "" : user.Avatar)
             }); ;
 
             foreach (var role in user.Roles)

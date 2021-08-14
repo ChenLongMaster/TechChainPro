@@ -1,14 +1,14 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { FacebookLoginProvider, GoogleLoginProvider, SocialUser } from 'angularx-social-login';
+import { SocialUser } from 'angularx-social-login';
 import { MessageService } from 'primeng/api';
-import { BehaviorSubject } from 'rxjs';
 import { AuthenticationResponseModel } from 'src/app/model/authentication-response.model';
 import { ExternalAuthModel } from 'src/app/model/externalAuth.model';
 import { LoginModel, UserModel } from 'src/app/model/user.model';
 import { AutheticationService } from 'src/app/service/authentication.service';
 import { StorageQueryService } from 'src/app/service/core/storage.query.service';
+import {ConfirmationService} from 'primeng/api';
 
 @UntilDestroy()
 @Component({
@@ -49,14 +49,13 @@ export class LoginComponent implements OnInit {
       });
   }
 
-  setUserDetail(){
+  setUserDetail() {
     const token = this.storageQueryService.GetToken();
-    if(token)
-    {
+    if (token) {
       let user = new UserModel();
-      const decodeUserDetails = JSON.parse(window.atob(token.split('.')[1])); 
-      user = decodeUserDetails; 
-      user.isLoggedIn = true;  
+      const decodeUserDetails = JSON.parse(window.atob(token.split('.')[1]));
+      user = decodeUserDetails;
+      user.isLoggedIn = true;
       this.authService.updateUserData(decodeUserDetails);
     }
   }
@@ -93,18 +92,18 @@ export class LoginComponent implements OnInit {
       });
   }
 
-  
+
 
   private validateExternalAuth(model: ExternalAuthModel) {
     this.authService.externalLogin(model).pipe(untilDestroyed(this)).subscribe((AuthResponse: AuthenticationResponseModel) => {
-      this.messageService.clear();   
+      this.messageService.clear();
       this.messageService.add({ severity: 'success', summary: 'Sucess', detail: 'Sign In Successfully' });
       this.storageQueryService.SetToken(AuthResponse.token);
       this.setUserDetail();
       this.closePopup();
     },
       (error) => {
-        this.messageService.clear();   
+        this.messageService.clear();
         this.authService.signOut();
         this.messageService.add({ severity: 'error', summary: 'Sign In Failure', detail: error, sticky: true, closable: true });
       })

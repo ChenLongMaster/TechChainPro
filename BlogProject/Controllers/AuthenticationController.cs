@@ -31,10 +31,10 @@ namespace BlogProject.Controllers
             return Ok(response);
         }
 
-        [HttpPost("google")]
-        public async Task<IActionResult> GoogleAuthenticate([FromBody] ExternalAuthDTO model)
+        [HttpPost("external")]
+        public async Task<IActionResult> ExternalAuthenticate([FromBody] ExternalAuthDTO model)
         {
-            var response = await _authenticationService.GoogleAuthenticateUser(model);
+            var response = await _authenticationService.ExternalAuthenticateUser(model);
             if (response is null)
             {
                 return BadRequest(new { message = "Invalid External Authentication." });
@@ -42,16 +42,5 @@ namespace BlogProject.Controllers
             return Ok(response);
         }
 
-
-        [HttpPost("facebook")]
-        public async Task<IActionResult> FacebookAuthenticate([FromBody] ExternalAuthDTO model)
-        {
-            var response = await _authenticationService.FacebookAuthenticateUser(model);
-            if (response is null)
-            {
-                return BadRequest(new { message = "Invalid External Authentication." });
-            }
-            return Ok(response);
-        }
     }
 }
