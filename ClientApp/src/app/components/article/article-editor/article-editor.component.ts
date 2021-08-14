@@ -10,7 +10,8 @@ import { OptionObject } from 'src/app/model/optionObject.model';
 import { ArticleService } from 'src/app/service/article.service';
 import { CommonService } from 'src/app/service/common.service';
 import { Location } from '@angular/common';
-import UploadAdapterService from 'src/app/service/upload-adapter.service';
+import UploadAdapter from 'src/app/service/core/upload-adapter.service';
+import { AuthorizationService } from 'src/app/service/authorization.service';
 
 @UntilDestroy()
 @Component({
@@ -34,8 +35,10 @@ export class ArticleEditorComponent implements OnInit {
   categoryOptions: OptionObject[];
 
   isShowOutput: boolean = false;
-  testcontent: string = "<p>test</p>";
   outputValue: string = "";
+
+  canDelete: boolean;
+
   get formName() {
     return this.editorFormGroup.controls['name'];
   }
@@ -51,6 +54,7 @@ export class ArticleEditorComponent implements OnInit {
 
   constructor(
     private articleService: ArticleService,
+    private authorizationService: AuthorizationService,
     private commonService: CommonService,
     private messageService: MessageService,
     private activeRoute: ActivatedRoute,
@@ -65,12 +69,11 @@ export class ArticleEditorComponent implements OnInit {
     );
 
     editor.plugins.get('FileRepository').createUploadAdapter = (loader: any) => {
-      return new UploadAdapterService(loader);
+      return new UploadAdapter(loader);
     };
   }
 
   ngOnInit(): void {
-    this.viewModel.displayContent = "<p>Test Content</p>";
 
     this.activeRoute.params.subscribe(params => {
       this.id = params['id'];
@@ -122,18 +125,21 @@ export class ArticleEditorComponent implements OnInit {
 
   GetArticleById() {
     this.articleService.GetArticleById(this.id).pipe().subscribe((returneData: ArticleModel) => {
+      debugger
       this.initRepresentImage = true;
       this.viewModel = returneData;
       this.editorFormGroup.patchValue(this.viewModel);
       this.editorFormGroup.controls['category'].setValue(new OptionObject(this.viewModel.categoryName, this.viewModel.categoryId,));
+      this.canDelete = this.authorizationService.CheckDeleteArticlePermisson(this.viewModel.authorName);
     });
   }
 
   initCategoryItems() {
-    this.articleService.GetCategoryItem().pipe(untilDestroyed(this)).subscribe((returnData: CategoryModel[]) => {
+    this.commonService.GetCategoryItem().pipe(untilDestroyed(this)).subscribe((returnData: CategoryModel[]) => {
       this.categoryOptions = returnData.filter(x => x.id != 1).map(x => new OptionObject(x.name, x.id));
     });
   }
+  
   onImageSelect(event: any) {
     this.representImageSelected = true;
     this.imageFile = event.files[0];

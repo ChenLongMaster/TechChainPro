@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Constants } from "src/app/constants";
 
 @Injectable({ providedIn: 'root' })
-export class StorageQueryService{
+export class StorageQuery{
     constructor(){
     }
 

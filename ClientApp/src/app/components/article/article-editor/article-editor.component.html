@@ -3,9 +3,12 @@
 <form [formGroup]='editorFormGroup' (ngSubmit)="saveArticle()">
     <div class="action-container">
         <div class="action-section">
-            <button type="submit" class="small-btn btn btn-primary"><i class="far fa-save"></i>Save</button>
-            <button type="submit" class="small-btn btn btn-outline-danger" title="You are not the owner of the article." disabled><i class="fas fa-trash-alt"></i>Delete</button>
-            <button type="button" class="saveButton small-btn btn btn-outline-info" (click)="goToPreviousPage()">
+            <button type="submit" class="small-btn btn btn-outline-primary" title="Save article"><i class="far fa-save"></i>Save</button>
+            <button type="button" class="small-btn btn btn-outline-danger" [title]="canDelete ? 'Delete Article' : 'You are not the owner of the article'" 
+            [disabled] = "!canDelete">
+                <i class="fas fa-trash-alt"></i>Delete
+            </button>
+            <button type="button" class="saveButton small-btn btn btn-outline-info" title="Back to previous page" (click)="goToPreviousPage()">
                 <i class="fas fa-long-arrow-alt-left"></i>Back
             </button>
         </div>

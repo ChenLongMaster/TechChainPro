@@ -24,10 +24,7 @@ label {
     font-size: 14px;
 }
 
-.btn-primary {
-    background-color: #007ad9 !important;
-    border-color: #007ad9;
-}
+
 
 .btn-outline-info:hover{
     background-color: #17a2b8;
@@ -72,7 +69,8 @@ button.small-btn{
         }
 }
 
-button :disabled{
-    opacity: 0.3;
+button:disabled{
+    pointer-events: auto !important;
+    opacity: 0.4 !important;
     cursor: not-allowed;
 }

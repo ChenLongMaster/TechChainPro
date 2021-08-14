@@ -7,7 +7,7 @@ import { AuthenticationResponseModel } from 'src/app/model/authentication-respon
 import { ExternalAuthModel } from 'src/app/model/externalAuth.model';
 import { LoginModel, UserModel } from 'src/app/model/user.model';
 import { AutheticationService } from 'src/app/service/authentication.service';
-import { StorageQueryService } from 'src/app/service/core/storage.query.service';
+import { StorageQuery } from 'src/app/service/core/storage.query.service';
 import {ConfirmationService} from 'primeng/api';
 
 @UntilDestroy()
@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
   socialUser: SocialUser = new SocialUser();
 
   constructor(private autheticationService: AutheticationService,
-    private storageQueryService: StorageQueryService,
+    private storageQueryService: StorageQuery,
     private messageService: MessageService,
     private authService: AutheticationService) { }
 
@@ -50,14 +50,8 @@ export class LoginComponent implements OnInit {
   }
 
   setUserDetail() {
-    const token = this.storageQueryService.GetToken();
-    if (token) {
-      let user = new UserModel();
-      const decodeUserDetails = JSON.parse(window.atob(token.split('.')[1]));
-      user = decodeUserDetails;
-      user.isLoggedIn = true;
-      this.authService.updateUserData(decodeUserDetails);
-    }
+      const user = this.authService.GetDecodedTokenDetail();
+      this.authService.updateUserData(user);
   }
 
   closePopup() {
