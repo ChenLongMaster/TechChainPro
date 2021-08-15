@@ -2,6 +2,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Component, Inject } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
+import { Constants } from './constants';
 import { ArticleModel } from './model/article.model';
 import { UserModel } from './model/user.model';
 import { ArticleService } from './service/article.service';
@@ -20,31 +21,37 @@ export class AppComponent {
   title = 'blog';
   customHttpInterceptor: CustomHttpInterceptor;
   displayLogin: boolean = false;
-  isBlock: boolean = false;
 
   recommededItems: ArticleModel[] = [];
   currentUserData = new UserModel();
   items: MenuItem[];
 
-  userImage: string;
+  userImage: string = Constants.UserDefaultImage;
   constructor(
     private articleService: ArticleService,
     private autheticationService: AutheticationService,
     private messageService:MessageService,
     private confirmationService: ConfirmationService,
     @Inject(HTTP_INTERCEPTORS) private interceptor: any[]) {
-    this.autheticationService.userData.subscribe((user) => {
-      this.currentUserData = user;
-    })
     this.customHttpInterceptor = interceptor.find(x => x instanceof CustomHttpInterceptor);
   }
   ngOnInit() {
+    this.autheticationService.updateUserData();
+    // this.userImage = this.currentUserData?.avatar ? this.currentUserData.avatar : this.userImage;
+    this.autheticationService.userData.subscribe((user) => {
+      this.currentUserData = user;
+      this.userImage = this.currentUserData.avatar
+      this.displayLogin = false;
+    })
+    this.autheticationService.triggerLogin.subscribe((data) => {
+      this.displayLogin = data;
+    });
     this.items = [
       {
         label: "Setting",
         icon: "fas fa-cog",
         command: () => {
-          this.messageService.add({ severity: 'warn', summary: 'Feature not yet implemented.', detail: "Please stay tuned for the upcoming release.", sticky: true ,closable: true });
+          this.messageService.add({ severity: 'warn', summary: 'Feature not yet implemented.', detail: "Please stay tuned for the upcoming release.",closable: true });
         } 
       },
       {
@@ -58,16 +65,19 @@ export class AppComponent {
     ];
     this.getRecommendedArticles();
   }
-  showDialog() {
-    this.displayLogin = !this.displayLogin;
-    this.isBlock = true;
-  }
 
   getRecommendedArticles() {
     this.articleService.GetRecommendedArticles().pipe(untilDestroyed(this)).subscribe((response: ArticleModel[]) => {
       this.recommededItems = response;
-      console.log(this.recommededItems);
-    })
+    });
+  }
+
+  feedback(){
+    this.messageService.add({ severity: 'warn', summary: 'Feature not yet implemented.', detail: 'Please stay tune for the upcoming release.', closable: true })
+  }
+
+  showDialog(){
+    this.displayLogin = true;
   }
 
   signOut(){
@@ -76,7 +86,7 @@ export class AppComponent {
       header: 'Sign Out',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-          this.messageService.add({severity:'info', summary:'Sign Out', detail:'You has been signed out!'});
+          this.autheticationService.signOut();
       },
       reject: () => {
           

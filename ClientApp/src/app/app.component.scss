@@ -25,7 +25,7 @@
     }
 }
 
-.avatar-image {
+.logo-image {
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -56,6 +56,7 @@
 }
 
 .left-nav a:hover {
+    cursor: pointer;
     color: cadetblue !important;
 }
 
@@ -169,6 +170,10 @@ p {
     min-width: 6rem;
 }
 
+.menu{
+    padding-top:20px;
+}
+
 .login-modal {
     display: block;
     position: fixed;
@@ -187,20 +192,38 @@ p {
 .connect-icons {
     font-size: 30px;
     text-align: left;
-    padding-left: 36px;
+    padding-left: 50px;
     a {
         color: black;
         padding: 6px;
-        &.youtube-icon {
-            color: #ff0000;
+        &.twitter-icon {
+            color: #1DA1F2;
+            &:hover{
+                color: #43aff1;
+            }
         }
 
         &.facebook-icon {
             color: #4267b2;
+            &:hover{
+                color: #5b7ec7;
+            }
         }
         &.linkedin-icon {
             color: #0072b1;
+            &:hover{
+                color: #3286b4;
+            }
         }
+        &.github-icon {
+            color: black;
+            &:hover{
+                color: #4b4a4a;
+            }
+        }
+    }
+    &:hover{
+        cursor: pointer !important;
     }
 }
 
@@ -222,40 +245,12 @@ p {
     font-weight: 500;
 }
 
-// @keyframes custom-progress-spinner-color {
-//     100%,
-//     0% {
-//         stroke: #16697a;
-//     }
-//     40% {
-//         stroke: #489fb5;
-//     }
-//     66% {
-//         stroke: #82c0cc;
-//     }
-//     80%,
-//     90% {
-//         stroke: #ffa62b;
-//     }
-// }
-
-// @keyframes custom-progress-spinner-dash {
-//     0% {
-//         stroke-dasharray: 1, 200;
-//         stroke-dashoffset: 0;
-//     }
-//     50% {
-//         stroke-dasharray: 89, 200;
-//         stroke-dashoffset: -35px;
-//     }
-//     100% {
-//         stroke-dasharray: 89, 200;
-//         stroke-dashoffset: -124px;
-//     }
-// }
-
 :host ::ng-deep .p-tieredmenu.p-tieredmenu-overlay{
     left:0 !important;
     width: 100%;
     border-radius: 0;
+}
+
+p-tieredMenu{
+    margin-top: -100px;
 }

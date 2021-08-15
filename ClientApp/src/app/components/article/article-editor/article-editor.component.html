@@ -4,7 +4,7 @@
     <div class="action-container">
         <div class="action-section">
             <button type="submit" class="small-btn btn btn-outline-primary" title="Save article"><i class="far fa-save"></i>Save</button>
-            <button type="button" class="small-btn btn btn-outline-danger" [title]="canDelete ? 'Delete Article' : 'You are not the owner of the article'" 
+            <button *ngIf="id" type="button" class="small-btn btn btn-outline-danger" [title]="canDelete ? 'Delete Article' : 'You are not the owner of the article'" 
             [disabled] = "!canDelete">
                 <i class="fas fa-trash-alt"></i>Delete
             </button>

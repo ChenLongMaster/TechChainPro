@@ -12,6 +12,7 @@ import { CommonService } from 'src/app/service/common.service';
 import { Location } from '@angular/common';
 import UploadAdapter from 'src/app/service/core/upload-adapter.service';
 import { AuthorizationService } from 'src/app/service/authorization.service';
+import { AutheticationService } from 'src/app/service/authentication.service';
 
 @UntilDestroy()
 @Component({
@@ -54,6 +55,7 @@ export class ArticleEditorComponent implements OnInit {
 
   constructor(
     private articleService: ArticleService,
+    private autheticationService: AutheticationService,
     private authorizationService: AuthorizationService,
     private commonService: CommonService,
     private messageService: MessageService,
@@ -74,7 +76,7 @@ export class ArticleEditorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.viewModel.displayContent = !this.viewModel.displayContent ? '' : this.viewModel.displayContent; //CK editor null error
     this.activeRoute.params.subscribe(params => {
       this.id = params['id'];
     });
@@ -98,7 +100,7 @@ export class ArticleEditorComponent implements OnInit {
       this.viewModel.categoryId = this.formCategory.value.value;
       this.viewModel.abstract = this.formAbstract.value;
 
-      if(this.id){
+      if (this.id) {
         this.articleService.UpdateArticle(this.viewModel).pipe(untilDestroyed(this)).subscribe((result) => {
           if (result) {
             this.messageService.add({ severity: 'success', summary: 'Update Sucessfull', detail: `Article has been updated sucessfully.` });
@@ -109,7 +111,13 @@ export class ArticleEditorComponent implements OnInit {
           }
         });
       }
-      else{
+      else {
+        const currentUser = this.autheticationService.GetDecodedTokenDetail();
+        debugger
+        if (!currentUser) {
+          this.autheticationService.triggerLogin.next(true);
+          return;
+        }
         this.articleService.CreateArticle(this.viewModel).pipe(untilDestroyed(this)).subscribe((result: boolean) => {
           if (result) {
             this.messageService.add({ severity: 'success', summary: 'Create Sucessfull', detail: `Article has been created sucessfully.` });
@@ -139,7 +147,7 @@ export class ArticleEditorComponent implements OnInit {
       this.categoryOptions = returnData.filter(x => x.id != 1).map(x => new OptionObject(x.name, x.id));
     });
   }
-  
+
   onImageSelect(event: any) {
     this.representImageSelected = true;
     this.imageFile = event.files[0];
@@ -168,7 +176,7 @@ export class ArticleEditorComponent implements OnInit {
     this.isShowOutput = !this.isShowOutput;
   }
 
-  goToPreviousPage(){
+  goToPreviousPage() {
     this.location.back();
   }
 }

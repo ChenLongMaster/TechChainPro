@@ -113,18 +113,17 @@ namespace BlogBL
                 content = await response.Content.ReadAsStringAsync();
                 dynamic appObj = JsonConvert.DeserializeObject(content);
 
-                string getPicEndPoint = string.Format("https://graph.facebook.com/v5.0/me/picture?type=normal_token={0}", model.Token);
-                HttpResponseMessage userPictureRes = client.GetAsync(new Uri(getPicEndPoint)).Result;
-                string userPictureContent = await userPictureRes.Content.ReadAsStringAsync();
-                dynamic userPicture = JsonConvert.DeserializeObject<dynamic>(userPictureContent);
+                //string getPicEndPoint = string.Format("https://graph.facebook.com/v5.0/me/picture?type=normal_token={0}", model.Token);
+                //HttpResponseMessage userPictureRes = client.GetAsync(new Uri(getPicEndPoint)).Result;
+                //string userPictureContent = await userPictureRes.Content.ReadAsStringAsync();
+                //dynamic userPicture = JsonConvert.DeserializeObject<dynamic>(userPictureContent);
 
-                string pictureUrl = userPicture.data.url.ToString();
+                //string pictureUrl = userPicture.data.url.ToString();
 
                 if (appObj["id"] == _configuration["FacebookAuthSettings:clientId"])
                 {
                     user.Email = userObj["email"];
                     user.Username = userObj["name"];
-                    user.Avatar = pictureUrl;
                     user.Provider = "FACEBOOK";
                 }
                 else
@@ -167,6 +166,7 @@ namespace BlogBL
                 new ("id",user.Id.ToString()),
                 new ("username",user.Username),
                 new ("email",user.Email == null ? "" : user.Email),
+                new ("avatar",user.Avatar),
             }); ;
 
             foreach (var role in user.Roles)

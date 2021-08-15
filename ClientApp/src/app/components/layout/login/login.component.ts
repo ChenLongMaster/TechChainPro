@@ -5,10 +5,9 @@ import { SocialUser } from 'angularx-social-login';
 import { MessageService } from 'primeng/api';
 import { AuthenticationResponseModel } from 'src/app/model/authentication-response.model';
 import { ExternalAuthModel } from 'src/app/model/externalAuth.model';
-import { LoginModel, UserModel } from 'src/app/model/user.model';
+import { LoginModel } from 'src/app/model/user.model';
 import { AutheticationService } from 'src/app/service/authentication.service';
 import { StorageQuery } from 'src/app/service/core/storage.query.service';
-import {ConfirmationService} from 'primeng/api';
 
 @UntilDestroy()
 @Component({
@@ -40,7 +39,6 @@ export class LoginComponent implements OnInit {
       if (result.token) {
         this.messageService.add({ severity: 'success', summary: 'Welcome!', detail: 'Login Successfully' });
         this.storageQueryService.SetToken(result.token);
-        this.setUserDetail();
         this.closePopup();
       }
     },
@@ -49,13 +47,10 @@ export class LoginComponent implements OnInit {
       });
   }
 
-  setUserDetail() {
-      const user = this.authService.GetDecodedTokenDetail();
-      this.authService.updateUserData(user);
-  }
+
 
   closePopup() {
-    this.displayChange.emit(false);
+    this.autheticationService.triggerLogin.next(false);
   }
 
   googleSignIn() {
@@ -93,7 +88,7 @@ export class LoginComponent implements OnInit {
       this.messageService.clear();
       this.messageService.add({ severity: 'success', summary: 'Sucess', detail: 'Sign In Successfully' });
       this.storageQueryService.SetToken(AuthResponse.token);
-      this.setUserDetail();
+      this.authService.updateUserData();
       this.closePopup();
     },
       (error) => {
