@@ -2,6 +2,7 @@
 using BlogDAL.Models.DTO;
 using BlogDAL.UnitOfWork;
 using Google.Apis.Auth;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -166,8 +167,8 @@ namespace BlogBL
                 new ("id",user.Id.ToString()),
                 new ("username",user.Username),
                 new ("email",user.Email == null ? "" : user.Email),
-                new ("avatar",user.Avatar),
-            }); ;
+                new ("avatar",user.Avatar == null ? "" : user.Avatar),
+            });
 
             foreach (var role in user.Roles)
             {

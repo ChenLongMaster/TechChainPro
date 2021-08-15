@@ -47,8 +47,8 @@ export class ArticleService {
 
     InitSortItems(): OptionObject[] {
         return [
-            { name: "Oldest", value: SortDirection.ASC },
             { name: "Newest", value: SortDirection.DESC },
+            { name: "Oldest", value: SortDirection.ASC },
         ];
     }
 

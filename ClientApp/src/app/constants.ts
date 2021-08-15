@@ -6,6 +6,7 @@ export class Constants {
     public static FacebookClientId = '578655093273196'
     //Common
     public static UserDefaultImage = 'assets/Images/user.png';
+    public static ArticleEmptyImage = '/assets/Images/placeholder.jpg';
     public static ClientRoot = window.location.origin + '/';
     //APIs
     public static RootApiUrl = environment.rootApiUrl;

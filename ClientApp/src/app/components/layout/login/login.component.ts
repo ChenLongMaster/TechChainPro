@@ -39,6 +39,7 @@ export class LoginComponent implements OnInit {
       if (result.token) {
         this.messageService.add({ severity: 'success', summary: 'Welcome!', detail: 'Login Successfully' });
         this.storageQueryService.SetToken(result.token);
+        this.authService.updateUserData();
         this.closePopup();
       }
     },
@@ -55,7 +56,6 @@ export class LoginComponent implements OnInit {
 
   googleSignIn() {
     this.authService.googleSignIn().then((response: SocialUser) => {
-      console.log(response);
       const model: ExternalAuthModel = {
         provider: response.provider,
         token: response.idToken
@@ -69,7 +69,6 @@ export class LoginComponent implements OnInit {
 
   facebookSignIn() {
     this.authService.facebookSignIn().then((response: SocialUser) => {
-      console.log(response);
       const model: ExternalAuthModel = {
         provider: response.provider,
         token: response.authToken

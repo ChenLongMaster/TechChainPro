@@ -104,7 +104,6 @@
     .caret-icon {
         padding: 6px;
     }
-    
 }
 
 .info-section {
@@ -170,8 +169,8 @@ p {
     min-width: 6rem;
 }
 
-.menu{
-    padding-top:20px;
+.menu {
+    padding-top: 20px;
 }
 
 .login-modal {
@@ -197,32 +196,32 @@ p {
         color: black;
         padding: 6px;
         &.twitter-icon {
-            color: #1DA1F2;
-            &:hover{
+            color: #1da1f2;
+            &:hover {
                 color: #43aff1;
             }
         }
 
         &.facebook-icon {
             color: #4267b2;
-            &:hover{
+            &:hover {
                 color: #5b7ec7;
             }
         }
         &.linkedin-icon {
             color: #0072b1;
-            &:hover{
+            &:hover {
                 color: #3286b4;
             }
         }
         &.github-icon {
             color: black;
-            &:hover{
+            &:hover {
                 color: #4b4a4a;
             }
         }
     }
-    &:hover{
+    &:hover {
         cursor: pointer !important;
     }
 }
@@ -245,12 +244,21 @@ p {
     font-weight: 500;
 }
 
-:host ::ng-deep .p-tieredmenu.p-tieredmenu-overlay{
-    left:0 !important;
+:host ::ng-deep .p-tieredmenu.p-tieredmenu-overlay {
+    left: 0 !important;
     width: 100%;
     border-radius: 0;
 }
 
-p-tieredMenu{
+p-tieredMenu {
     margin-top: -100px;
+    
+}
+
+:host ::ng-deep .p-tieredmenu.p-tieredmenu-overlay {
+    margin-left: 2px;
+}
+
+:host ::ng-deep .p-dialog{
+    margin-top: -200px;
 }

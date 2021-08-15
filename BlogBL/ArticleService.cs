@@ -11,6 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,10 +22,13 @@ namespace BlogBL
     {
         private BlogContext _blogContext;
         private readonly IMapper _mapper;
-        public ArticleService(BlogContext blogContext, IMapper mapper)
+        //private readonly HttpContext _context;
+        private ClaimsPrincipal _principal;
+        public ArticleService(BlogContext blogContext, IMapper mapper, ClaimsPrincipal principal)
         {
             _blogContext = blogContext;
             _mapper = mapper;
+            _principal = principal; 
         }
         public async Task<IEnumerable<ArticleDTO>> GetArticles(ArticleFilter filter)
         {
@@ -100,6 +105,7 @@ namespace BlogBL
         public async Task<bool> CreateArticle(ArticleDTO model)
         {
             var emptyId = Guid.Empty;
+            var a = _principal.Identity;
             var entity = new Article()
             {
                 Id = Guid.NewGuid(),
