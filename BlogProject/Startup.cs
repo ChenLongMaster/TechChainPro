@@ -62,13 +62,16 @@ namespace BlogProject
                 };
                 options.Validate();
             });
-            services.AddAuthorization(config => {
-                config.AddPolicy(PolicyConstants.ViewArticle, Policies.ViewArticlePolicy());
-                config.AddPolicy(PolicyConstants.CreateArticle, Policies.CreateArticlePolicy());
-                config.AddPolicy(PolicyConstants.EditArticle, Policies.EditArticlePolicy());
-                config.AddPolicy(PolicyConstants.DeleteArticle, Policies.DeleteArticlePolicy());
-            });
             services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
+
+            #region for future policy-based authorization
+            //services.AddAuthorization(config => {
+            //    config.AddPolicy(PolicyConstants.ViewArticle, Policies.ViewArticlePolicy());
+            //    config.AddPolicy(PolicyConstants.CreateArticle, Policies.CreateArticlePolicy());
+            //    config.AddPolicy(PolicyConstants.EditArticle, Policies.EditArticlePolicy());
+            //    config.AddPolicy(PolicyConstants.DeleteArticle, Policies.DeleteArticlePolicy());
+            //});
+            #endregion
 
             #region Swagger
             services.AddSwaggerGen(c =>

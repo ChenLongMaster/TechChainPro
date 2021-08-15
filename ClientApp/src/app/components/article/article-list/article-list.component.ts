@@ -5,6 +5,7 @@ import { ArticleFilter, ArticleModel } from 'src/app/model/article.model';
 import { CategoryModel } from 'src/app/model/category.model';
 import { OptionObject } from 'src/app/model/optionObject.model';
 import { ArticleService } from 'src/app/service/article.service';
+import { CommonService } from 'src/app/service/common.service';
 import { CategoryEnum } from 'src/app/service/core/category.enum';
 import { SortDirection } from 'src/app/service/core/sort-direction';
 
@@ -32,11 +33,11 @@ export class ArticleListComponent implements OnInit {
   }
 
   constructor(private articleService: ArticleService,
-    private router: Router
+    private commonService: CommonService,
   ) {
 
   }
-  
+
   ngOnInit(): void {
     this.InitCategoryItems();
     this.dateSortOptions = this.articleService.InitSortItems();
@@ -53,14 +54,14 @@ export class ArticleListComponent implements OnInit {
 
 
   InitCategoryItems() {
-    this.articleService.GetCategoryItem().pipe(untilDestroyed(this)).subscribe((returnData: CategoryModel[]) => {
-      this.categoryOptions = returnData.map(x => new OptionObject(x.name, x.id,x.introduction));
+    this.commonService.GetCategoryItem().pipe(untilDestroyed(this)).subscribe((returnData: CategoryModel[]) => {
+      this.categoryOptions = returnData.map(x => new OptionObject(x.name, x.id, x.introduction));
       this.selectedCategory = this.categoryOptions.filter(x => x.value == 1)[0];
       this.UpdateIntroductionString();
     });
   }
 
-  UpdateIntroductionString(){
+  UpdateIntroductionString() {
     var currentCategory = this.categoryOptions.filter(x => x.value == this.selectedCategory.value);
     this.introduction = currentCategory[0].data;
   }

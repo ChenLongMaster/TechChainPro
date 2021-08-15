@@ -5,7 +5,7 @@ import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService, SocialUs
 import { MessageService } from 'primeng/api';
 import { BehaviorSubject } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
-import { StorageQueryService } from 'src/app/service/core/storage.query.service';
+import { StorageQuery } from 'src/app/service/core/storage.query.service';
 import { Constants } from '../constants';
 import { AuthenticationResponseModel } from '../model/authentication-response.model';
 import { ExternalAuthModel } from '../model/externalAuth.model';
@@ -16,10 +16,11 @@ import { UserModel } from '../model/user.model';
 export class AutheticationService {
 
     userData = new BehaviorSubject<UserModel>(new UserModel());
+    triggerLogin = new BehaviorSubject<boolean>(false);
 
     constructor(private httpClient: HttpClient,
         private externalAuthService: SocialAuthService,
-        private storageQueryService: StorageQueryService,
+        private storageQueryService: StorageQuery,
         private messageService: MessageService) { }
 
     AuthenticateUser(user: UserModel): Observable<AuthenticationResponseModel> {
@@ -38,14 +39,32 @@ export class AutheticationService {
         return this.httpClient.post<AuthenticationResponseModel>(`${Constants.AuthenticationServiceApiUrl()}/external`, model);
     }
 
-    updateUserData(user: UserModel) {
-        this.userData.next(user);
+    updateUserData() {
+        const user = this.GetDecodedTokenDetail();
+        if (user) {
+            this.externalAuthService.authState.subscribe((socialuser: SocialUser) => {
+                user.avatar = socialuser.photoUrl
+                this.userData.next(user);
+            });
+        }
     }
 
     signOut() {
         this.storageQueryService.RemoveToken();
         this.userData.next(new UserModel());
+        this.updateUserData();
         this.externalAuthService.signOut();
         this.messageService.add({ severity: 'info', summary: 'Sign out', detail: 'You has been singed out!' });
+    }
+
+    GetDecodedTokenDetail(): any {
+        const token = this.storageQueryService.GetToken();
+        if (!token || token == null) {
+            return null;
+        }
+        let user = new UserModel();
+        const decodeUserDetails = JSON.parse(window.atob(token.split('.')[1]));
+        user = decodeUserDetails;
+        return user;
     }
 }

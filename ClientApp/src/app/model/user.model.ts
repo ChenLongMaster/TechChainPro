@@ -9,7 +9,6 @@ export class UserModel extends Base {
     email: string; 
     avatar: string;
     role: string[];
-    isLoggedIn: boolean;
 }
 
 export class LoginModel extends UserModel {

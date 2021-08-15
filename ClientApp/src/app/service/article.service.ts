@@ -43,9 +43,7 @@ export class ArticleService {
         return this.httpClient.put<boolean>(`${Constants.ArticleServiceApiUrl()}`, model);
     }
 
-    GetCategoryItem(): Observable<CategoryModel[]> {
-        return this.httpClient.get<CategoryModel[]>(`${Constants.CommonServiceApiUrl()}`);
-    }
+  
 
     InitSortItems(): OptionObject[] {
         return [

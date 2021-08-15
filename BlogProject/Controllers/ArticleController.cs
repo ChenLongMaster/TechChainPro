@@ -1,4 +1,5 @@
 ﻿using BlogBL;
+using BlogDAL.Authorization;
 using BlogDAL.Models;
 using BlogDAL.Models.DTO;
 using BlogDAL.Policies;
@@ -21,7 +22,7 @@ namespace BlogProject.Controllers
         }
 
         [HttpPost]
-        [Authorize(Policy = PolicyConstants.CreateArticle)]
+        [Authorize(Roles = RoleConstants.Admin + "," + RoleConstants.Member)]
         public async Task<bool> CreateArticle([FromBody] ArticleDTO input)
         {
             bool result = await _service.CreateArticle(input);
@@ -30,7 +31,7 @@ namespace BlogProject.Controllers
 
         [Route("{id}")]
         [HttpGet]
-        [Authorize(Policy = PolicyConstants.ViewArticle)]
+        [AllowAnonymous]
         public async Task<Article> GetArticleById(Guid id)
         {
             Article result = await _service.GetArticleById(id);
@@ -38,6 +39,7 @@ namespace BlogProject.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IEnumerable<ArticleDTO>> GetArticle([FromQuery] ArticleFilter filter)
         {
             IEnumerable<ArticleDTO> result = await _service.GetArticles(filter);
@@ -46,6 +48,7 @@ namespace BlogProject.Controllers
 
         [Route("recommended")]
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IEnumerable<ArticleDTO>> GetRecommendedArticle([FromQuery] ArticleFilter filter)
         {
             IEnumerable<ArticleDTO> result = await _service.GetRecommendedArticles();
@@ -53,10 +56,18 @@ namespace BlogProject.Controllers
         }
 
         [HttpPut]
-        [Authorize(Policy = PolicyConstants.EditArticle)]
+        [Authorize(Roles = RoleConstants.Admin + "," + RoleConstants.Moderator)]
         public async Task<bool> UpdateArticleById([FromBody] ArticleDTO model)
         {
             bool result = await _service.UpdateArticle(model);
+            return result;
+        }
+
+        [HttpDelete]
+        [Authorize(Roles = RoleConstants.Admin)]
+        public async Task<bool> DeleteArticleById(Guid id)
+        {
+            bool result = await _service.DeleteArticle(id);
             return result;
         }
     }

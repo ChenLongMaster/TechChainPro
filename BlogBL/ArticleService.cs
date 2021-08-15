@@ -135,5 +135,14 @@ namespace BlogBL
 
             return result > 0;
         }
+
+        public async Task<bool> DeleteArticle(Guid id)
+        {
+            var entity = await GetArticleById(id);
+            _blogContext.Articles.Remove(entity);
+            var result = await _blogContext.SaveChangesAsync();
+
+            return result > 0;
+        }
     }
 }

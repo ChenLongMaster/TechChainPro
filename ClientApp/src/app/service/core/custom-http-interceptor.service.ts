@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { MessageService } from "primeng/api";
 import { Observable, ReplaySubject, throwError } from "rxjs";
 import { catchError, finalize, map, tap } from "rxjs/operators";
-import { StorageQueryService } from "./storage.query.service";
+import { StorageQuery } from "./storage.query.service";
 
 @Injectable()
 export class CustomHttpInterceptor implements HttpInterceptor {
@@ -11,7 +11,7 @@ export class CustomHttpInterceptor implements HttpInterceptor {
     private _onGoingRequests = 0;
     private _onGoingRequestStatus: ReplaySubject<boolean> = new ReplaySubject<boolean>();
 
-    constructor(private storageQuerySerive: StorageQueryService,
+    constructor(private storageQuerySerive: StorageQuery,
         private messageService: MessageService
     ) {
 
@@ -50,7 +50,7 @@ export class CustomHttpInterceptor implements HttpInterceptor {
             }),
             catchError(error => {
                 if (error.status == 401) {
-                    this.messageService.add({ severity: 'error', summary: 'Access Denied', detail: 'You Are Unauthorized.', sticky: true ,closable:true});
+                    this.messageService.add({ severity: 'error', summary: 'Access Denied', detail: 'You Are Unauthorized.',closable:true});
                 }
                 else {
                     this.messageService.add({ severity: 'error', summary: 'Error While Sending Request.', detail: error.message, closable:true });
