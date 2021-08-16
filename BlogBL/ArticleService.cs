@@ -11,6 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,18 +22,22 @@ namespace BlogBL
     {
         private BlogContext _blogContext;
         private readonly IMapper _mapper;
-        public ArticleService(BlogContext blogContext, IMapper mapper)
+        //private readonly HttpContext _context;
+        private ClaimsPrincipal _principal;
+        public ArticleService(BlogContext blogContext, IMapper mapper, ClaimsPrincipal principal)
         {
             _blogContext = blogContext;
             _mapper = mapper;
+            _principal = principal; 
         }
         public async Task<IEnumerable<ArticleDTO>> GetArticles(ArticleFilter filter)
         {
             var entity = new List<ArticleDTO>();
             var query = from a in _blogContext.Articles
                         join c in _blogContext.Categories on a.CategoryId equals c.Id
-                        join u in _blogContext.Users on a.CreatedBy equals u.Id into x
+                        join u in _blogContext.Users on a.AuthorId equals u.Id into x
                         from subUser in x.DefaultIfEmpty()
+                        where a.IsDeleted == false
                         select new ArticleDTO
                         {
                             Id = a.Id,
@@ -49,9 +55,9 @@ namespace BlogBL
             {
                 query = from a in _blogContext.Articles
                         join c in _blogContext.Categories on a.CategoryId equals c.Id
-                        join u in _blogContext.Users on a.CreatedBy equals u.Id into x
+                        join u in _blogContext.Users on a.AuthorId equals u.Id into x
                         from subUser in x.DefaultIfEmpty()
-                        where a.CategoryId == filter.CategoryId
+                        where a.CategoryId == filter.CategoryId && a.IsDeleted == false
                         select new ArticleDTO
                         {
                             Id = a.Id,
@@ -83,23 +89,26 @@ namespace BlogBL
 
             return entity;
         }
-        public async Task<Article> GetArticleById(Guid Id)
+        public async Task<ArticleDTO> GetArticleById(Guid id)
         {
-            var entity = await _blogContext.Articles.SingleAsync(x => x.Id == Id);
+            var entity = await _blogContext.Articles.Include(x => x.Author).SingleAsync(x => x.Id == id && x.IsDeleted == false);
+            var result = _mapper.Map<ArticleDTO>(entity);
 
-            return entity;
+            return result;
         }
 
         public async Task<IEnumerable<ArticleDTO>> GetRecommendedArticles()
         {
-            var entity = await _blogContext.Articles.Take(5).OrderByDescending(x => x.Rating).ToListAsync();
+            var entity = await _blogContext.Articles.Where(x => x.IsDeleted ==false)
+                                                    .Take(5)
+                                                    .OrderByDescending(x => x.Rating).ToListAsync();
             var result = _mapper.Map<IEnumerable<ArticleDTO>>(entity);
             return result;
         }
 
         public async Task<bool> CreateArticle(ArticleDTO model)
         {
-            var emptyId = Guid.Empty;
+            var authorId = _principal.FindFirst("id").Value;
             var entity = new Article()
             {
                 Id = Guid.NewGuid(),
@@ -108,7 +117,7 @@ namespace BlogBL
                 Abstract = model.Abstract,
                 DisplayContent = model.DisplayContent,
                 RepresentImageUrl = model.RepresentImageUrl,
-                CreatedBy = emptyId,
+                AuthorId = new Guid(authorId),
                 CreatedOn = DateTime.Now,
             };
 
@@ -120,7 +129,15 @@ namespace BlogBL
 
         public async Task<bool> UpdateArticle(ArticleDTO model)
         {
-            var entity = await _blogContext.Articles.SingleOrDefaultAsync(x => x.Id == model.Id);
+            var authorId = _principal.FindFirst("id").Value;
+
+            var entity = await _blogContext.Articles.Include(x => x.Author).SingleOrDefaultAsync(x => x.Id == model.Id);
+
+            if (authorId != entity.AuthorId.ToString())
+            {
+                throw new Exception("You are not the author!.");
+            }
+
             if (entity is not null)
             {
                 entity.Abstract = model.Abstract;
@@ -135,11 +152,18 @@ namespace BlogBL
 
             return result > 0;
         }
-
         public async Task<bool> DeleteArticle(Guid id)
         {
-            var entity = await GetArticleById(id);
-            _blogContext.Articles.Remove(entity);
+            var entity = await _blogContext.Articles.Include(x => x.Author).SingleAsync(x => x.Id == id);
+            var authorId = _principal.FindFirst("id").Value;
+
+            if (authorId != entity.AuthorId.ToString())
+            {
+                throw new Exception("You are not the author!.");
+            }
+
+            entity.IsDeleted = true;
+            _blogContext.Update(entity);
             var result = await _blogContext.SaveChangesAsync();
 
             return result > 0;

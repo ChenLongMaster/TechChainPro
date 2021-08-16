@@ -15,7 +15,7 @@
         </div>
         <ng-template [ngIf] = "true" #userinfo>
           <div *ngIf="currentUserData?.username" (click)="menu.toggle($event)" class="user-info-section dropdown">
-            <p-tieredMenu #menu [model]="items" appendTo="userinfo" [popup]="true"></p-tieredMenu>
+            <p-tieredMenu #menu [model]="items" [appendTo]="userinfo" [popup]="true"></p-tieredMenu>
             <img [src]="userImage">
             <div class="user-name">
               <p>Welcome, {{currentUserData.username}} </p>

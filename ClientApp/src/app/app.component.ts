@@ -26,11 +26,11 @@ export class AppComponent {
   currentUserData = new UserModel();
   items: MenuItem[];
 
-  userImage: string = Constants.UserDefaultImage;
+  userImage: string;
   constructor(
     private articleService: ArticleService,
     private autheticationService: AutheticationService,
-    private messageService:MessageService,
+    private messageService: MessageService,
     private confirmationService: ConfirmationService,
     @Inject(HTTP_INTERCEPTORS) private interceptor: any[]) {
     this.customHttpInterceptor = interceptor.find(x => x instanceof CustomHttpInterceptor);
@@ -39,8 +39,10 @@ export class AppComponent {
     this.autheticationService.updateUserData();
     // this.userImage = this.currentUserData?.avatar ? this.currentUserData.avatar : this.userImage;
     this.autheticationService.userData.subscribe((user) => {
+      if(user.username){
+        this.userImage = user.avatar ? user.avatar : Constants.UserDefaultImage;
+      }
       this.currentUserData = user;
-      this.userImage = this.currentUserData.avatar
       this.displayLogin = false;
     })
     this.autheticationService.triggerLogin.subscribe((data) => {
@@ -51,8 +53,8 @@ export class AppComponent {
         label: "Setting",
         icon: "fas fa-cog",
         command: () => {
-          this.messageService.add({ severity: 'warn', summary: 'Feature not yet implemented.', detail: "Please stay tuned for the upcoming release.",closable: true });
-        } 
+          this.messageService.add({ severity: 'warn', summary: 'Feature not yet implemented.', detail: "Please stay tuned for the upcoming release.", closable: true });
+        }
       },
       {
         separator: true
@@ -72,25 +74,25 @@ export class AppComponent {
     });
   }
 
-  feedback(){
+  feedback() {
     this.messageService.add({ severity: 'warn', summary: 'Feature not yet implemented.', detail: 'Please stay tune for the upcoming release.', closable: true })
   }
 
-  showDialog(){
+  showDialog() {
     this.displayLogin = true;
   }
 
-  signOut(){
+  signOut() {
     this.confirmationService.confirm({
       message: 'You are about to sign out. Are you sure to continue?',
       header: 'Sign Out',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-          this.autheticationService.signOut();
+        this.autheticationService.signOut();
       },
       reject: () => {
-          
+
       }
-  });
+    });
   }
 }

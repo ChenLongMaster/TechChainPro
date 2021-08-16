@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { ArticleModel } from 'src/app/model/article.model';
 import { CategoryModel } from 'src/app/model/category.model';
 import { OptionObject } from 'src/app/model/optionObject.model';
@@ -39,6 +39,7 @@ export class ArticleEditorComponent implements OnInit {
   outputValue: string = "";
 
   canDelete: boolean;
+  headerTitle: string = "New Article";
 
   get formName() {
     return this.editorFormGroup.controls['name'];
@@ -59,6 +60,7 @@ export class ArticleEditorComponent implements OnInit {
     private authorizationService: AuthorizationService,
     private commonService: CommonService,
     private messageService: MessageService,
+    private confirmationService: ConfirmationService,
     private activeRoute: ActivatedRoute,
     private router: Router,
     private location: Location) { }
@@ -88,6 +90,7 @@ export class ArticleEditorComponent implements OnInit {
       'abstract': new FormControl(),
     });
     if (this.id) {
+      this.headerTitle = "Edit Article";
       this.GetArticleById();
       this.viewModel.displayContent = this.viewModel.displayContent;
     }
@@ -113,14 +116,13 @@ export class ArticleEditorComponent implements OnInit {
       }
       else {
         const currentUser = this.autheticationService.GetDecodedTokenDetail();
-        debugger
         if (!currentUser) {
           this.autheticationService.triggerLogin.next(true);
           return;
         }
         this.articleService.CreateArticle(this.viewModel).pipe(untilDestroyed(this)).subscribe((result: boolean) => {
           if (result) {
-            this.messageService.add({ severity: 'success', summary: 'Create Sucessfull', detail: `Article has been created sucessfully.` });
+            this.messageService.add({ severity: 'success', summary: 'Create Successful', detail: `Article has been created Successfully.` });
             this.router.navigateByUrl(`/articles`);
           }
           else {
@@ -132,13 +134,30 @@ export class ArticleEditorComponent implements OnInit {
   }
 
   GetArticleById() {
-    this.articleService.GetArticleById(this.id).pipe().subscribe((returneData: ArticleModel) => {
-      debugger
-      this.initRepresentImage = true;
+    this.articleService.GetArticleById(this.id).pipe(untilDestroyed(this)).subscribe((returneData: ArticleModel) => {
       this.viewModel = returneData;
+      this.initRepresentImage = true;
       this.editorFormGroup.patchValue(this.viewModel);
       this.editorFormGroup.controls['category'].setValue(new OptionObject(this.viewModel.categoryName, this.viewModel.categoryId,));
-      this.canDelete = this.authorizationService.CheckDeleteArticlePermisson(this.viewModel.authorName);
+      this.canDelete = this.authorizationService.CheckDeleteArticlePermisson(this.viewModel.authorId);
+    });
+  }
+
+  Delete() {
+    this.confirmationService.confirm({
+      message: 'Are you sure want to delete this article?',
+      header: 'Delete',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.articleService.DeleteArticle(this.viewModel.id).pipe(untilDestroyed(this)).subscribe((result) => {
+          if (result) {
+            this.messageService.add({ severity: 'success', summary: 'Delete Successful', detail: `Article has been deleted.` });
+            this.router.navigateByUrl(`/articles`);
+          }
+        });
+      },
+      reject: () => {
+      }
     });
   }
 

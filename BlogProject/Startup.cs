@@ -1,7 +1,5 @@
 using BlogBL;
 using BlogBL.Helpers;
-using BlogDAL.Models;
-using BlogDAL.Policies;
 using BlogDAL.UnitOfWork;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -14,6 +12,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Security.Claims;
 using System.Text;
 
 namespace BlogProject
@@ -41,6 +40,9 @@ namespace BlogProject
             services.AddScoped<IArticleService, ArticleService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<ICommonService, CommonService>();
+            services.AddHttpContextAccessor();
+            services.AddTransient<ClaimsPrincipal>(provider => provider.GetService<IHttpContextAccessor>().HttpContext.User);
+
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;

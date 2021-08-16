@@ -29,12 +29,12 @@ namespace BlogProject.Controllers
             return true;
         }
 
-        [Route("{id}")]
         [HttpGet]
+        [Route("{id}")]
         [AllowAnonymous]
-        public async Task<Article> GetArticleById(Guid id)
+        public async Task<ArticleDTO> GetArticleById(Guid id)
         {
-            Article result = await _service.GetArticleById(id);
+            var result = await _service.GetArticleById(id);
             return result;
         }
 
@@ -42,7 +42,7 @@ namespace BlogProject.Controllers
         [AllowAnonymous]
         public async Task<IEnumerable<ArticleDTO>> GetArticle([FromQuery] ArticleFilter filter)
         {
-            IEnumerable<ArticleDTO> result = await _service.GetArticles(filter);
+            var result = await _service.GetArticles(filter);
             return result;
         }
 
@@ -51,12 +51,12 @@ namespace BlogProject.Controllers
         [AllowAnonymous]
         public async Task<IEnumerable<ArticleDTO>> GetRecommendedArticle([FromQuery] ArticleFilter filter)
         {
-            IEnumerable<ArticleDTO> result = await _service.GetRecommendedArticles();
+            var result = await _service.GetRecommendedArticles();
             return result;
         }
 
         [HttpPut]
-        [Authorize(Roles = RoleConstants.Admin + "," + RoleConstants.Moderator)]
+        [Authorize(Roles = RoleConstants.Admin + "," + RoleConstants.Moderator + "," + RoleConstants.Member)]
         public async Task<bool> UpdateArticleById([FromBody] ArticleDTO model)
         {
             bool result = await _service.UpdateArticle(model);
@@ -64,7 +64,8 @@ namespace BlogProject.Controllers
         }
 
         [HttpDelete]
-        [Authorize(Roles = RoleConstants.Admin)]
+        [Route("{id}")]
+        [Authorize(Roles = RoleConstants.Admin + "," + RoleConstants.Member)]
         public async Task<bool> DeleteArticleById(Guid id)
         {
             bool result = await _service.DeleteArticle(id);

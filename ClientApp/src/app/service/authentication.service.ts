@@ -43,17 +43,20 @@ export class AutheticationService {
         const user = this.GetDecodedTokenDetail();
         if (user) {
             this.externalAuthService.authState.subscribe((socialuser: SocialUser) => {
-                user.avatar = socialuser.photoUrl
-                this.userData.next(user);
+                if(socialuser)
+                {
+                    user.avatar = socialuser?.photoUrl;
+                    this.userData.next(user);
+                }
             });
+            this.userData.next(user);
         }
     }
 
     signOut() {
+        this.externalAuthService.signOut();
         this.storageQueryService.RemoveToken();
         this.userData.next(new UserModel());
-        this.updateUserData();
-        this.externalAuthService.signOut();
         this.messageService.add({ severity: 'info', summary: 'Sign out', detail: 'You has been singed out!' });
     }
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { Constants } from 'src/app/constants';
 import { ArticleFilter, ArticleModel } from 'src/app/model/article.model';
 import { CategoryModel } from 'src/app/model/category.model';
 import { OptionObject } from 'src/app/model/optionObject.model';
@@ -28,6 +29,8 @@ export class ArticleListComponent implements OnInit {
 
   introduction: string;
 
+  emptyArticleImage: string = Constants.ArticleEmptyImage;
+
   public get CategoryEnum(): typeof CategoryEnum {
     return CategoryEnum;
   }
@@ -41,14 +44,15 @@ export class ArticleListComponent implements OnInit {
   ngOnInit(): void {
     this.InitCategoryItems();
     this.dateSortOptions = this.articleService.InitSortItems();
-    this.selectedDateSort.value = SortDirection.DESC;
+    this.selectedDateSort.value = SortDirection.ASC;
     this.getArticleItems();
   }
 
   getArticleItems() {
     this.articleService.GetArticles(this.filterModel).pipe(untilDestroyed(this)).subscribe((response: ArticleModel[]) => {
       this.listModel = response;
-    })
+      console.log(this.listModel);
+    });
   }
 
 
