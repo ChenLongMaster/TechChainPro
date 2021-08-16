@@ -43,6 +43,10 @@ export class ArticleService {
         return this.httpClient.put<boolean>(`${Constants.ArticleServiceApiUrl()}`, model);
     }
 
+    DeleteArticle(id: string) : Observable<boolean> {
+        return this.httpClient.delete<boolean>(`${Constants.ArticleServiceApiUrl()}/${id}`);
+    }
+
   
 
     InitSortItems(): OptionObject[] {

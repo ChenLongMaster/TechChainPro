@@ -14,10 +14,10 @@ namespace BlogDAL.Models.DTO
         public string DisplayContent { get; set; }
         public string RepresentImageUrl { get; set; }
         public int CategoryId { get; set; }
-        public DateTime CreatedOn { get; set; }
         public int Rating { get; set; }
-        public Guid? CreatedBy { get; set; }
         public string CategoryName { get; set; }
         public string AuthorName { get; set; }
+        public string AuthorId { get; set; }
+
     }
 }

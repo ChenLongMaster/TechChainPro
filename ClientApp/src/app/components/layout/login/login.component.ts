@@ -37,6 +37,7 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.autheticationService.AuthenticateUser(this.loginForm.value as LoginModel).pipe(untilDestroyed(this)).subscribe((result: any) => {
       if (result.token) {
+        this.messageService.clear();
         this.messageService.add({ severity: 'success', summary: 'Welcome!', detail: 'Login Successfully' });
         this.storageQueryService.SetToken(result.token);
         this.authService.updateUserData();

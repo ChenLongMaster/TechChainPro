@@ -49,6 +49,7 @@ export class AutheticationService {
                     this.userData.next(user);
                 }
             });
+            this.userData.next(user);
         }
     }
 

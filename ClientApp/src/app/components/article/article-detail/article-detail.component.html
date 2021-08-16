@@ -6,7 +6,10 @@
             </div>
             <div class="info">
                 <div class="author"><i class="fas fa-user-edit"></i>
-                    {{viewModel.authorName}} wdwdwd
+                    {{viewModel.authorName}}
+                    <span *ngIf="!viewModel.authorName || viewModel.authorName == ''" class = "annotate">
+                        Anonymous
+                    </span>
                 </div>
                 <div class="date"><i class="fas fa-calendar-alt"></i>
                     {{viewModel.createdOn | date: 'dd/MM/yyyy'}}
@@ -16,7 +19,8 @@
         <hr />
         <div class="action-container">
             <div class="action-section">
-                <button type="button" class="saveButton small-btn btn btn-outline-info" [routerLink]="['/articles/editor',id ]">
+                <button type="button" class="saveButton small-btn btn btn-outline-info" [title]="canEdit ? 'Edit Article' : 'You are not the owner of the article'"
+                 [routerLink]="['/articles/editor',id ]"  [disabled] = "!canEdit">
                     <i class="fas fa-edit"></i>Edit
                 </button>
                 <button type="button" class="saveButton small-btn btn btn-outline-info" (click)="goToPreviousPage()">

@@ -1,7 +1,5 @@
 using BlogBL;
 using BlogBL.Helpers;
-using BlogDAL.Models;
-using BlogDAL.Policies;
 using BlogDAL.UnitOfWork;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -15,7 +13,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Security.Claims;
-using System.Security.Principal;
 using System.Text;
 
 namespace BlogProject

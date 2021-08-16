@@ -2,7 +2,8 @@ export default class UploadAdapter {
   loader;
   constructor(loader) {
     this.loader = loader;
-    this.url = "https://localhost:5001/api/common"
+    // this.url = "https://localhost:5001/api/common"
+    this.url = "https://techchainpro.com/api/common"
   }
 
   upload() {

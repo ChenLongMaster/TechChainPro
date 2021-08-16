@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { UserModel } from "../model/user.model";
 import { AutheticationService } from "./authentication.service";
+import { RoleEnum } from "./core/role-enum";
 
 @Injectable({ providedIn: 'root' })
 
@@ -18,20 +19,19 @@ export class AuthorizationService {
         return false;
     }
 
-    CheckEditArticlePermisson(author: string): Boolean {
+    CheckEditArticlePermisson(authorId: string): boolean {
         let user = new UserModel();
         user = this.autheticationService.GetDecodedTokenDetail();
-        if (user.username == author || user.role[0] === "Moderator") {
+        if (user.id === authorId || user.role[0] === RoleEnum.Moderator || user.role[0] === RoleEnum.Admin) {
             return true;
         }
         return false;
     }
 
-    CheckDeleteArticlePermisson(author: string): boolean {
-        debugger
+    CheckDeleteArticlePermisson(authorId: string): boolean {
         let user = new UserModel();
         user = this.autheticationService.GetDecodedTokenDetail();
-        if (user.username == author || user.role[0] === "Admin") {
+        if (user.id == authorId || user.role[0] === RoleEnum.Admin) {
             return true;
         }
         return false;
