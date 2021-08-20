@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BlogDAL.Models.DTO
 {
+    [NotMapped]
     public class ArticleDTO
     {
         public int Id { get; set; }
@@ -18,7 +20,7 @@ namespace BlogDAL.Models.DTO
         public int Rating { get; set; }
         public string CategoryName { get; set; }
         public string AuthorName { get; set; }
-        public string AuthorId { get; set; }
+        public Guid AuthorId { get; set; }
         public DateTime CreatedOn { get; set; }
         public bool IsDeleted { get; set; }
     }
