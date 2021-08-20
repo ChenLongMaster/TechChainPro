@@ -1,9 +1,14 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BlogDAL.Models
 {
-    public class Article : ModelBase
+    public class Article
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Abstract { get; set; }
         public string DisplayContent { get; set; }
@@ -13,5 +18,7 @@ namespace BlogDAL.Models
         public Category Category { get; set; }
         public Guid AuthorId { get; set; }
         public User Author { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

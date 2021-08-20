@@ -31,7 +31,7 @@ export class ArticleService {
         return this.httpClient.get<ArticleModel[]>(`${Constants.ArticleServiceApiUrl()}/recommended`);
     }
 
-    GetArticleById(id: any): Observable<ArticleModel> {
+    GetArticleById(id: number): Observable<ArticleModel> {
         return this.httpClient.get<ArticleModel>(`${Constants.ArticleServiceApiUrl()}/${id}`);
     }
 
@@ -43,7 +43,7 @@ export class ArticleService {
         return this.httpClient.put<boolean>(`${Constants.ArticleServiceApiUrl()}`, model);
     }
 
-    DeleteArticle(id: string) : Observable<boolean> {
+    DeleteArticle(id: number) : Observable<boolean> {
         return this.httpClient.delete<boolean>(`${Constants.ArticleServiceApiUrl()}/${id}`);
     }
 

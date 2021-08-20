@@ -55,7 +55,7 @@
             <h4>Recommended</h4>
           </div>
           <div class="recommend-items" *ngFor="let item of recommededItems">
-            <span [routerLink]="['/articles/detail/',item.id]">
+            <span (click) = "goToDetail(item.categoryId,item.id,item.name)">
               {{item.name}}
             </span>
           </div>

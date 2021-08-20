@@ -20,7 +20,7 @@
         <div class="action-container">
             <div class="action-section">
                 <button type="button" class="saveButton small-btn btn btn-outline-info" [title]="canEdit ? 'Edit Article' : 'You are not the owner of the article'"
-                 [routerLink]="['/articles/editor',id ]"  [disabled] = "!canEdit">
+                 (click) = "goToEditor()" [disabled] = "!canEdit">
                     <i class="fas fa-edit"></i>Edit
                 </button>
                 <button type="button" class="saveButton small-btn btn btn-outline-info" (click)="goToPreviousPage()">

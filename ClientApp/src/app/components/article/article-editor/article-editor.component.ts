@@ -10,9 +10,11 @@ import { OptionObject } from 'src/app/model/optionObject.model';
 import { ArticleService } from 'src/app/service/article.service';
 import { CommonService } from 'src/app/service/common.service';
 import { Location } from '@angular/common';
-import UploadAdapter from 'src/app/service/core/upload-adapter.service';
+import UploadAdapter from 'src/app/service/core/upload-adapter';
 import { AuthorizationService } from 'src/app/service/authorization.service';
 import { AutheticationService } from 'src/app/service/authentication.service';
+import { SlugifyPipe } from 'src/app/service/core/Slugify.pipe';
+import { CategoryEnum } from 'src/app/service/core/category.enum';
 
 @UntilDestroy()
 @Component({
@@ -24,9 +26,8 @@ export class ArticleEditorComponent implements OnInit {
   public Editor = DecoupledEditor;
   @Input() ArticleId: string;
 
-
   isNew: boolean;
-  id: string | null;
+  id: number;
   viewModel: ArticleModel = new ArticleModel();
   editorFormGroup: FormGroup;
   outputContent: string;
@@ -62,6 +63,7 @@ export class ArticleEditorComponent implements OnInit {
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private activeRoute: ActivatedRoute,
+    private slugifyPipe: SlugifyPipe,
     private router: Router,
     private location: Location) { }
 
@@ -140,7 +142,14 @@ export class ArticleEditorComponent implements OnInit {
       this.editorFormGroup.patchValue(this.viewModel);
       this.editorFormGroup.controls['category'].setValue(new OptionObject(this.viewModel.categoryName, this.viewModel.categoryId,));
       this.canDelete = this.authorizationService.CheckDeleteArticlePermisson(this.viewModel.authorId);
+      this.changeURL(this.viewModel.categoryId,this.viewModel.id,this.viewModel.name);
     });
+  }
+
+  changeURL(categoryId: number,id:number,title:string){
+    const slug = this.slugifyPipe.transform(title);
+    const category = CategoryEnum[categoryId].toLocaleLowerCase();
+    this.location.go(`articles/${category}/${id}/${slug}`);
   }
 
   Delete() {

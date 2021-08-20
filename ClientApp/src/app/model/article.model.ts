@@ -3,11 +3,8 @@ import { SortDirection } from "../service/core/sort-direction";
 import { Base } from "./base.model";
 import { UserModel } from "./user.model";
 
-export class ArticleModel extends Base {
-    constructor(id?: string) {
-        super(id);
-    }
-
+export class ArticleModel {
+    id:number;
     name: string;
     abstract: string;
     displayContent: string;

@@ -33,63 +33,63 @@ namespace BlogBL
         public async Task<IEnumerable<ArticleDTO>> GetArticles(ArticleFilter filter)
         {
             var entity = new List<ArticleDTO>();
-            var query = from a in _blogContext.Articles
-                        join c in _blogContext.Categories on a.CategoryId equals c.Id
-                        join u in _blogContext.Users on a.AuthorId equals u.Id into x
-                        from subUser in x.DefaultIfEmpty()
-                        where a.IsDeleted == false
-                        select new ArticleDTO
-                        {
-                            Id = a.Id,
-                            Name = a.Name,
-                            Abstract = a.Abstract,
-                            DisplayContent = a.DisplayContent,
-                            CategoryId = a.CategoryId,
-                            CategoryName = c.Name,
-                            RepresentImageUrl = a.RepresentImageUrl,
-                            AuthorName = subUser.Username,
-                            CreatedOn = a.CreatedOn
-                        };
+            //var query = from a in _blogContext.Articles
+            //            join c in _blogContext.Categories on a.CategoryId equals c.Id
+            //            join u in _blogContext.Users on a.AuthorId equals u.Id into x
+            //            from subUser in x.DefaultIfEmpty()
+            //            where a.IsDeleted == false
+            //            select new ArticleDTO
+            //            {
+            //                Id = a.Id,
+            //                Name = a.Name,
+            //                Abstract = a.Abstract,
+            //                DisplayContent = a.DisplayContent,
+            //                CategoryId = a.CategoryId,
+            //                CategoryName = c.Name,
+            //                RepresentImageUrl = a.RepresentImageUrl,
+            //                AuthorName = subUser.Username,
+            //                CreatedOn = a.CreatedOn
+            //            };
 
-            if (filter.CategoryId != 1)
-            {
-                query = from a in _blogContext.Articles
-                        join c in _blogContext.Categories on a.CategoryId equals c.Id
-                        join u in _blogContext.Users on a.AuthorId equals u.Id into x
-                        from subUser in x.DefaultIfEmpty()
-                        where a.CategoryId == filter.CategoryId && a.IsDeleted == false
-                        select new ArticleDTO
-                        {
-                            Id = a.Id,
-                            Name = a.Name,
-                            Abstract = a.Abstract,
-                            DisplayContent = a.DisplayContent,
-                            CategoryId = a.CategoryId,
-                            CategoryName = c.Name,
-                            RepresentImageUrl = a.RepresentImageUrl,
-                            AuthorName = subUser.Username,
-                            CreatedOn = a.CreatedOn
-                        };
-            }
+            //if (filter.CategoryId != 1)
+            //{
+            //    query = from a in _blogContext.Articles
+            //            join c in _blogContext.Categories on a.CategoryId equals c.Id
+            //            join u in _blogContext.Users on a.AuthorId equals u.Id into x
+            //            from subUser in x.DefaultIfEmpty()
+            //            where a.CategoryId == filter.CategoryId && a.IsDeleted == false
+            //            select new ArticleDTO
+            //            {
+            //                Id = a.Id,
+            //                Name = a.Name,
+            //                Abstract = a.Abstract,
+            //                DisplayContent = a.DisplayContent,
+            //                CategoryId = a.CategoryId,
+            //                CategoryName = c.Name,
+            //                RepresentImageUrl = a.RepresentImageUrl,
+            //                AuthorName = subUser.Username,
+            //                CreatedOn = a.CreatedOn
+            //            };
+            //}
 
-            if (filter.SortDateDirection == (int)SortDirection.ASC)
-            {
-                entity = await query.OrderBy(x => x.CreatedOn).ToListAsync();
-            }
-            else
-            {
-                entity = await query.OrderByDescending(x => x.CreatedOn).ToListAsync();
-            }
+            //if (filter.SortDateDirection == (int)SortDirection.ASC)
+            //{
+            //    entity = await query.OrderBy(x => x.CreatedOn).ToListAsync();
+            //}
+            //else
+            //{
+            //    entity = await query.OrderByDescending(x => x.CreatedOn).ToListAsync();
+            //}
 
             #region use store procedure
-            //var param = new SqlParameter("@CategoryId", filter.CategoryId);
-            //var entity2 = _blogContext.Articles.FromSqlRaw("Exec GetAllArticles @CategoryId", param);
-            //return entity;
+            var param = new SqlParameter("@CategoryId", filter.CategoryId);
+            var article = _blogContext.Articles.FromSqlRaw("Exec GetAllArticles @CategoryId", param).ToList();
+            entity = _mapper.Map<List<ArticleDTO>>(article);
             #endregion
 
             return entity;
         }
-        public async Task<ArticleDTO> GetArticleById(Guid id)
+        public async Task<ArticleDTO> GetArticleById(int id)
         {
             var entity = await _blogContext.Articles.Include(x => x.Author).SingleAsync(x => x.Id == id && x.IsDeleted == false);
             var result = _mapper.Map<ArticleDTO>(entity);
@@ -111,7 +111,6 @@ namespace BlogBL
             var authorId = _principal.FindFirst("id").Value;
             var entity = new Article()
             {
-                Id = Guid.NewGuid(),
                 Name = model.Name,
                 CategoryId = model.CategoryId,
                 Abstract = model.Abstract,
@@ -152,7 +151,7 @@ namespace BlogBL
 
             return result > 0;
         }
-        public async Task<bool> DeleteArticle(Guid id)
+        public async Task<bool> DeleteArticle(int id)
         {
             var entity = await _blogContext.Articles.Include(x => x.Author).SingleAsync(x => x.Id == id);
             var authorId = _principal.FindFirst("id").Value;

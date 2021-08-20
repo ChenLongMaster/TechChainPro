@@ -12,14 +12,14 @@ const routes: Routes = [
     pathMatch: 'full',
     component: ArticleListComponent,
   },
-  { path: 'articles/detail/:id', component: ArticleDetailComponent },
-  { path: 'articles/editor', component: ArticleEditorComponent },
-  { path: 'articles/editor/:id', component: ArticleEditorComponent },
+  { path: 'articles/:category/:id/:slug', component: ArticleDetailComponent },
+  { path: 'articles/editor/create', component: ArticleEditorComponent },
+  { path: 'articles/editor/:category/:id/:slug', component: ArticleEditorComponent },
   { path: 'about', component: AboutComponent }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes,{ scrollPositionRestoration: 'enabled' })],
   exports: [RouterModule]
 })
 
