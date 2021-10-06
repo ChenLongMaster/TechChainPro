@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Constants } from 'src/app/constants';
@@ -29,6 +30,7 @@ export class ArticleListComponent implements OnInit {
   selectedDateSort: OptionObject = new OptionObject();
 
   introduction: string;
+  title: string = `${Constants.AppName} - Articles`;
 
   emptyArticleImage: string = Constants.ArticleEmptyImage;
 
@@ -39,16 +41,19 @@ export class ArticleListComponent implements OnInit {
   constructor(private articleService: ArticleService,
     private slugifyPipe: SlugifyPipe,
     private commonService: CommonService,
-    private router: Router
+    private router: Router,
+    private titleService: Title
   ) {
 
   }
+
 
   ngOnInit(): void {
     this.InitCategoryItems();
     this.dateSortOptions = this.articleService.InitSortItems();
     this.selectedDateSort.value = SortDirection.ASC;
     this.getArticleItems();
+    this.titleService.setTitle(this.title);
   }
 
   getArticleItems() {

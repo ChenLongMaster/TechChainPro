@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
-import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ArticleModel } from 'src/app/model/article.model';
 import { ArticleService } from 'src/app/service/article.service';
@@ -18,13 +18,14 @@ export class ArticleDetailComponent implements OnInit {
   articleName: string = '';
   viewModel: ArticleModel = new ArticleModel();
   canEdit: boolean;
-
+  title: string;
   constructor(private articleService: ArticleService,
     private activeRoute: ActivatedRoute,
     private router:Router,
     private slugifyPipe: SlugifyPipe,
     private authorizationService: AuthorizationService,
-    private location: Location) { }
+    private location: Location,
+    private titleService: Title) { }
   ngOnInit(): void {
     this.activeRoute.params.subscribe(params => {
       this.id = params['id'];
@@ -37,6 +38,7 @@ export class ArticleDetailComponent implements OnInit {
     this.articleService.GetArticleById(this.id).pipe().subscribe((returneData: ArticleModel) => {
       this.viewModel = returneData;
       this.canEdit = this.authorizationService.CheckEditArticlePermisson(this.viewModel.authorId);
+      this.titleService.setTitle(this.viewModel.name);
       this.changeURL(this.viewModel.categoryId,this.viewModel.id,this.viewModel.name);
     });
   }

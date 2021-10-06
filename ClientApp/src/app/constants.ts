@@ -8,7 +8,7 @@ export class Constants {
     public static UserDefaultImage = 'assets/Images/user.png';
     public static ArticleEmptyImage = '/assets/Images/placeholder.jpg';
     public static ClientRoot = window.location.origin + '/';
-    
+    public static AppName = 'Techchain Pro';
     //APIs
     public static RootApiUrl = environment.rootApiUrl;
     public static AuthenticationServiceApiUrl = () => `${Constants.RootApiUrl}api/authentication`;

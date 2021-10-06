@@ -15,6 +15,7 @@ import { AuthorizationService } from 'src/app/service/authorization.service';
 import { AutheticationService } from 'src/app/service/authentication.service';
 import { SlugifyPipe } from 'src/app/service/core/Slugify.pipe';
 import { CategoryEnum } from 'src/app/service/core/category.enum';
+import { Title } from '@angular/platform-browser';
 
 @UntilDestroy()
 @Component({
@@ -65,7 +66,8 @@ export class ArticleEditorComponent implements OnInit {
     private activeRoute: ActivatedRoute,
     private slugifyPipe: SlugifyPipe,
     private router: Router,
-    private location: Location) { }
+    private location: Location,
+    private titleService: Title) { }
 
 
   public onReady(editor: any) {
@@ -142,6 +144,8 @@ export class ArticleEditorComponent implements OnInit {
       this.editorFormGroup.patchValue(this.viewModel);
       this.editorFormGroup.controls['category'].setValue(new OptionObject(this.viewModel.categoryName, this.viewModel.categoryId,));
       this.canDelete = this.authorizationService.CheckDeleteArticlePermisson(this.viewModel.authorId);
+      this.titleService.setTitle(this.viewModel.name);
+
       this.changeURL(this.viewModel.categoryId,this.viewModel.id,this.viewModel.name);
     });
   }

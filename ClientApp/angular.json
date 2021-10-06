@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "blog": {
+    "techchainpro": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -20,7 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/blog",
+            "outputPath": "dist/techchainpro",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -75,18 +75,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "blog:build"
+            "browserTarget": "techchainpro:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "blog:build:production"
+              "browserTarget": "techchainpro:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "blog:build"
+            "browserTarget": "techchainpro:build"
           }
         },
         "test": {
@@ -124,16 +124,16 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "blog:serve"
+            "devServerTarget": "techchainpro:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "blog:serve:production"
+              "devServerTarget": "techchainpro:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "blog"
+  "defaultProject": "techchainpro"
 }
