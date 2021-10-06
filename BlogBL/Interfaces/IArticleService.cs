@@ -13,9 +13,9 @@ namespace BlogBL
 
         Task<IEnumerable<ArticleDTO>> GetArticles(ArticleFilter filter);
         Task<IEnumerable<ArticleDTO>> GetRecommendedArticles();
-        Task<ArticleDTO> GetArticleById(Guid Id);
+        Task<ArticleDTO> GetArticleById(int Id);
 
-        Task<bool> DeleteArticle(Guid Id);
+        Task<bool> DeleteArticle(int Id);
 
 
 

@@ -18,14 +18,14 @@
             </div>
         </div>
         <div class="new-button">
-            <button type="submit" class="saveButton btn btn-primary"[routerLink]="['/articles/editor']"><i
+            <button type="submit" class="saveButton btn btn-primary"[routerLink]="['/articles/editor/create']"><i
                     class="pi pi-plus p-button-icon p-button-icon-left"></i>New</button>
         </div>
     </div>
     
     <div *ngFor="let item of listModel" class="article-item">
         <div class="item-image-section"><img [src] = "item.representImageUrl ? item.representImageUrl : emptyArticleImage"/></div>
-        <div class="item-content-section" [routerLink]="['/articles/detail/',item.id]">
+        <div class="item-content-section" (click) = "goToDetail(item.categoryId,item.id,item.name)">
             <div class="title">
                 <h4> {{item.name}} </h4>
             </div>
@@ -39,7 +39,7 @@
                 </div>
             </div>
             <div class="info-section row">
-                <div class="author col-md-9"><i class="fas fa-user-edit"></i>
+                <div class="author col-md-8"><i class="fas fa-user-edit"></i>
                     <p>
                         {{item.authorName}} 
                     </p>
@@ -47,8 +47,8 @@
                         Anonymous
                      </p>
                 </div>
-                <div class="date col-md-3"><i class="fas fa-calendar-alt"></i> 
-                    {{item.createdOn | date: 'dd/MM/yyyy'}}  
+                <div class="date col-md-4"><i class="fas fa-calendar-alt"></i> 
+                    {{item.createdOn | date: 'mediumDate'}}  
                 </div>
             </div>
         </div>

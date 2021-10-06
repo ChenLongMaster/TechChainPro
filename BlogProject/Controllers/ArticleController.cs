@@ -32,7 +32,7 @@ namespace BlogProject.Controllers
         [HttpGet]
         [Route("{id}")]
         [AllowAnonymous]
-        public async Task<ArticleDTO> GetArticleById(Guid id)
+        public async Task<ArticleDTO> GetArticleById(int id)
         {
             var result = await _service.GetArticleById(id);
             return result;
@@ -66,7 +66,7 @@ namespace BlogProject.Controllers
         [HttpDelete]
         [Route("{id}")]
         [Authorize(Roles = RoleConstants.Admin + "," + RoleConstants.Member)]
-        public async Task<bool> DeleteArticleById(Guid id)
+        public async Task<bool> DeleteArticleById(int id)
         {
             bool result = await _service.DeleteArticle(id);
             return result;

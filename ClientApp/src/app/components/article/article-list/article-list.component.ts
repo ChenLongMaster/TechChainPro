@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Constants } from 'src/app/constants';
@@ -8,6 +9,7 @@ import { OptionObject } from 'src/app/model/optionObject.model';
 import { ArticleService } from 'src/app/service/article.service';
 import { CommonService } from 'src/app/service/common.service';
 import { CategoryEnum } from 'src/app/service/core/category.enum';
+import { SlugifyPipe } from 'src/app/service/core/Slugify.pipe';
 import { SortDirection } from 'src/app/service/core/sort-direction';
 
 @UntilDestroy()
@@ -28,6 +30,7 @@ export class ArticleListComponent implements OnInit {
   selectedDateSort: OptionObject = new OptionObject();
 
   introduction: string;
+  title: string = `${Constants.AppName} - Articles`;
 
   emptyArticleImage: string = Constants.ArticleEmptyImage;
 
@@ -36,22 +39,26 @@ export class ArticleListComponent implements OnInit {
   }
 
   constructor(private articleService: ArticleService,
+    private slugifyPipe: SlugifyPipe,
     private commonService: CommonService,
+    private router: Router,
+    private titleService: Title
   ) {
 
   }
+
 
   ngOnInit(): void {
     this.InitCategoryItems();
     this.dateSortOptions = this.articleService.InitSortItems();
     this.selectedDateSort.value = SortDirection.ASC;
     this.getArticleItems();
+    this.titleService.setTitle(this.title);
   }
 
   getArticleItems() {
     this.articleService.GetArticles(this.filterModel).pipe(untilDestroyed(this)).subscribe((response: ArticleModel[]) => {
       this.listModel = response;
-      console.log(this.listModel);
     });
   }
 
@@ -75,6 +82,12 @@ export class ArticleListComponent implements OnInit {
     this.filterModel.sortDateDirection = this.selectedDateSort.value;
     this.getArticleItems();
     this.UpdateIntroductionString();
+  }
+
+  goToDetail(categoryId:number,id: number,title: string){
+    const slug = this.slugifyPipe.transform(title);
+    const category = CategoryEnum[categoryId].toLocaleLowerCase();
+    this.router.navigate(['articles/',category,id,slug]);
   }
 
 }

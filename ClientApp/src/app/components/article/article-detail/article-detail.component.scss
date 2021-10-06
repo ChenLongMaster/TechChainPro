@@ -3,7 +3,6 @@
 }
 
 .info {
-
     font-size: 13px;
 }
 
@@ -17,15 +16,17 @@
 
 .article-header {
     display: flex;
-    .header{
+    .header {
         float: left;
         width: 865px;
     }
-    .info{
-        float:right
+    .info {
+        float: right;
     }
 }
-
+.action-container {
+    padding-bottom: 50px;
+}
 .action-section {
     float: right;
     display: flex;
@@ -35,3 +36,6 @@
     overflow: hidden;
 }
 
+:host ::ng-deep .image_resized {
+    width: 100% !important;
+}

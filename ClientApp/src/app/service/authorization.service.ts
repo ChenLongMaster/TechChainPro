@@ -22,6 +22,10 @@ export class AuthorizationService {
     CheckEditArticlePermisson(authorId: string): boolean {
         let user = new UserModel();
         user = this.autheticationService.GetDecodedTokenDetail();
+        if(!user)
+        {
+            return false;
+        }
         if (user.id === authorId || user.role[0] === RoleEnum.Moderator || user.role[0] === RoleEnum.Admin) {
             return true;
         }
@@ -31,6 +35,10 @@ export class AuthorizationService {
     CheckDeleteArticlePermisson(authorId: string): boolean {
         let user = new UserModel();
         user = this.autheticationService.GetDecodedTokenDetail();
+        if(!user)
+        {
+            return false;
+        }
         if (user.id == authorId || user.role[0] === RoleEnum.Admin) {
             return true;
         }
