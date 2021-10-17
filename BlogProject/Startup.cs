@@ -1,21 +1,21 @@
-using BlogBL;
-using BlogBL.Helpers;
-using BlogDAL.UnitOfWork;
+using TechchainBL;
+using TechchainBL.Helpers;
+using TechchainBL.Interfaces;
+using TechchainDAL;
+using TechchainDAL.Uow;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Security.Claims;
 using System.Text;
 
-namespace BlogProject
+namespace TechchainProject
 {
     public class Startup
     {
@@ -33,15 +33,15 @@ namespace BlogProject
             services.AddCors();
 
             services.AddControllersWithViews();
-            services.AddDbContext<BlogContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DBConnection")));
             services.AddControllers();
-            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            services.Configure<DBConfig>(Configuration.GetSection("MongoDB"));
+            services.AddSingleton<IDBClient, DBClient>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IArticleService, ArticleService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
-            services.AddScoped<ICommonService, CommonService>();
+            services.AddScoped<ICommonMongoService, CommonMongoService>();
             services.AddHttpContextAccessor();
-            services.AddTransient<ClaimsPrincipal>(provider => provider.GetService<IHttpContextAccessor>().HttpContext.User);
+            services.AddTransient(provider => provider.GetService<IHttpContextAccessor>().HttpContext.User);
 
             services.AddAuthentication(options =>
             {
@@ -133,7 +133,7 @@ namespace BlogProject
                   .WithHeaders("authorization", "accept", "content-type", "origin"));
 
             app.UseHttpsRedirection();
-           
+
 
             app.UseAuthentication();
             app.UseRouting();

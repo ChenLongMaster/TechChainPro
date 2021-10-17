@@ -1,6 +1,6 @@
-﻿using BlogBL;
+﻿using TechchainBL.Interfaces;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -8,17 +8,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlogProject.Helpers
+namespace TechchainProject.Helpers
 {
     public class JwtMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly AppSettings _appSettings;
+        private readonly IConfiguration _configuration;
 
-        public JwtMiddleware(RequestDelegate next, IOptions<AppSettings> appSettings)
+        public JwtMiddleware(RequestDelegate next, IConfiguration configuration)
         {
             _next = next;
-            _appSettings = appSettings.Value;
+            _configuration = configuration;
         }
         public async Task Invoke(HttpContext context, IUserService userService)
         {
@@ -35,7 +35,7 @@ namespace BlogProject.Helpers
         private void AttachUserToContext(HttpContext context, IUserService userService, string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+            var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Secret"]);
             tokenHandler.ValidateToken(token, new()
             {
                 ValidIssuer = "https://localhost:5001",
@@ -47,7 +47,7 @@ namespace BlogProject.Helpers
             var userId = Guid.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
 
             // attach user to context on successful jwt validation
-            context.Items["User"] = userService.GetUserByIdAsync(userId);
+            context.Items["User"] = userService.GetUserByIdAsync(userId.ToString());
         }
     }
 }

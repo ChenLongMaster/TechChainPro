@@ -1,11 +1,11 @@
-﻿using BlogBL;
-using BlogDAL.Models;
-using BlogDAL.Models.DTO;
+﻿using TechchainBL;
+using TechchainDAL.Models;
+using TechchainDAL.Models.DTO;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
-namespace BlogProject.Controllers
+namespace TechchainProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

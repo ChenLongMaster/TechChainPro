@@ -1,12 +1,14 @@
-﻿using BlogBL;
-using BlogDAL.Models;
-using BlogProject.Helpers;
+﻿using TechchainBL;
+using TechchainBL.Interfaces;
+using TechchainDAL.Models;
+using TechchainProject.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BlogProject.Controllers
+namespace TechchainProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -33,13 +35,12 @@ namespace BlogProject.Controllers
         [Authorize]
         [Route("{id}")]
         [HttpGet]
-        public async Task<User> GetUsersById(Guid id)
+        public async Task<User> GetUsersById(string id)
         {
             User result = await _userService.GetUserByIdAsync(id);
 
             return result;
         }
 
-        
     }
 }
