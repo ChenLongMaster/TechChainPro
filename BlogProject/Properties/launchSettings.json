@@ -3,7 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:42461",
+      "applicationUrl": "http://localhost:5001",
       "sslPort": 44363
     }
   },
@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "BlogProject": {
+    "TechchainProject": {
       "commandName": "Project",
       "launchUrl": "https://localhost:5001/swagger",
       "environmentVariables": {

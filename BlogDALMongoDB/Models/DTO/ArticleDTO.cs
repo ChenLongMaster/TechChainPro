@@ -2,7 +2,7 @@
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BlogDAL.Models.DTO
+namespace TechchainDAL.Models.DTO
 {
     [NotMapped]
     public class ArticleDTO

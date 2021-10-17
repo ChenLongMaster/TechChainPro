@@ -1,15 +1,8 @@
-using BlogDALOld.UnitOfWork;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace BlogProject
+namespace TechchainProject
 {
     public class Program
     {
@@ -17,7 +10,7 @@ namespace BlogProject
         {
             var host = CreateHostBuilder(args).Build();
             using var scope = host.Services.CreateScope();
-            //using var context = scope.ServiceProvider.GetRequiredService<BlogContext>();
+            //using var context = scope.ServiceProvider.GetRequiredService<TechchainContext>();
             //context.Database.EnsureCreated();
 
             host.Run();

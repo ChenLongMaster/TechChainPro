@@ -1,7 +1,7 @@
-﻿using BlogDAL.Authorization;
+﻿using TechchainDAL.Authorization;
 using Microsoft.AspNetCore.Authorization;
 
-namespace BlogDAL.Models
+namespace TechchainDAL.Models
 {
     public static class Policies
     {

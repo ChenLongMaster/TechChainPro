@@ -1,7 +1,7 @@
-﻿using BlogBL.Interfaces;
-using BlogDAL.Models;
-using BlogDAL.Models.DTO;
-using BlogDAL.Uow;
+﻿using TechchainBL.Interfaces;
+using TechchainDAL.Models;
+using TechchainDAL.Models.DTO;
+using TechchainDAL.Uow;
 using Google.Apis.Auth;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -17,7 +17,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace BlogBL
+namespace TechchainBL
 {
     public class AuthenticationService : IAuthenticationService
     {

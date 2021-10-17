@@ -1,6 +1,6 @@
-﻿using BlogBL;
-using BlogBL.Interfaces;
-using BlogDAL.Models;
+﻿using TechchainBL;
+using TechchainBL.Interfaces;
+using TechchainDAL.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace BlogProject.Controllers
+namespace TechchainProject.Controllers
 {
     [Route("api/[controller]")]
     public class CommonController : Controller

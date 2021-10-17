@@ -1,13 +1,13 @@
-﻿using BlogBL.Interfaces;
-using BlogDAL.Models;
-using BlogDAL.Uow;
+﻿using TechchainBL.Interfaces;
+using TechchainDAL.Models;
+using TechchainDAL.Uow;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 
-namespace BlogBL
+namespace TechchainBL
 {
     public class UserService : IUserService
     {

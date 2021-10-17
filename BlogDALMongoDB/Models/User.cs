@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using System;
 
-namespace BlogDAL.Models
+namespace TechchainDAL.Models
 {
     public class User
     {

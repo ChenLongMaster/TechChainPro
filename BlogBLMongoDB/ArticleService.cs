@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using BlogBL.Helpers;
-using BlogDAL.Models;
-using BlogDAL.Models.DTO;
-using BlogDAL.Uow;
+using TechchainBL.Helpers;
+using TechchainDAL.Models;
+using TechchainDAL.Models.DTO;
+using TechchainDAL.Uow;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlogBL
+namespace TechchainBL
 {
     public class ArticleService : IArticleService
     {

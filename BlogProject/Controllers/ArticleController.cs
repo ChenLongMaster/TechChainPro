@@ -1,13 +1,12 @@
-﻿using BlogBL;
-using BlogDAL.Authorization;
-using BlogDAL.Models.DTO;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using TechchainBL;
+using TechchainDAL.Authorization;
+using TechchainDAL.Models.DTO;
 
-namespace BlogProject.Controllers
+namespace TechchainProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

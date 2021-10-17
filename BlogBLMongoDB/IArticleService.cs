@@ -1,9 +1,9 @@
-﻿using BlogDAL.Models.DTO;
+﻿using TechchainDAL.Models.DTO;
 using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BlogBL
+namespace TechchainBL
 {
     public interface IArticleService
     {

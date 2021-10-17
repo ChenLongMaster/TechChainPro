@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlogDAL.Models.DTO
+namespace TechchainDAL.Models.DTO
 {
     public class ExternalAuthDTO
     {

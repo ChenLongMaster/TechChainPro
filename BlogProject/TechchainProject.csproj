@@ -24,8 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BlogBLMongoDB\BlogBL.csproj" />
-    <ProjectReference Include="..\BlogBL\BlogBL(Old).csproj" />
+    <ProjectReference Include="..\BlogBLMongoDB\TechchainBL.csproj" />
   </ItemGroup>
   
 </Project>

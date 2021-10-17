@@ -1,10 +1,10 @@
-﻿using BlogBL.Interfaces;
-using BlogDAL.Models;
-using BlogDAL.Uow;
+﻿using TechchainBL.Interfaces;
+using TechchainDAL.Models;
+using TechchainDAL.Uow;
 using MongoDB.Driver;
 using System.Collections.Generic;
 
-namespace BlogBL
+namespace TechchainBL
 {
     public class CommonMongoService : ICommonMongoService
     {

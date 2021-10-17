@@ -1,4 +1,4 @@
-﻿namespace BlogDAL.Authorization
+﻿namespace TechchainDAL.Authorization
 {
     public class RoleConstants
     {

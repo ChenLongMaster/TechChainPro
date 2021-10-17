@@ -1,4 +1,4 @@
-﻿namespace BlogBL.Helpers
+﻿namespace TechchainBL.Helpers
 {
     public enum SortDirectionCustom
     {

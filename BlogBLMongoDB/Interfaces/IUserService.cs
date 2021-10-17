@@ -1,8 +1,8 @@
-﻿using BlogDAL.Models;
+﻿using TechchainDAL.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BlogBL.Interfaces
+namespace TechchainBL.Interfaces
 {
     public interface IUserService
     {

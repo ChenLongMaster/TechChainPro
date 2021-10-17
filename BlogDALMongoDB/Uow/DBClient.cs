@@ -1,8 +1,8 @@
-﻿using BlogDAL.Models;
+﻿using TechchainDAL.Models;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
-namespace BlogDAL.Uow
+namespace TechchainDAL.Uow
 {
     public class DBClient : IDBClient
     {

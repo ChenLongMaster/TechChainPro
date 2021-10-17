@@ -1,7 +1,7 @@
-﻿using BlogDAL.Models;
+﻿using TechchainDAL.Models;
 using System.Collections.Generic;
 
-namespace BlogBL.Interfaces
+namespace TechchainBL.Interfaces
 {
     public interface ICommonMongoService
     {

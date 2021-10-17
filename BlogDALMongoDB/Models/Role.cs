@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace BlogDAL.Models
+namespace TechchainDAL.Models
 {
     public class Role
     {

@@ -1,8 +1,8 @@
-﻿using BlogDAL.Models;
-using BlogDAL.Models.DTO;
+﻿using TechchainDAL.Models;
+using TechchainDAL.Models.DTO;
 using System.Threading.Tasks;
 
-namespace BlogBL
+namespace TechchainBL
 {
     public interface IAuthenticationService
     {

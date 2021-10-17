@@ -1,8 +1,8 @@
-using BlogBL;
-using BlogBL.Helpers;
-using BlogBL.Interfaces;
-using BlogDAL;
-using BlogDAL.Uow;
+using TechchainBL;
+using TechchainBL.Helpers;
+using TechchainBL.Interfaces;
+using TechchainDAL;
+using TechchainDAL.Uow;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -15,7 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 
-namespace BlogProject
+namespace TechchainProject
 {
     public class Startup
     {

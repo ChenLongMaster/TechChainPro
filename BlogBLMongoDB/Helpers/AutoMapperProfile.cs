@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using BlogDAL.Models;
-using BlogDAL.Models.DTO;
+using TechchainDAL.Models;
+using TechchainDAL.Models.DTO;
 
-namespace BlogBL.Helpers
+namespace TechchainBL.Helpers
 {
     public class AutoMapperProfile : Profile
     {

@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BlogDALMongoDB\BlogDAL.csproj" />
+    <ProjectReference Include="..\BlogDALMongoDB\TechchainDAL.csproj" />
   </ItemGroup>
 
 </Project>

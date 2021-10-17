@@ -1,4 +1,4 @@
-﻿namespace BlogDAL.Policies
+﻿namespace TechchainDAL.Policies
 {
     public static class PolicyConstants
     {
