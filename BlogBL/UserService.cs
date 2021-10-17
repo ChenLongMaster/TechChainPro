@@ -1,12 +1,11 @@
-﻿using BlogDAL.Models;
-using BlogDAL.UnitOfWork;
+﻿using BlogDALOld.Models;
+using BlogDALOld.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
-namespace BlogBL
+namespace BlogBLOld
 {
 
     public class UserService : IUserService

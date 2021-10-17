@@ -1,6 +1,6 @@
 using System;
 
-namespace BlogProject
+namespace BLodDALMongoDB
 {
     public class WeatherForecast
     {

@@ -1,10 +1,10 @@
-﻿using BlogDAL.Models;
-using BlogDAL.Models.DTO;
+﻿using BlogDALOld.Models;
+using BlogDALOld.Models.DTO;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BlogBL
+namespace BlogBLOld
 {
     public interface IArticleService
     {

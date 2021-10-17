@@ -1,4 +1,5 @@
 ﻿using BlogBL;
+using BlogBL.Interfaces;
 using BlogDAL.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -6,7 +7,6 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 
 namespace BlogProject.Controllers
 {
@@ -14,17 +14,17 @@ namespace BlogProject.Controllers
     public class CommonController : Controller
     {
         public IConfiguration _configuration;
-        public ICommonService _commonService;
-        public CommonController(IConfiguration configuration, ICommonService commonService)
+        public ICommonMongoService _commonService;
+        public CommonController(IConfiguration configuration, ICommonMongoService commonService)
         {
             _configuration = configuration;
             _commonService = commonService;
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Category>> GetCategories()
+        public IEnumerable<Category> GetCategories()
         {
-            var result = await _commonService.GetCategories();
+            var result = _commonService.GetCategories();
             return result;
         }
 

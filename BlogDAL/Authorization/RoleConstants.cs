@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlogDAL.Authorization
+namespace BlogDALOld.Authorization
 {
     public class RoleConstants
     {

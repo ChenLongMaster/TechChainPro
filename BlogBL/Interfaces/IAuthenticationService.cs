@@ -1,9 +1,9 @@
-﻿using BlogDAL.Models;
-using BlogDAL.Models.DTO;
+﻿using BlogDALOld.Models;
+using BlogDALOld.Models.DTO;
 using Google.Apis.Auth;
 using System.Threading.Tasks;
 
-namespace BlogBL
+namespace BlogBLOld
 {
     public interface IAuthenticationService
     {

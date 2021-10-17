@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace BlogBL
+namespace BlogDAL.Models
 {
-    public class AppSettings
+    public class UserDto
     {
-        public string Secret { get; set; }
+        public string Name { get; set; }
     }
 }

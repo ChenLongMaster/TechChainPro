@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace BlogDAL.Models
+namespace BlogDALOld.Models
 {
     public class User : ModelBase
     {

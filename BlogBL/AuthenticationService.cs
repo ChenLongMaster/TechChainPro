@@ -1,6 +1,6 @@
-﻿using BlogDAL.Models;
-using BlogDAL.Models.DTO;
-using BlogDAL.UnitOfWork;
+﻿using BlogDALOld.Models;
+using BlogDALOld.Models.DTO;
+using BlogDALOld.UnitOfWork;
 using Google.Apis.Auth;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +17,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace BlogBL
+namespace BlogBLOld
 {
     public class AuthenticationService : IAuthenticationService
     {

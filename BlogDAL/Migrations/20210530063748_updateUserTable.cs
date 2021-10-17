@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace BlogDAL.Migrations
+namespace BlogDALOld.Migrations
 {
     public partial class updateUserTable : Migration
     {

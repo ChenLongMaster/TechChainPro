@@ -1,8 +1,8 @@
-﻿using BlogDAL.Authorization;
-using BlogDAL.Policies;
+﻿using BlogDALOld.Authorization;
+using BlogDALOld.Policies;
 using Microsoft.AspNetCore.Authorization;
 
-namespace BlogDAL.Models
+namespace BlogDALOld.Models
 {
     public static class Policies
     {

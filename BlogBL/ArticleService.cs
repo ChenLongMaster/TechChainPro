@@ -1,22 +1,15 @@
 ﻿using AutoMapper;
-using BlogBL.Helpers;
-using BlogDAL.Models;
-using BlogDAL.Models.DTO;
-using BlogDAL.UnitOfWork;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Data.SqlClient;
+using BlogDALOld.Models;
+using BlogDALOld.Models.DTO;
+using BlogDALOld.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Security.Claims;
-using System.Security.Principal;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace BlogBL
+namespace BlogBLOld
 {
     public class ArticleService : IArticleService
     {
@@ -32,17 +25,14 @@ namespace BlogBL
         }
         public async Task<IEnumerable<ArticleDTO>> GetArticles(ArticleFilter filter)
         {
-            var query =  _blogContext.Articles.Include(x => x.Author).Include(x => x.Category).Where(x => x.IsDeleted == false).AsSingleQuery();
+            var query = _blogContext.Articles.Include(x => x.Author).Include(x => x.Category).Where(x => x.IsDeleted == false).AsSingleQuery();
 
             if (filter.CategoryId != 1)
             {
                 query = query.Where(x => x.CategoryId == filter.CategoryId);
             }
 
-            if (filter.SortDateDirection == (int)SortDirection.ASC)
-            {
-                query = query.OrderBy(x => x.CreatedOn);
-            }
+         
             else
             {
                 query = query.OrderByDescending(x => x.CreatedOn);

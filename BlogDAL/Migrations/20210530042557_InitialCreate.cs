@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace BlogDAL.Migrations
+namespace BlogDALOld.Migrations
 {
     public partial class InitialCreate : Migration
     {

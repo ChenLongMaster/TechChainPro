@@ -1,5 +1,5 @@
-﻿using BlogBL;
-using BlogDAL.Models;
+﻿using BlogBLOld;
+using BlogDALOld.Models;
 using BlogProject.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using System;

@@ -1,4 +1,4 @@
-using BlogDAL.UnitOfWork;
+using BlogDALOld.UnitOfWork;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,8 +17,8 @@ namespace BlogProject
         {
             var host = CreateHostBuilder(args).Build();
             using var scope = host.Services.CreateScope();
-            using var context = scope.ServiceProvider.GetRequiredService<BlogContext>();
-            context.Database.EnsureCreated();
+            //using var context = scope.ServiceProvider.GetRequiredService<BlogContext>();
+            //context.Database.EnsureCreated();
 
             host.Run();
         }

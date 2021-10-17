@@ -1,8 +1,8 @@
-﻿using BlogDAL.Models;
+﻿using BlogDALOld.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BlogBL
+namespace BlogBLOld
 {
     public interface ICommonService
     {

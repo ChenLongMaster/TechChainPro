@@ -9,8 +9,8 @@ namespace BlogBL.Helpers
         public AutoMapperProfile()
         {
             CreateMap<Article, ArticleDTO>()
-                .ForMember(dest => dest.CategoryName, opt => opt.Ignore())
-                .ForMember(dest => dest.AuthorName, opt => opt.MapFrom(src=>src.Author.Username))
+                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name))
+                .ForMember(dest => dest.AuthorName, opt => opt.MapFrom(src => src.Author.Username))
                 .ForSourceMember(src => src.Rating, opt => opt.DoNotValidate());
         }
     }

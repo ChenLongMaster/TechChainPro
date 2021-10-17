@@ -1,11 +1,9 @@
 ﻿using BlogBL;
 using BlogDAL.Authorization;
-using BlogDAL.Models;
 using BlogDAL.Models.DTO;
-using BlogDAL.Policies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
+using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

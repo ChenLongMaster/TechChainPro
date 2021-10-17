@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlogDAL.Models
+namespace BlogDALOld.Models
 {
     public class AuthenticationRequest : ModelBase
     {
